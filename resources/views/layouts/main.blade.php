@@ -11,7 +11,7 @@
     @yield('css')
 </head>
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
+    <nav class="sb-topnav navbar navbar-expand navbar-light bg-light shadow-sm">
         <a class="navbar-brand ps-3" href="#">
             <img src="{{ asset('images/logo-group.png') }}" alt="Monster Group Logo" height="40">
         </a>
@@ -67,8 +67,6 @@
 
     @yield('modal')
     <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-
-    </script>
+    @yield('js')
 </body>
 </html>
