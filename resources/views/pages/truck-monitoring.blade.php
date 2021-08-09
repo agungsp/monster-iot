@@ -83,6 +83,72 @@
 
 {{-- CONTENT --}}
 @section('content')
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ asset('images/tire.png') }}" class="img-fluid rounded-start" alt="Tire">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">RFID 1</h5>
+                            <strong id="rfid1" class="text-success fs-5 d-block">Detected</strong>
+                            <p id="status1">Masuk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ asset('images/tire.png') }}" class="img-fluid rounded-start" alt="Tire">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">RFID 2</h5>
+                            <strong id="rfid2" class="text-success fs-5 d-block">Detected</strong>
+                            <p id="status2">Masuk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ asset('images/tire.png') }}" class="img-fluid rounded-start" alt="Tire">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">RFID 3</h5>
+                            <strong id="rfid3" class="text-success fs-5 d-block">Detected</strong>
+                            <p id="status3">Masuk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ asset('images/tire.png') }}" class="img-fluid rounded-start" alt="Tire">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">RFID 4</h5>
+                            <strong id="rfid4" class="text-success fs-5 d-block">Detected</strong>
+                            <p id="status4">Masuk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row justify-content-center py-5">
         <div class="col-auto">
             <div class="sparepart">
@@ -107,5 +173,9 @@
 
 {{-- JS --}}
 @section('js')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="{{ asset('js/sub.js') }}"></script>
+    <script>
+        MQTTconnect();
+    </script>
 @endsection

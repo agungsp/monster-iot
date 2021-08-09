@@ -36,9 +36,19 @@
                         </a>
                     </div>
                 </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    {{ auth()->user()->name ?? '(null)' }}
+                <div class="sb-sidenav-footer row">
+                    <div class="col text-truncate">
+                        <div class="small d-block">Logged in as:</div>
+                        {{ auth()->user()->name ?? '(null)' }}
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-danger rounded-circle" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-power-off" style="padding-top: 0.4rem; padding-bottom: 0.4rem;"></i>
+                        </button>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
                 </div>
             </nav>
         </div>
