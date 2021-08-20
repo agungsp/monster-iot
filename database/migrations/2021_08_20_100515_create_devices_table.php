@@ -36,14 +36,6 @@ class CreateDevicesTable extends Migration
             $table->enum('drowsiness_state', ['Sleepy', 'Not Sleepy'])->nullable();
             $table->boolean('has_fuel_tank')->default(false);
             $table->enum('fuel_tank_state', ['Opened', 'Closed'])->nullable();
-            $table->string('front_r_tire_id')->nullable()->index();
-            $table->boolean('front_r_tire_state')->nullable();
-            $table->string('front_l_tire_id')->nullable()->index();
-            $table->boolean('front_l_tire_state')->nullable();
-            $table->string('rear_r_tire_id')->nullable()->index();
-            $table->boolean('rear_r_tire_state')->nullable();
-            $table->string('rear_l_tire_id')->nullable()->index();
-            $table->boolean('rear_l_tire_state')->nullable();
             $table->double('longitude', 10, 7)->nullable();
             $table->double('latitude', 10, 7)->nullable();
             $table->boolean('is_available')->default(true);
