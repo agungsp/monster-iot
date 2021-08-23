@@ -15,7 +15,7 @@
         <a class="navbar-brand ps-3" href="#">
             <img src="{{ asset('images/logo-group.png') }}" alt="Monster Group Logo" height="40">
         </a>
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
@@ -76,6 +76,7 @@
     </div>
 
     @yield('modal')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('js')
 </body>
