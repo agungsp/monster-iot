@@ -22,14 +22,18 @@
             <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
                 <div class="sb-sidenav-menu pt-4">
                     <div class="nav">
+                        @hasanyrole('superadmin|admin')
                         <a class="nav-link" href="{{ route('dashboard.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
+                        @endhasanyrole
+                        @hasanyrole('user')
                         <a class="nav-link" href="{{ route('truck-monitoring.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             RFID
                         </a>
+                        @endhasanyrole
                         <a class="nav-link" href="{{ route('contact') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Contact
