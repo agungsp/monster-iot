@@ -206,7 +206,7 @@
 
             togglePintu.addEventListener('click', function () {
                 if (this.checked) {
-                    unlockPintu()
+                    unlockPintu();
                     statePintu.innerHTML = "Terbuka";
                     statePintu.classList.remove('bg-danger');
                     statePintu.classList.add('bg-success');
