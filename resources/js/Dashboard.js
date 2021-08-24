@@ -74,56 +74,56 @@ class Dashboard extends MqttSub {
         }
     }
 
-    onMessageArrived(msg) {
-        out_msg = "Message received " + msg.payloadString + "<br>";
-        console.log("Message received");
-        console.log(msg.payloadString);
-        let pesan = "" + msg.payloadString;
-        let data = JSON.parse(pesan);
-        this.eventHandler(msg.destinationName, data);
-        // switch (msg.destinationName) {
-        //     case "/event/pintu":
-        //         // Pintu 1
-        //         document.getElementById("SP1").innerHTML =
-        //             data.SP1.value == "0" ? "Terbuka" : "Tertutup";
-        //         // End Pintu 1
+    // onMessageArrived(msg) {
+    //     out_msg = "Message received " + msg.payloadString + "<br>";
+    //     console.log("Message received");
+    //     console.log(msg.payloadString);
+    //     let pesan = "" + msg.payloadString;
+    //     let data = JSON.parse(pesan);
+    //     this.eventHandler(msg.destinationName, data);
+    //     // switch (msg.destinationName) {
+    //     //     case "/event/pintu":
+    //     //         // Pintu 1
+    //     //         document.getElementById("SP1").innerHTML =
+    //     //             data.SP1.value == "0" ? "Terbuka" : "Tertutup";
+    //     //         // End Pintu 1
 
-        //         // Pintu 2
-        //         document.getElementById("SP2").innerHTML =
-        //             data.SP2.value == "0" ? "Terbuka" : "Tertutup";
-        //         // End Pintu 2
+    //     //         // Pintu 2
+    //     //         document.getElementById("SP2").innerHTML =
+    //     //             data.SP2.value == "0" ? "Terbuka" : "Tertutup";
+    //     //         // End Pintu 2
 
-        //         // Kunci Pintu
-        //         document.getElementById("MAG").innerHTML =
-        //             data.MAG.value == "0" ? "Tidak Terkunci" : "Terkunci";
-        //         // End Pintu 2
-        //         break;
+    //     //         // Kunci Pintu
+    //     //         document.getElementById("MAG").innerHTML =
+    //     //             data.MAG.value == "0" ? "Tidak Terkunci" : "Terkunci";
+    //     //         // End Pintu 2
+    //     //         break;
 
-        //     case "/event/beban":
-        //         document.getElementById("PROX").innerHTML =
-        //             data.PROX.value == 0 ? "Tidak Aman" : "Aman";
+    //     //     case "/event/beban":
+    //     //         document.getElementById("PROX").innerHTML =
+    //     //             data.PROX.value == 0 ? "Tidak Aman" : "Aman";
 
-        //         document.getElementById("LC").innerHTML = data.LC;
-        //         break;
+    //     //         document.getElementById("LC").innerHTML = data.LC;
+    //     //         break;
 
-        //     case "/event/base":
-        //         document.getElementById("PB").innerHTML =
-        //             data.PB == "0" ? "Bahaya" : "Aman";
+    //     //     case "/event/base":
+    //     //         document.getElementById("PB").innerHTML =
+    //     //             data.PB == "0" ? "Bahaya" : "Aman";
 
-        //         document.getElementById("RS").innerHTML =
-        //             data.RS == "1" ? "Mati" : "Menyala";
+    //     //         document.getElementById("RS").innerHTML =
+    //     //             data.RS == "1" ? "Mati" : "Menyala";
 
-        //         document.getElementById("DRI").innerHTML =
-        //             data.DRI == 0 ? "Stabil" : "Tidak Stabil";
+    //     //         document.getElementById("DRI").innerHTML =
+    //     //             data.DRI == 0 ? "Stabil" : "Tidak Stabil";
 
-        //         document.getElementById("DRO").innerHTML =
-        //             data.DRO == 0 ? "Tidak Mengantuk" : "Mengantuk";
+    //     //         document.getElementById("DRO").innerHTML =
+    //     //             data.DRO == 0 ? "Tidak Mengantuk" : "Mengantuk";
 
-        //         document.getElementById("LAT").innerHTML = data.LAT;
-        //         document.getElementById("LON").innerHTML = data.LON;
-        //         break;
-        // }
-    }
+    //     //         document.getElementById("LAT").innerHTML = data.LAT;
+    //     //         document.getElementById("LON").innerHTML = data.LON;
+    //     //         break;
+    //     // }
+    // }
 
     lockPintu() {
         const pesankirimlock = new Paho.MQTT.Message("p1");

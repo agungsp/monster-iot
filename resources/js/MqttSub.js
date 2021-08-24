@@ -45,6 +45,10 @@ class MqttSub {
         }
     }
 
+    onMessageArrived(msg) {
+        console.log(msg);
+    }
+
     onConnect() {
         console.log("Connected");
         this.mqtt.subscribe("/event/#");

@@ -151,8 +151,10 @@
 
 {{-- JS --}}
 @section('js')
+    <script src="{{ asset('js/sub.js') }}"></script>
     <script>
-        mqtt.connect();
+        // mqtt.connect();
+        MQTTconnect();
         (function () {
             /* =============================
              *  DOM Section

@@ -9,8 +9,7 @@ function onFailure(message) {
 }
 function onMessageArrived(msg) {
     // document.getElementById("changeText").innerHTML = "<h1>"+msg.payloadString+"</h1>";
-    console.log(msg.payloadString);
-    console.log(msg.destinationName);
+    // console.log(msg);
 
     out_msg = "Message received " + msg.payloadString + "<br>";
     if (msg.destinationName == "/event/pintu") {
@@ -133,3 +132,5 @@ function engineOffpub() {
     pesanengineOff.destinationName = "/control/eng";
     mqtt.send(pesanengineOff);
 }
+
+// MQTTconnect();
