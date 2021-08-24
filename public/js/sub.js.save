@@ -1,3 +1,4 @@
+
 var mqtt;
 var reconnectTimeout = 2000;
 var host = "103.31.39.42"; //change this
@@ -13,7 +14,7 @@ function onMessageArrived(msg) {
 
     out_msg = "Message received " + msg.payloadString + "<br>";
     if (msg.destinationName == "/event/pintu") {
-        console.log(msg.payloadString);
+//        console.log(msg.payloadString);
         var pesan = "" + msg.payloadString;
         var data = JSON.parse(pesan);
         if (data.SP1 == "0") {
@@ -88,7 +89,6 @@ function onMessageArrived(msg) {
 function onConnect() {
     console.log("Connected ");
     mqtt.subscribe("/event/#");
-console.log(mqtt);
     //TAMBAHAN MULAI DISINI
     var kiriminit = new Paho.MQTT.Message("cek1");
     kiriminit.destinationName = "/init/data";
