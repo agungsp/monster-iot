@@ -5,7 +5,7 @@ class Dashboard extends MqttSub {
     constructor() {
         super("103.31.39.42", 9001);
         this.configEvent = {
-            "event/pintu": {
+            "/event/pintu": {
                 SP1: {
                     name: "Pintu 1",
                     state: ["Terbuka", "Tertutup"], // Index 0 = anomali, 1 = normal
@@ -19,7 +19,7 @@ class Dashboard extends MqttSub {
                     state: ["Tidak Terkunci", "Terkunci"],
                 },
             },
-            "event/beban": {
+            "/event/beban": {
                 PROX: {
                     name: "Proximity",
                     state: ["Tidak Aman", "Aman"],
@@ -29,7 +29,7 @@ class Dashboard extends MqttSub {
                     state: 50,
                 },
             },
-            "event/base": {
+            "/event/base": {
                 PB: {
                     name: "Emergency Button",
                     state: ["Bahaya", "Aman"],
@@ -77,6 +77,7 @@ class Dashboard extends MqttSub {
     onMessageArrived(msg) {
         out_msg = "Message received " + msg.payloadString + "<br>";
         console.log("Message received");
+        console.log(msg.payloadString);
         let pesan = "" + msg.payloadString;
         let data = JSON.parse(pesan);
         this.eventHandler(msg.destinationName, data);
