@@ -38,6 +38,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Contact
                         </a>
+                        <a class="nav-link" href="{{ route('devices.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                            Devices
+                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer row">

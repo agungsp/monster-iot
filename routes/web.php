@@ -28,7 +28,12 @@ Route::middleware('auth')->group(function () {
        Route::get('/','TruckMonitoringController@index')->name('index');
     });
 
+    Route::prefix('devices')->name('devices.')->group(function () {
+        Route::get('/','DevicesController@index')->name('index');
+     });
+
     Route::view('contact', 'pages.contact')->name('contact');
+
 });
 
 
