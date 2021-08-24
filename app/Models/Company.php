@@ -10,5 +10,5 @@ class Company extends Model
     use HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    protected $company = 'company';
+    protected $company = 'companies';
 }
