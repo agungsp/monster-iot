@@ -41,9 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::view('contact', 'pages.contact')->name('contact');
 
     Route::view('test', 'pages.test');
+
     Route::get('send', function () {
         broadcast(new ManualEvent(auth()->user()));
         return response('Send');
+    });
+
     Route::prefix('devices')->name('devices.')->group(function () {
         Route::get('/', [DevicesController::class,'index'])->name('index');
         Route::get('/create', [DevicesController::class,'create'])->name('create');
