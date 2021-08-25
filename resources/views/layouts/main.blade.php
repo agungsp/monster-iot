@@ -9,30 +9,61 @@
     <title>@yield('title', 'Title') | {{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @yield('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-light bg-light shadow-sm">
         <a class="navbar-brand ps-3" href="#">
             <img src="{{ asset('images/logo-group.png') }}" alt="Monster Group Logo" height="40">
         </a>
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
                 <div class="sb-sidenav-menu pt-4">
                     <div class="nav">
+                        @hasanyrole('superadmin|admin')
                         <a class="nav-link" href="{{ route('dashboard.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
+                        @endhasanyrole
+                        @hasanyrole('user')
                         <a class="nav-link" href="{{ route('truck-monitoring.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             RFID
                         </a>
+                        @endhasanyrole
                         <a class="nav-link" href="{{ route('contact') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Contact
+                        </a>
+                        <a class="nav-link" href="{{ route('devices.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                            Devices
+                        </a>
+                        <a class="nav-link" href="{{ route('contact') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                            Contact
+                        </a>
+                        <a class="nav-link" href="{{ route('user.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                            Users
+                        </a>
+                        <a class="nav-link" href="{{ route('company.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                            Companies
+                        </a>
+                        <a class="nav-link" href="{{ route('contract.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                            Contracts
+                        </a>
+                        <a class="nav-link" href="{{ route('rfid.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                            RFID
                         </a>
                     </div>
                 </div>
@@ -76,7 +107,9 @@
     </div>
 
     @yield('modal')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('js')
+
 </body>
 </html>
