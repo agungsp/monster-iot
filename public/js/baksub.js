@@ -9,20 +9,11 @@ function onFailure(message) {
 }
 function onMessageArrived(msg) {
     // document.getElementById("changeText").innerHTML = "<h1>"+msg.payloadString+"</h1>";
-<<<<<<< HEAD
-    console.log(msg.payloadString);
-    console.log(msg.destinationName);
-
-    out_msg = "Message received " + msg.payloadString + "<br>";
-    if (msg.destinationName == "/event/pintu") {
-        //        console.log(msg.payloadString);
-=======
    // console.log(msg);
 
     out_msg = "Message received " + msg.payloadString + "<br>";
     if (msg.destinationName == "/event/pintu") {
 //        console.log(msg.payloadString);
->>>>>>> d8fc70ed50bff4cc0a8fbfb175de8886653c4f1c
         var pesan = "" + msg.payloadString;
         var data = JSON.parse(pesan);
         if (data.SP1 == "0") {
@@ -42,31 +33,19 @@ function onMessageArrived(msg) {
         } else {
             document.getElementById("MAG").innerHTML = "terkunci";
         }
-<<<<<<< HEAD
-        //   console.log("berhasil pintu");
-=======
   //   console.log("berhasil pintu");
->>>>>>> d8fc70ed50bff4cc0a8fbfb175de8886653c4f1c
     }
     if (msg.destinationName == "/event/beban") {
         var pesan = "" + msg.payloadString;
         var data = JSON.parse(pesan);
-<<<<<<< HEAD
-        //    console.log(data);
-=======
     //    console.log(data);
->>>>>>> d8fc70ed50bff4cc0a8fbfb175de8886653c4f1c
         if (data.PROX == "0") {
             document.getElementById("PROX").innerHTML = "tidak aman";
         } else {
             document.getElementById("PROX").innerHTML = "aman";
         }
         document.getElementById("LC").innerHTML = data.LC;
-<<<<<<< HEAD
-        //  console.log("berhasil beban");
-=======
       //  console.log("berhasil beban");
->>>>>>> d8fc70ed50bff4cc0a8fbfb175de8886653c4f1c
     }
     if (msg.destinationName == "/event/base") {
         var pesan = "" + msg.payloadString;
@@ -77,46 +56,24 @@ function onMessageArrived(msg) {
         } else {
             document.getElementById("PB").innerHTML = "aman";
         }
-<<<<<<< HEAD
-        //        console.log("PB");
-=======
 //        console.log("PB");
->>>>>>> d8fc70ed50bff4cc0a8fbfb175de8886653c4f1c
         if (data.RS == "1") {
             document.getElementById("RS").innerHTML = "mati";
         } else {
             document.getElementById("RS").innerHTML = "nyala";
         }
-<<<<<<< HEAD
-        //      console.log("RS");
-=======
   //      console.log("RS");
->>>>>>> d8fc70ed50bff4cc0a8fbfb175de8886653c4f1c
         if (data.DRI == "0") {
             document.getElementById("DRI").innerHTML = "stabil";
         } else {
             document.getElementById("DRI").innerHTML = "tidak stabil";
         }
-<<<<<<< HEAD
-        //      console.log("DRI");
-=======
   //      console.log("DRI");
->>>>>>> d8fc70ed50bff4cc0a8fbfb175de8886653c4f1c
         if (data.DRO == "0") {
             document.getElementById("DRO").innerHTML = "tidak mengantuk";
         } else {
             document.getElementById("DRO").innerHTML = "mengantuk";
         }
-<<<<<<< HEAD
-        //      console.log("DRO");
-        document.getElementById("LAT").innerHTML = data.LAT;
-        //      console.log("LAT");
-        document.getElementById("LON").innerHTML = data.LON;
-        //      console.log("LON");
-        changeMarker(parseFloat(data.LAT), parseFloat(data.LON));
-        //console.log("berhasil base")
-    }
-=======
   //      console.log("DRO");
         document.getElementById("LAT").innerHTML = data.LAT;
   //      console.log("LAT");
@@ -126,14 +83,79 @@ function onMessageArrived(msg) {
         //console.log("berhasil base")
     }
 
->>>>>>> d8fc70ed50bff4cc0a8fbfb175de8886653c4f1c
+    //  TAMBAHAN MULAI DISINI
+
+    if (msg.destinationName == "/event/rfid") {
+        var pesan = "" + msg.payloadString;
+        var data = JSON.parse(pesan);
+        console.log(data);
+        if (data.id == "b1") {
+            console.log("b1");
+            if (data.dt == "0") {
+                document.getElementById("rfid1").innerHTML = "undetected";
+            } else {
+                document.getElementById("rfid1").innerHTML = "detected";
+            }
+            console.log("b1dt");
+
+            if (data.status == "0") {
+                document.getElementById("status1").innerHTML = "keluar";
+            } else {
+                document.getElementById("status1").innerHTML = "masuk";
+            }
+            console.log("b1st");
+        }
+
+        if (data.id == "b2") {
+            if (data.dt == "0") {
+                document.getElementById("rfid2").innerHTML = "undetected";
+            } else {
+                document.getElementById("rfid2").innerHTML = "detected";
+            }
+
+            if (data.status == "0") {
+                document.getElementById("status2").innerHTML = "keluar";
+            } else {
+                document.getElementById("status2").innerHTML = "masuk";
+            }
+        }
+
+        if (data.id == "b3") {
+            if (data.dt == "0") {
+                document.getElementById("rfid3").innerHTML = "undetected";
+            } else {
+                document.getElementById("rfid3").innerHTML = "detected";
+            }
+
+            if (data.status == "0") {
+                document.getElementById("status3").innerHTML = "keluar";
+            } else {
+                document.getElementById("status3").innerHTML = "masuk";
+            }
+        }
+
+        if (data.id == "b4") {
+            if (data.dt == "0") {
+                document.getElementById("rfid4").innerHTML = "undetected";
+            } else {
+                document.getElementById("rfid4").innerHTML = "detected";
+            }
+
+            if (data.status == "0") {
+                document.getElementById("status4").innerHTML = "keluar";
+            } else {
+                document.getElementById("status4").innerHTML = "masuk";
+            }
+        }
+    }
+    // TAMBAHAN BERAKHIR DISINI
 }
 
 function onConnect() {
     console.log("Connected ");
     mqtt.subscribe("/event/#");
     //TAMBAHAN MULAI DISINI
-    var kiriminit = new Paho.MQTT.Message("cek1");
+    var kiriminit = new Paho.MQTT.Message("cek");
     kiriminit.destinationName = "/init/data";
     mqtt.send(kiriminit);
     //TAMBAHAN BERAKHIR DISINI
