@@ -64,7 +64,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        return redirect('user/index')->with('status', 'User berhasil ditambah!');
+        return redirect('user')->with('status', 'User berhasil ditambah!');
     }
 
     /**
@@ -115,7 +115,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        return redirect('user/index')->with('status', 'User berhasil di update!');
+        return redirect('user')->with('status', 'User berhasil di update!');
     }
 
     /**
@@ -127,6 +127,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::where('id', $id)->delete();
-        return redirect('user/index')->with('status', 'User berhasil dihapus!');
+        return redirect('user')->with('status', 'User berhasil dihapus!');
     }
 }

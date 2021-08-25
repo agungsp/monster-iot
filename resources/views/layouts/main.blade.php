@@ -8,6 +8,7 @@
     @yield('meta')
     <title>@yield('title', 'Title') | {{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
     @yield('css')
 </head>
 <body class="sb-nav-fixed">
@@ -28,7 +29,7 @@
                             Dashboard
                         </a>
                         @endhasanyrole
-                        @hasanyrole('user')
+                        @hasanyrole('user|superadmin')
                         <a class="nav-link" href="{{ route('truck-monitoring.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             RFID
@@ -42,10 +43,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             Devices
                         </a>
-                        <a class="nav-link" href="{{ route('contact') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
-                            Contact
-                        </a>
+
                         <a class="nav-link" href="{{ route('user.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Users
@@ -54,14 +52,14 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Companies
                         </a>
-                        <a class="nav-link" href="">
+                        {{-- <a class="nav-link" href="">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Contracts
                         </a>
                         <a class="nav-link" href="">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             RFID
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
                 <div class="sb-sidenav-footer row">
@@ -83,8 +81,8 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h4 class="mt-4">@yield('title-content', 'Title')</h4>
-                    <hr>
+                    {{-- <h4 class="mt-4">@yield('title-content', 'Title')</h4>
+                    <hr> --}}
                     @yield('content', 'This is content')
                 </div>
             </main>
@@ -105,6 +103,9 @@
 
     @yield('modal')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('js')
 </body>
