@@ -22,18 +22,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    
                     <div class="card-body">
-                        <h4 class="box-title">Daftar Company </h4>
-                        <a href="{{ url('company/create') }}" class="btn btn-success btn-sm">
-                            <i class="fa fa-plus"></i> Add
-                        </a>
+                        <h4 class="box-title">Daftar RFID </h4>
+                        <button class="btn btn-primary"> <a href="{{ route('user') }}"></a> Create</button>
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">
@@ -43,29 +34,25 @@
                                         <th class="serial">#</th>
                                         <th>Nama</th>
                                         <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Website</th>
-                                        <th>Address</th>
+                                        <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ( $companies as $company )
+                                    @forelse ( $users as $user )
                                         <tr>
-                                            <td class="serial">{{ $company->id }}</td>
-                                            <td><span class="name">{{ $company->name }}</span></td>
-                                            <td><span class="name">{{ $company->email }}</span></td>
-                                            <td><span class="name">{{ $company->phone }}</span></td>
-                                            <td><span class="name">{{ $company->website }}</span></td>
-                                            <td><span class="name">{{ $company->address }}</span></td>
+                                            <td class="serial">{{ $user->id }}</td>
+                                            <td><span class="name">{{ $user->name }}</span></td>
+                                            <td><span class="name">{{ $user->email }}</span></td>
+                                            <td><span class="name">{{ $user->created_at }}</span></td>
                                             {{-- <td>
                                                 <img src="{{ url($item->photo) }}">
                                             </td> --}}
                                             <td>
-                                                <a href="{{ url('company/edit/'.$company->id) }}" class="btn btn-primary btn-sm">
+                                                <a href="{{ route('user', $user->id ) }}" class="btn btn-primary btn-sm">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <form action="{{ url('company/delete', $company->id) }}" method="post" class="d-inline">
+                                                <form action="{{ route('user', $user->id) }}" method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')
                                                     <button class="btn btn-danger btn-sm">

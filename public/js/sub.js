@@ -9,11 +9,10 @@ function onFailure(message) {
 }
 function onMessageArrived(msg) {
     // document.getElementById("changeText").innerHTML = "<h1>"+msg.payloadString+"</h1>";
-   // console.log(msg);
+    console.log(msg);
 
     out_msg = "Message received " + msg.payloadString + "<br>";
     if (msg.destinationName == "/event/pintu") {
-//        console.log(msg.payloadString);
         var pesan = "" + msg.payloadString;
         var data = JSON.parse(pesan);
         if (data.SP1 == "0") {
@@ -33,19 +32,17 @@ function onMessageArrived(msg) {
         } else {
             document.getElementById("MAG").innerHTML = "terkunci";
         }
-  //   console.log("berhasil pintu");
     }
     if (msg.destinationName == "/event/beban") {
         var pesan = "" + msg.payloadString;
         var data = JSON.parse(pesan);
-    //    console.log(data);
+        // console.log(data);
         if (data.PROX == "0") {
             document.getElementById("PROX").innerHTML = "tidak aman";
         } else {
             document.getElementById("PROX").innerHTML = "aman";
         }
         document.getElementById("LC").innerHTML = data.LC;
-      //  console.log("berhasil beban");
     }
     if (msg.destinationName == "/event/base") {
         var pesan = "" + msg.payloadString;
@@ -56,40 +53,95 @@ function onMessageArrived(msg) {
         } else {
             document.getElementById("PB").innerHTML = "aman";
         }
-//        console.log("PB");
-        if (data.RS == "1") {
+        if (data.RS == "0") {
             document.getElementById("RS").innerHTML = "mati";
         } else {
             document.getElementById("RS").innerHTML = "nyala";
         }
-  //      console.log("RS");
         if (data.DRI == "0") {
             document.getElementById("DRI").innerHTML = "stabil";
         } else {
             document.getElementById("DRI").innerHTML = "tidak stabil";
         }
-  //      console.log("DRI");
         if (data.DRO == "0") {
             document.getElementById("DRO").innerHTML = "tidak mengantuk";
         } else {
             document.getElementById("DRO").innerHTML = "mengantuk";
         }
-  //      console.log("DRO");
         document.getElementById("LAT").innerHTML = data.LAT;
-  //      console.log("LAT");
         document.getElementById("LON").innerHTML = data.LON;
-  //      console.log("LON");
         changeMarker(parseFloat(data.LAT), parseFloat(data.LON));
-        //console.log("berhasil base")
     }
 
+    //  TAMBAHAN MULAI DISINI
+
+    if (msg.destinationName == "/event/rfid") {
+        var pesan = "" + msg.payloadString;
+        var data = JSON.parse(pesan);
+        if (data.id == "b1") {
+            if (data.dt == "0") {
+                document.getElementById("rfid1").innerHTML = "undetected";
+            } else {
+                document.getElementById("rfid1").innerHTML = "detected";
+            }
+
+            if (data.status == "0") {
+                document.getElementById("status1").innerHTML = "keluar";
+            } else {
+                document.getElementById("status1").innerHTML = "masuk";
+            }
+        }
+
+        if (data.id == "b2") {
+            if (data.dt == "0") {
+                document.getElementById("rfid2").innerHTML = "undetected";
+            } else {
+                document.getElementById("rfid2").innerHTML = "detected";
+            }
+
+            if (data.status == "0") {
+                document.getElementById("status2").innerHTML = "keluar";
+            } else {
+                document.getElementById("status2").innerHTML = "masuk";
+            }
+        }
+
+        if (data.id == "b3") {
+            if (data.dt == "0") {
+                document.getElementById("rfid3").innerHTML = "undetected";
+            } else {
+                document.getElementById("rfid3").innerHTML = "detected";
+            }
+
+            if (data.status == "0") {
+                document.getElementById("status3").innerHTML = "keluar";
+            } else {
+                document.getElementById("status3").innerHTML = "masuk";
+            }
+        }
+
+        if (data.id == "b4") {
+            if (data.dt == "0") {
+                document.getElementById("rfid4").innerHTML = "undetected";
+            } else {
+                document.getElementById("rfid4").innerHTML = "detected";
+            }
+
+            if (data.status == "0") {
+                document.getElementById("status4").innerHTML = "keluar";
+            } else {
+                document.getElementById("status4").innerHTML = "masuk";
+            }
+        }
+    }
+    // TAMBAHAN BERAKHIR DISINI
 }
 
 function onConnect() {
     console.log("Connected ");
     mqtt.subscribe("/event/#");
     //TAMBAHAN MULAI DISINI
-    var kiriminit = new Paho.MQTT.Message("cek1");
+    var kiriminit = new Paho.MQTT.Message("cek");
     kiriminit.destinationName = "/init/data";
     mqtt.send(kiriminit);
     //TAMBAHAN BERAKHIR DISINI

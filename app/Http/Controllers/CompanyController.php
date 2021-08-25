@@ -14,10 +14,11 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::all();
-        return view('pages.Company.index')->with([
-            'companies' => $companies
-        ]);
+        $companies = Company::orderBy('id', 'DESC');
+        return view('pages.Company.index', compact('companies'));
+        // return view('pages.Company.index')->with([
+        //     'companies' => $companies
+        // ]);
     }
 
     /**
@@ -27,10 +28,9 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        $Companies = Company::all();
-        // echo("halo");
+        $companies = Company::all();
         return view('pages.company.create')->with([
-            'Companies' => $Companies
+            'Companies' => $companies
         ]);
     }
 
@@ -85,7 +85,8 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $companies = Company::where('id', $id)->first();
+        return view('pages.company.edit', compact('companies'));
     }
 
     /**
@@ -97,7 +98,28 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'website' => 'required',
+            'address' => 'required',
+        ], [
+            'name.required' => 'Nama tidak boleh kosong',
+            'email.required' => 'Email tidak boleh kosong',
+            'phone.required' => 'Phone Number tidak boleh kosong',
+            'website.required' => 'Website tidak boleh kosong',
+            'address.required' => 'Address tidak boleh kosong',
+        ]);
+
+        Company::where('id', $id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'website' => $request->website,
+            'address' => $request->address,
+        ]);
+        return redirect('company/index')->with('status', 'Company berhasil di update!');
     }
 
     /**
@@ -108,6 +130,7 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Company::where('id', $id)->delete();
+        return redirect('company/index')->with('status', 'Company berhasil di delete!');
     }
 }

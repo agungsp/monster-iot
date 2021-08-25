@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\DevicesController;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -33,25 +30,10 @@ Route::middleware('auth')->group(function () {
        Route::get('/','TruckMonitoringController@index')->name('index');
     });
 
-    Route::prefix('devices')->name('devices.')->group(function () {
-        Route::get('/','DevicesController@index')->name('index');
-     });
-
     Route::view('contact', 'pages.contact')->name('contact');
-    
-
-    Route::prefix('devices')->name('devices.')->group(function () {
-        Route::get('/', [DevicesController::class,'index'])->name('index');
-        Route::get('/create', [DevicesController::class,'create'])->name('create');
-        Route::post('/store', [DevicesController::class,'store'])->name('store');
-        Route::get('/edit/{id}', [DevicesController::class,'edit'])->name('edit');
-        Route::patch('/update/{id}', [DevicesController::class,'update'])->name('update');
-        Route::delete('/delete/{id}', [DevicesController::class,'destroy'])->name('destroy');
-        // Route::resource('user', UserController::class);
-    });
 
     Route::prefix('user')->name('user.')->group(function () {
-        Route::get('/', [UserController::class,'index'])->name('index');
+        Route::get('/index', [UserController::class,'index'])->name('index');
         Route::get('/create', [UserController::class,'create'])->name('create');
         Route::post('/store', [UserController::class,'store'])->name('store');
         Route::get('/edit/{id}', [UserController::class,'edit'])->name('edit');
@@ -61,14 +43,13 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('company')->name('company.')->group(function () {
-        Route::get('/', [CompanyController::class,'index'])->name('index');
+        Route::get('/index', [CompanyController::class,'index'])->name('index');
         Route::get('/create', [CompanyController::class,'create'])->name('create');
         Route::post('/store', [CompanyController::class,'store'])->name('store');
         Route::get('/edit/{id}', [CompanyController::class,'edit'])->name('edit');
-        Route::put('/update{id}', [CompanyController::class,'update'])->name('update');
+        Route::patch('/update/{id}', [CompanyController::class,'update'])->name('update');
         Route::delete('/destroy{id}', [CompanyController::class,'destroy'])->name('destroy');
     });
 });
-
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

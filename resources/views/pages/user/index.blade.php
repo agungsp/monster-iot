@@ -7,19 +7,19 @@
 
 {{-- CSS --}}
 @section('css')
-    
+
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Daftar User')
+@section('title', 'Contact')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Daftar User')
+@section('title-content', 'Contact')
 
 {{-- CONTENT --}}
 @section('content')
     <div class="orders">
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-12">
                 <div class="card">
 
@@ -29,15 +29,15 @@
                         </div>
                     @endif
 
-                    <div class="mx-3 mt-3">
-                        <h4 class="box-title">User </h4>
+                    <div class="card-body">
+                        <h4 class="box-title">Daftar User </h4>
                         <a href="{{ url('user/create') }}" class="btn btn-success btn-sm">
                             <i class="fa fa-plus"></i> Add
                         </a>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body--">
                         <div class="table-stats order-table ov-h">
-                            <table class="table" id="example">
+                            <table class="table ">
                                 <thead>
                                     <tr>
                                         <th class="serial">#</th>
@@ -59,7 +59,7 @@
                                             </td> --}}
                                             <td>
                                                 <a href="{{ url('user/edit/'.$user->id) }}" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-edit"></i>
+                                                    <i class="fa fa-pencil"></i>
                                                 </a>
                                                 <form action="{{ url('user/delete/'.$user->id) }}" method="post" class="d-inline">
                                                     @csrf
@@ -94,11 +94,5 @@
 
 {{-- JS --}}
 @section('js')
-
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
-        } );
-    </script>
 
 @endsection

@@ -16,7 +16,6 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
-            $table->string('alias');
             $table->boolean('has_door1')->default(false);
             $table->enum('door1_state', ['Opened', 'Closed'])->nullable();
             $table->boolean('has_door2')->default(false);

@@ -151,8 +151,10 @@
 
 {{-- JS --}}
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="{{ asset('js/sub.js') }}"></script>
     <script>
-        mqtt.connect();
+        MQTTconnect();
         (function () {
             /* =============================
              *  DOM Section
