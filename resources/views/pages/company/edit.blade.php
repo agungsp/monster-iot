@@ -11,10 +11,10 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Contact')
+@section('title', 'Company')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Contact')
+@section('title-content', 'Company')
 
 @section('content')
     <div class="card">
@@ -22,7 +22,7 @@
             <strong>Edit Company</strong>
         </div>
         <div class="card-body card-block">
-            <form action="{{ url('company/update', $companies->id ) }}" method="POST">
+            <form action="{{ url('company/update', $companies->id) }}" method="POST">
                 @method('patch')
                 @csrf
                 <div class="form-group">

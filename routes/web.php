@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContractsController;
+use App\Http\Controllers\RfidController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,26 +33,50 @@ Route::middleware('auth')->group(function () {
        Route::get('/','TruckMonitoringController@index')->name('index');
     });
 
+    Route::prefix('devices')->name('devices.')->group(function () {
+        Route::get('/','DevicesController@index')->name('index');
+     });
+
     Route::view('contact', 'pages.contact')->name('contact');
 
+
     Route::prefix('user')->name('user.')->group(function () {
-        Route::get('/index', [UserController::class,'index'])->name('index');
+        Route::get('/', [UserController::class,'index'])->name('index');
         Route::get('/create', [UserController::class,'create'])->name('create');
         Route::post('/store', [UserController::class,'store'])->name('store');
         Route::get('/edit/{id}', [UserController::class,'edit'])->name('edit');
         Route::patch('/update/{id}', [UserController::class,'update'])->name('update');
-        Route::delete('/delete/{id}', [UserController::class,'destroy'])->name('destroy');
+        Route::delete('/destroy/{id}', [UserController::class,'destroy'])->name('destroy');
         // Route::resource('user', UserController::class);
     });
 
     Route::prefix('company')->name('company.')->group(function () {
-        Route::get('/index', [CompanyController::class,'index'])->name('index');
+        Route::get('/', [CompanyController::class,'index'])->name('index');
         Route::get('/create', [CompanyController::class,'create'])->name('create');
         Route::post('/store', [CompanyController::class,'store'])->name('store');
         Route::get('/edit/{id}', [CompanyController::class,'edit'])->name('edit');
         Route::patch('/update/{id}', [CompanyController::class,'update'])->name('update');
-        Route::delete('/destroy{id}', [CompanyController::class,'destroy'])->name('destroy');
+        Route::delete('/destroy/{id}', [CompanyController::class,'destroy'])->name('destroy');
+    });
+
+    Route::prefix('contract')->name('contract.')->group(function () {
+        Route::get('/', [ContractsController::class,'index'])->name('index');
+        Route::get('/create', [ContractsController::class,'create'])->name('create');
+        Route::post('/store', [ContractsController::class,'store'])->name('store');
+        Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
+        Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
+        Route::delete('/destroy/{id}', [ContractsController::class,'destroy'])->name('destroy');
+    });
+
+    Route::prefix('rfid')->name('rfid.')->group(function () {
+        Route::get('/', [RfidController::class,'index'])->name('index');
+        Route::get('/create', [RfidController::class,'create'])->name('create');
+        Route::post('/store', [RfidController::class,'store'])->name('store');
+        Route::get('/edit/{id}', [RfidController::class,'edit'])->name('edit');
+        Route::patch('/update/{id}', [RfidController::class,'update'])->name('update');
+        Route::delete('/destroy/{id}', [RfidController::class,'destroy'])->name('destroy');
     });
 });
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

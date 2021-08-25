@@ -11,10 +11,10 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Contact')
+@section('title', 'User')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Contact')
+@section('title-content', 'User')
 
 {{-- CONTENT --}}
 @section('content')
@@ -37,46 +37,45 @@
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">
-                            <table class="table ">
+                            <table class="table" id="datatable">
                                 <thead>
                                     <tr>
                                         <th class="serial">#</th>
                                         <th>Nama</th>
                                         <th>Email</th>
-                                        <th>Created At</th>
+                                        <th>Avatar</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ( $users as $user )
+                                    @if($users->count() > 0)
+                                        @foreach ( $users as $key => $user )
+                                            <tr>
+                                                <td class="serial">{{ $users->firstItem() + $key }}</td>
+                                                <td><span class="name">{{ $user->name }}</span></td>
+                                                <td><span class="name">{{ $user->email }}</span></td>
+                                                <td>
+                                                    <img src="{{ asset($user->avatar) }}">
+                                                </td>
+                                                <td>
+                                                    <a href="{{ url('user/edit/'.$user->id) }}" class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form action="{{ url('user/destroy/'.$user->id) }}" method="post" class="d-inline">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="btn btn-danger btn-sm">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
                                         <tr>
-                                            <td class="serial">{{ $user->id }}</td>
-                                            <td><span class="name">{{ $user->name }}</span></td>
-                                            <td><span class="name">{{ $user->email }}</span></td>
-                                            <td><span class="name">{{ $user->created_at }}</span></td>
-                                            {{-- <td>
-                                                <img src="{{ url($item->photo) }}">
-                                            </td> --}}
-                                            <td>
-                                                <a href="{{ url('user/edit/'.$user->id) }}" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <form action="{{ url('user/delete/'.$user->id) }}" method="post" class="d-inline">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button class="btn btn-danger btn-sm">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
+                                            <td colspan="5" class="text-center">Data Kosong</td>
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center p-5">
-                                                Data Tidak Tersedia
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                    @endif
                                 </tbody>
                             </table>
                         </div> <!-- /.table-stats -->
@@ -94,5 +93,13 @@
 
 {{-- JS --}}
 @section('js')
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+    } );
+</script>
 @endsection
+

@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'email', 'phone', 'website', 'address', 'created_by', 'updated_by'];
 
-    protected $fillable = ['name', 'email', 'phone', 'website', 'address'];
-
-    // protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $table = 'companies';
 }

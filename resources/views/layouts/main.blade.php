@@ -9,23 +9,16 @@
     <title>@yield('title', 'Title') | {{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @yield('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 
-    <!-- Scripts -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/main.js') }}" defer></script>
-
-    <!-- Styles -->
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-light bg-light shadow-sm">
         <a class="navbar-brand ps-3" href="#">
             <img src="{{ asset('images/logo-group.png') }}" alt="Monster Group Logo" height="40">
         </a>
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
@@ -48,6 +41,14 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Contact
                         </a>
+                        <a class="nav-link" href="{{ route('devices.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                            Devices
+                        </a>
+                        <a class="nav-link" href="{{ route('contact') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                            Contact
+                        </a>
                         <a class="nav-link" href="{{ route('user.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Users
@@ -56,18 +57,14 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Companies
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{ route('contract.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Contracts
                         </a>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{ route('rfid.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             RFID
                         </a>
-                        {{-- <a class="nav-link" href="{{ route('user') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
-                            Companies
-                        </a> --}}
                     </div>
                 </div>
                 <div class="sb-sidenav-footer row">
@@ -110,15 +107,9 @@
     </div>
 
     @yield('modal')
-    {{-- <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     @yield('js')
 
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
-    <!-- Data table plugin-->
-    <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script> --}}
 </body>
 </html>

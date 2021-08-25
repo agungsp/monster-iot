@@ -11,10 +11,10 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Contact')
+@section('title', 'Company')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Contact')
+@section('title-content', 'Company')
 
 {{-- CONTENT --}}
 @section('content')
@@ -28,7 +28,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
+
                     <div class="card-body">
                         <h4 class="box-title">Daftar Company </h4>
                         <a href="{{ url('company/create') }}" class="btn btn-success btn-sm">
@@ -37,7 +37,7 @@
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">
-                            <table class="table ">
+                            <table class="table" id="datatable">
                                 <thead>
                                     <tr>
                                         <th class="serial">#</th>
@@ -50,37 +50,34 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ( $companies as $company )
+                                    @if($companies->count() > 0)
+                                        @foreach ( $companies as $key => $company )
+                                            <tr>
+                                                <td class="serial">{{ $companies->firstItem() + $key }}</td>
+                                                <td><span class="name">{{ $company->name }}</span></td>
+                                                <td><span class="name">{{ $company->email }}</span></td>
+                                                <td><span class="name">{{ $company->phone }}</span></td>
+                                                <td><span class="name">{{ $company->website }}</span></td>
+                                                <td><span class="name">{{ $company->address }}</span></td>
+                                                <td>
+                                                    <a href="{{ url('company/edit/'.$company->id) }}" class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form action="{{ url('company/destroy/'.$company->id) }}" method="post" class="d-inline">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="btn btn-danger btn-sm">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
                                         <tr>
-                                            <td class="serial">{{ $company->id }}</td>
-                                            <td><span class="name">{{ $company->name }}</span></td>
-                                            <td><span class="name">{{ $company->email }}</span></td>
-                                            <td><span class="name">{{ $company->phone }}</span></td>
-                                            <td><span class="name">{{ $company->website }}</span></td>
-                                            <td><span class="name">{{ $company->address }}</span></td>
-                                            {{-- <td>
-                                                <img src="{{ url($item->photo) }}">
-                                            </td> --}}
-                                            <td>
-                                                <a href="{{ url('company/edit/'.$company->id) }}" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <form action="{{ url('company/delete', $company->id) }}" method="post" class="d-inline">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button class="btn btn-danger btn-sm">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
+                                            <td colspan="5" class="text-center">Data Kosong</td>
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center p-5">
-                                                Data Tidak Tersedia
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                    @endif
                                 </tbody>
                             </table>
                         </div> <!-- /.table-stats -->
@@ -98,5 +95,12 @@
 
 {{-- JS --}}
 @section('js')
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+    } );
+</script>
 @endsection

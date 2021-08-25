@@ -11,10 +11,10 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'RFID')
+@section('title', 'Contract')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'RFID')
+@section('title-content', 'Contract')
 
 {{-- CONTENT --}}
 @section('content')
@@ -30,8 +30,8 @@
                     @endif
 
                     <div class="card-body">
-                        <h4 class="box-title">Daftar RFID </h4>
-                        <a href="{{ url('rfid/create') }}" class="btn btn-success btn-sm">
+                        <h4 class="box-title">Daftar Contract</h4>
+                        <a href="{{ url('contract/create') }}" class="btn btn-success btn-sm">
                             <i class="fa fa-plus"></i> Add
                         </a>
                     </div>
@@ -41,35 +41,25 @@
                                 <thead>
                                     <tr>
                                         <th class="serial">#</th>
-                                        <th>UUID</th>
-                                        <th>Brand</th>
-                                        <th>Type</th>
-                                        <th>SN</th>
-                                        <th>Buy At</th>
-                                        <th>KM Start</th>
-                                        <th>KM End</th>
-                                        <th>Is Broken</th>
+                                        <th>Company ID</th>
+                                        <th>Started At</th>
+                                        <th>Expired At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if($savedata->count() > 0)
-                                        @foreach ( $savedata as $key => $rfid )
+                                        @foreach ( $savedata as $key => $contract )
                                             <tr>
                                                 <td class="serial">{{ $savedata->firstItem() + $key }}</td>
-                                                <td><span class="name">{{ $rfid->uuid }}</span></td>
-                                                <td><span class="name">{{ $rfid->brand }}</span></td>
-                                                <td><span class="name">{{ $rfid->type }}</span></td>
-                                                <td><span class="name">{{ $rfid->sn }}</span></td>
-                                                <td><span class="name">{{ $rfid->buy_at }}</span></td>
-                                                <td><span class="name">{{ $rfid->kilometer_start }}</span></td>
-                                                <td><span class="name">{{ $rfid->kilometer_end }}</span></td>
-                                                <td><span class="name">{{ $rfid->is_broken }}</span></td>
+                                                <td><span class="name">{{ $contract->company_id }}</span></td>
+                                                <td><span class="name">{{ $contract->started_at }}</span></td>
+                                                <td><span class="name">{{ $contract->expired_at }}</span></td>
                                                 <td>
-                                                    <a href="{{ url('rfid/edit/'.$rfid->id) }}" class="btn btn-primary btn-sm">
+                                                    <a href="{{ url('contract/edit/'.$contract->id) }}" class="btn btn-primary btn-sm">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ url('rfid/destroy/'.$rfid->id) }}" method="post" class="d-inline">
+                                                    <form action="{{ url('contract/destroy/'.$contract->id) }}" method="post" class="d-inline">
                                                         @csrf
                                                         @method('delete')
                                                         <button class="btn btn-danger btn-sm">

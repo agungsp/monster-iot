@@ -15,8 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        // dd(User::all());
+        $users = User::orderBy('id', 'DESC')->paginate(User::count());
         return view('pages.user.index')->with([
             'users' => $users
         ]);
@@ -53,18 +52,23 @@ class UserController extends Controller
             'name' => 'required:3',
             'email' => 'required',
             'password' => 'required',
+            'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
         ], [
             'name.required' => 'Username tidak boleh kosong',
             'email.required' => 'Email tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
+            'avatar.required' => 'Avatar tidak boleh kosong',
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'avatar' => $request->file('avatar')->store(
+                'assets/avatar', 'public'
+            ),
         ]);
-        return redirect('user/index')->with('status', 'User berhasil ditambah!');
+        return redirect('user/')->with('status', 'User berhasil ditambah!');
     }
 
     /**
@@ -104,18 +108,23 @@ class UserController extends Controller
             'name' => 'required:3',
             'email' => 'required',
             'password' => 'required',
+            'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
         ], [
             'name.required' => 'Username tidak boleh kosong',
             'email.required' => 'Email tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
+            'avatar.required' => 'Avatar tidak boleh kosong',
         ]);
 
         User::where('id', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'avatar' => $request->file('avatar')->store(
+                'assets/avatar', 'public'
+            ),
         ]);
-        return redirect('user/index')->with('status', 'User berhasil di update!');
+        return redirect('user/')->with('status', 'User berhasil di update!');
     }
 
     /**
@@ -127,6 +136,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::where('id', $id)->delete();
-        return redirect('user/index')->with('status', 'User berhasil dihapus!');
+        return redirect('user/')->with('status', 'User berhasil dihapus!');
     }
 }

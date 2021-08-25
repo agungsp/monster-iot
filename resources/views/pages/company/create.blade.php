@@ -14,7 +14,7 @@
 @section('title', 'Contact')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Contact')
+@section('title-content', 'Company')
 
 @section('content')
     <div class="card">

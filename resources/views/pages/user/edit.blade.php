@@ -11,10 +11,10 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Contact')
+@section('title', 'User')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Contact')
+@section('title-content', 'User')
 
 @section('content')
     <div class="card">
@@ -22,7 +22,7 @@
             <strong>Edit User</strong>
         </div>
         <div class="card-body card-block">
-            <form action="{{ url('user/update', $user->id) }}" method="POST">
+            <form action="{{ url('user/update', $user->id) }}" method="POST" enctype="multipart/form-data">
                 @method('patch')
                 @csrf
                 <div class="form-group">
@@ -41,8 +41,13 @@
                     @error('password') <div class="text-muted">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-group">
+                    <label for="photo" class="form-control-label">Avatar</label>
+                    <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
+                    @error('avatar') <div class="text-muted"> {{ $message }} </div> @enderror
+                </div>
+                <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">
-                        Tambah Data
+                        Edit Data
                     </button>
                 </div>
             </form>
