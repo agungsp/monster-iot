@@ -67,7 +67,7 @@
                                                 <a href="{{ url('devices/edit/'.$device->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form action="{{ url('devices/delete/'.$device->id) }}" method="post" class="d-inline">
+                                                <form action="{{ url('devices/destroy/'.$device->id) }}" method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')
                                                     <button class="btn btn-danger btn-sm">

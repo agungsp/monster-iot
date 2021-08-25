@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\RfidController;
-
+use App\Http\Controllers\DevicesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +39,15 @@ Route::middleware('auth')->group(function () {
 
     Route::view('contact', 'pages.contact')->name('contact');
 
+    Route::prefix('devices')->name('devices.')->group(function () {
+        Route::get('/', [DevicesController::class,'index'])->name('index');
+        Route::get('/create', [DevicesController::class,'create'])->name('create');
+        Route::post('/store', [DevicesController::class,'store'])->name('store');
+        Route::get('/edit/{id}', [DevicesController::class,'edit'])->name('edit');
+        Route::patch('/update/{id}', [DevicesController::class,'update'])->name('update');
+        Route::delete('/destroy/{id}', [DevicesController::class,'destroy'])->name('destroy');
+        // Route::resource('user', UserController::class);
+    });
 
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/', [UserController::class,'index'])->name('index');
