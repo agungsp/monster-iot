@@ -57,14 +57,14 @@
                                         @foreach ( $savedata as $key => $rfid )
                                             <tr>
                                                 <td class="serial">{{ $savedata->firstItem() + $key }}</td>
-                                                <td><span class="name">{{ $rfid->uuid }}</span></td>
-                                                <td><span class="name">{{ $rfid->brand }}</span></td>
-                                                <td><span class="name">{{ $rfid->type }}</span></td>
-                                                <td><span class="name">{{ $rfid->sn }}</span></td>
-                                                <td><span class="name">{{ $rfid->buy_at }}</span></td>
-                                                <td><span class="name">{{ $rfid->kilometer_start }}</span></td>
-                                                <td><span class="name">{{ $rfid->kilometer_end }}</span></td>
-                                                <td><span class="name">{{ $rfid->is_broken }}</span></td>
+                                                <td><span class="uuid">{{ $rfid->uuid }}</span></td>
+                                                <td><span class="brand">{{ $rfid->brand }}</span></td>
+                                                <td><span class="type">{{ $rfid->type }}</span></td>
+                                                <td><span class="sn">{{ $rfid->sn }}</span></td>
+                                                <td><span class="buy_at">{{ $rfid->buy_at }}</span></td>
+                                                <td><span class="kilometer_start">{{ $rfid->kilometer_start }}</span></td>
+                                                <td><span class="kilometer_end">{{ $rfid->kilometer_end }}</span></td>
+                                                <td><span class="is_broken">{{ $rfid->is_broken }}</span></td>
                                                 <td>
                                                     <a href="{{ url('rfid/edit/'.$rfid->id) }}" class="btn btn-primary btn-sm">
                                                         <i class="fas fa-edit"></i>

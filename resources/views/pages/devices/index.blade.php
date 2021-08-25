@@ -11,10 +11,11 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Contact')
+@section('title', 'Devices')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Contact')
+@section('title-content', 'Devices')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 {{-- CONTENT --}}
 @section('content')
@@ -50,7 +51,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse ( $devices as $device )
-                                        <tr>
+                                        <tr class="delete_mem{{ $device  }}">
                                             <td class="serial">{{ $device->id }}</td>
                                             <td><span class="name">{{ $device->uuid }}</span></td>
                                             <td><span class="name">{{ $device->alias }}</span></td>
@@ -60,23 +61,15 @@
                                                 <td><span class="name">Tidak Tersedia</span></td>
                                             @endif
                                             <td><span class="name">{{ $device->created_at }}</span></td>
-                                            {{-- <td>
-                                                <img src="{{ url($item->photo) }}">
-                                            </td> --}}
                                             <td>
                                                 <a href="{{ url('devices/edit/'.$device->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-danger btn-sm" id="deleteData" data-id={{ $device->id }}>
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                                {{-- <form action="{{ url('devices/destroy/'.$device->id) }}" method="post" class="d-inline">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button class="btn btn-danger btn-sm">
+                                                {{-- <form action="" method="post" class="d-inline"> --}}
+                                                    <button class="btn btn-danger btn-sm" id="deleteData" data-id={{ $device->id }}>
                                                         <i class="fa fa-trash"></i>
                                                     </button>
-                                                </form> --}}
+                                                {{-- </form> --}}
                                             </td>
                                         </tr>
                                     @empty
@@ -106,13 +99,17 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+    });
+</script>
 <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
     // DELETE COUNTRY RECORD
     $(document).on('click', '#deleteData', function() {
         var data_id = $(this).attr('data-id');
-        var url = '<?= url("devices/destroy/'+ data_id +'") ?>';
-        // alert(country_id);
+        // var url = '<?= url("devices/destroy/'+ data_id +'") ?>';
         swal.fire({
             title: 'Are you sure?',
             html: 'You want to <b>delete</b> this country',
@@ -126,14 +123,21 @@
             allowOutsideClick: false
         }).then(function(result) {
             if(result.value) {
-                $.post(url, {data_id: data_id}, function(data) {
-                    if(data.code == 1) {
+                var token = $("meta[name='csrf-token']").attr("content");
+                $.ajax({
+                    url: "devices/destroy/"+data_id,
+                    type: 'DELETE',
+                    data: {
+                        "id": data_id,
+                        "_token": token,
+                    },
+                    cache: false,
+                    success: function (){
                         $('#datatable').DataTable().ajax.reload(null, false);
-                        // toastr.success(data.msg);
-                    } else {
-                        // toastr.error(data.msg);
+                        // $(".delete_mem" + id).fadeOut('slow');
+                        console.log("it Works");
                     }
-                },'json');
+                });
             }
         });
     });
