@@ -14,6 +14,31 @@
         .vh-50 {
             height: 50vh !important;
         }
+        .tabel {
+            height: 250px;
+        }
+        table {
+            width: 716px; /* 140px * 5 column + 16px scrollbar width */
+            border-spacing: 0;
+        }
+
+        tbody, thead tr { display: block; }
+
+        tbody {
+            height: 120px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        tbody td, thead th {
+            width: 140px;
+            font-size: 10pt;
+        }
+
+        thead th:last-child {
+            width: 156px; /* 140px + 16px scrollbar width */
+        }
+        
     </style>
 @endsection
 
@@ -36,44 +61,202 @@
                 ]"
                 class="vh-50">
             </x-maps-leaflet>
-        </div>
-        <div class="col-md-4 overflow-auto px-0">
-            <div class="tabel border" style="height: 250px;">
+
+            <div class="tabel mt-3 tableFixHead" style="height: 150px;">
                 <table class="table table-bordered table-sm">
-                    <tr>
-                        <th>Nama</th>
-                        <th>Status</th>
-                        <th>Last Update</th>
-                    </tr>
-                    <tr>
-                        <td>RI 1</td>
-                        <td>Online</td>
-                        <td>0 minutes</td>
-                    </tr>
-                    <tr>
-                        <td>L 123 AA</td>
-                        <td>Offline</td>
-                        <td>13 minutes</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Device Name</th>
+                            <th>Status</th>
+                            <th>Geofence</th>
+                            <th>Maintenance</th>
+                            <th>Last Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>25-08-2021 13:15:00</td>
+                            <td>RI 1</td>
+                            <td>Online</td>
+                            <td></td>
+                            <td></td>
+                            <td>0 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>25-08-2021 13:15:00</td>
+                            <td>RI 1</td>
+                            <td>Online</td>
+                            <td></td>
+                            <td></td>
+                            <td>0 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>25-08-2021 13:15:00</td>
+                            <td>RI 1</td>
+                            <td>Online</td>
+                            <td></td>
+                            <td></td>
+                            <td>0 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>25-08-2021 13:15:00</td>
+                            <td>RI 1</td>
+                            <td>Online</td>
+                            <td></td>
+                            <td></td>
+                            <td>0 minutes</td>
+                        </tr>
+                    </tbody>
+                    
                 </table>
             </div>
-            <div class="mt-3 border" style="height: 250px;">
+        </div>
+        <div class="col-md-4 px-0">
+            <div class="tabel">
                 <table class="table table-bordered table-sm">
-                    <tr>
-                        <th>Nama</th>
-                        <th>Status</th>
-                        <th>Last Update</th>
-                    </tr>
-                    <tr>
-                        <td>RI 1</td>
-                        <td>Online</td>
-                        <td>0 minutes</td>
-                    </tr>
-                    <tr>
-                        <td>L 123 AA</td>
-                        <td>Offline</td>
-                        <td>13 minutes</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Status</th>
+                            <th>Last Update</th>
+                        </tr>
+                    </thead>
+                    <tbody style="height: 220px;">
+                        <tr>
+                            <td>RI 1</td>
+                            <td>Online</td>
+                            <td>0 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tabel mt-4">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Status</th>
+                            <th>Last Update</th>
+                        </tr>
+                    </thead>
+                    <tbody style="height: 220px;">
+                        <tr>
+                            <td>RI 1</td>
+                            <td>Online</td>
+                            <td>0 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>L 123 AA</td>
+                            <td>Offline</td>
+                            <td>13 minutes</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
