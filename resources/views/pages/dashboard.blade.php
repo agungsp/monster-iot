@@ -11,6 +11,9 @@
         .vh-75 {
             height: 75vh !important;
         }
+        .vh-50 {
+            height: 50vh !important;
+        }
     </style>
 @endsection
 
@@ -18,23 +21,64 @@
 @section('title', 'Dashboard')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Dashboard')
+@section('title-content', '')
 
 {{-- CONTENT --}}
 @section('content')
-    <div class="row justify-content-around">
+    <div class="row justify-content-start">
         {{-- maps --}}
-        <div class="col-md-6 vh-75 border">
+        <div class="col-md-8 vh-50">
             <x-maps-leaflet
                 :centerPoint="['lat' => -7.315018, 'long' => 112.790827]"
                 :zoomLevel="18"
                 :markers="[
                     ['lat' => -7.315018, 'long' => 112.790827, 'icon' => asset('images/truck.png'), 'iconSizeX' => 60, 'iconSizeY' => 25 ],
                 ]"
-                class="vh-75">
+                class="vh-50">
             </x-maps-leaflet>
         </div>
-        <div class="col-md-5 overflow-auto vh-75 border">
+        <div class="col-md-4 overflow-auto px-0">
+            <div class="tabel border" style="height: 250px;">
+                <table class="table table-bordered table-sm">
+                    <tr>
+                        <th>Nama</th>
+                        <th>Status</th>
+                        <th>Last Update</th>
+                    </tr>
+                    <tr>
+                        <td>RI 1</td>
+                        <td>Online</td>
+                        <td>0 minutes</td>
+                    </tr>
+                    <tr>
+                        <td>L 123 AA</td>
+                        <td>Offline</td>
+                        <td>13 minutes</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mt-3 border" style="height: 250px;">
+                <table class="table table-bordered table-sm">
+                    <tr>
+                        <th>Nama</th>
+                        <th>Status</th>
+                        <th>Last Update</th>
+                    </tr>
+                    <tr>
+                        <td>RI 1</td>
+                        <td>Online</td>
+                        <td>0 minutes</td>
+                    </tr>
+                    <tr>
+                        <td>L 123 AA</td>
+                        <td>Offline</td>
+                        <td>13 minutes</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        {{-- <div class="col-md-5 overflow-auto vh-75 border">
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <div class="card">
@@ -125,10 +169,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
-    <div class="row p-3">
+    {{-- <div class="row p-3">
         <div class="col-auto border p-3 me-3">
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="toggleMesin" checked>
@@ -141,7 +185,7 @@
                 <label class="form-check-label" for="togglePintu">Pintu <span class="badge bg-success" id="statePintu">Terbuka</span></label>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 {{-- MODAL --}}
