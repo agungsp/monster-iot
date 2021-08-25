@@ -1,6 +1,3 @@
-const { default: Dashboard } = require("./Dashboard");
-const { default: Rfid } = require("./Rfid");
-
 require("./bootstrap");
 require("./scripts");
 require("./echo.js");

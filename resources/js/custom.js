@@ -11,7 +11,6 @@ const Toast = Swal.mixin({
 });
 
 window.Echo.channel("EveryoneChannel").listen(".EveryoneMessage", function (e) {
-    // $('#messages').append('<p>' + e.message + '</p>');
     let data = JSON.parse(e.message);
     if (data.RS > 0) {
         Toast.fire({
