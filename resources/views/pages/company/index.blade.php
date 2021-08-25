@@ -56,7 +56,7 @@
                                             </td> --}}
                                             <td>
                                                 <a href="{{ url('company/'.$company->id.'/edit') }}" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-pencil"></i>
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form action="{{ url('company/delete', $company->id) }}" method="post" class="d-inline">
                                                     @csrf
