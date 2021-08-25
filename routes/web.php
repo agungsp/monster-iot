@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Events\ManualEvent;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::view('contact', 'pages.contact')->name('contact');
+
+    Route::view('test', 'pages.test');
+    Route::get('send', function () {
+        broadcast(new ManualEvent(auth()->user()));
+        return response('Send');
+    });
 });
 
 

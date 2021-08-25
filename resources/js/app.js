@@ -1,3 +1,4 @@
 require("./bootstrap");
 require("./scripts");
-require("./jquery");
+require("./echo.js");
+require("./custom");
