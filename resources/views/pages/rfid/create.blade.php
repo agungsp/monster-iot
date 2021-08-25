@@ -46,17 +46,17 @@
                 </div>
                 <div class="form-group">
                     <label for="buy_at" class="form-control-label">Buy At</label>
-                    <input type="date" name="buy_at" value="{{ old('buy_at') }}" class="form-control @error('buy_at') is-invalid @enderror"/>
+                    <input type="date" name="buy_at" value="{{ old('buy_at') }}" class="form-control buy_at @error('buy_at') is-invalid @enderror"/>
                     @error('buy_at') <div class="text-muted">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-group">
                     <label for="kilometer_start" class="form-control-label">KM Start</label>
-                    <input type="number" name="kilometer_start" value="{{ old('kilometer_start') }}" class="form-control @error('kilometer_start') is-invalid @enderror"/>
+                    <input type="text" name="kilometer_start" value="{{ old('kilometer_start') }}" class="form-control @error('kilometer_start') is-invalid @enderror"/>
                     @error('kilometer_start') <div class="text-muted">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-group">
                     <label for="kilometer_end" class="form-control-label">KM End</label>
-                    <input type="number" name="kilometer_end" value="{{ old('kilometer_end') }}" class="form-control @error('kilometer_end') is-invalid @enderror"/>
+                    <input type="text" name="kilometer_end" value="{{ old('kilometer_end') }}" class="form-control @error('kilometer_end') is-invalid @enderror"/>
                     @error('kilometer_end') <div class="text-muted">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-group">
@@ -80,5 +80,12 @@
 
 {{-- JS --}}
 @section('js')
-
+<script src="{{ asset('js/cleave.min.js') }}"></script>
+{{-- <script src="cleave-phone.{country}.js"></script> --}}
+<script>
+    var cleave = new Cleave('.number', {
+        numeral: true,
+        numeralThousandsGroupStyle: 'thousand'
+    });
+</script>
 @endsection

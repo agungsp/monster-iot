@@ -55,7 +55,7 @@
                                                 <td><span class="name">{{ $user->name }}</span></td>
                                                 <td><span class="name">{{ $user->email }}</span></td>
                                                 <td>
-                                                    <img src="{{ asset($user->avatar) }}">
+                                                    <img src="{{ asset('storage/'.$user->avatar) }}" width="50px;">
                                                 </td>
                                                 <td>
                                                     <a href="{{ url('user/edit/'.$user->id) }}" class="btn btn-primary btn-sm">
