@@ -7,7 +7,7 @@
 
 {{-- CSS --}}
 @section('css')
-
+<link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
 @endsection
 
 {{-- TITLE --}}
@@ -37,7 +37,7 @@
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">
-                            <table class="table ">
+                            <table class="table" id="datatable">
                                 <thead>
                                     <tr>
                                         <th class="serial">#</th>
@@ -67,13 +67,16 @@
                                                 <a href="{{ url('devices/edit/'.$device->id) }}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form action="{{ url('devices/destroy/'.$device->id) }}" method="post" class="d-inline">
+                                                <button class="btn btn-danger btn-sm" id="deleteData" data-id={{ $device->id }}>
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                {{-- <form action="{{ url('devices/destroy/'.$device->id) }}" method="post" class="d-inline">
                                                     @csrf
                                                     @method('delete')
                                                     <button class="btn btn-danger btn-sm">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
-                                                </form>
+                                                </form> --}}
                                             </td>
                                         </tr>
                                     @empty
@@ -100,5 +103,39 @@
 
 {{-- JS --}}
 @section('js')
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+<script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
+<script>
+    // DELETE COUNTRY RECORD
+    $(document).on('click', '#deleteData', function() {
+        var data_id = $(this).attr('data-id');
+        var url = '<?= url("devices/destroy/'+ data_id +'") ?>';
+        // alert(country_id);
+        swal.fire({
+            title: 'Are you sure?',
+            html: 'You want to <b>delete</b> this country',
+            showCancelButton: true,
+            showCloseButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, Delete',
+            cancelButtonColor: '#d33',
+            confirmButtonColor: '#556ee6',
+            width: 300,
+            allowOutsideClick: false
+        }).then(function(result) {
+            if(result.value) {
+                $.post(url, {data_id: data_id}, function(data) {
+                    if(data.code == 1) {
+                        $('#datatable').DataTable().ajax.reload(null, false);
+                        // toastr.success(data.msg);
+                    } else {
+                        // toastr.error(data.msg);
+                    }
+                },'json');
+            }
+        });
+    });
+</script>
 @endsection
