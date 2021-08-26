@@ -25,7 +25,7 @@
         tbody, thead tr { display: block; }
 
         tbody {
-            height: 120px;
+            height: 20vh;
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -38,7 +38,7 @@
         thead th:last-child {
             width: 156px; /* 140px + 16px scrollbar width */
         }
-        
+
     </style>
 @endsection
 
@@ -62,8 +62,8 @@
                 class="vh-50">
             </x-maps-leaflet>
 
-            <div class="tabel mt-3 tableFixHead" style="height: 150px;">
-                <table class="table table-bordered table-sm">
+            <div class="mt-3" style="height: 150px;">
+                <table class="table table-hover border table-sm">
                     <thead>
                         <tr>
                             <th>Time</th>
@@ -75,192 +75,60 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>25-08-2021 13:15:00</td>
-                            <td>RI 1</td>
-                            <td>Online</td>
-                            <td></td>
-                            <td></td>
-                            <td>0 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>25-08-2021 13:15:00</td>
-                            <td>RI 1</td>
-                            <td>Online</td>
-                            <td></td>
-                            <td></td>
-                            <td>0 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>25-08-2021 13:15:00</td>
-                            <td>RI 1</td>
-                            <td>Online</td>
-                            <td></td>
-                            <td></td>
-                            <td>0 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>25-08-2021 13:15:00</td>
-                            <td>RI 1</td>
-                            <td>Online</td>
-                            <td></td>
-                            <td></td>
-                            <td>0 minutes</td>
-                        </tr>
+                        @for ($i = 0; $i < 50; $i++)
+                            <tr>
+                                <td>25-08-2021 13:15:00</td>
+                                <td>RI 1</td>
+                                <td>Online</td>
+                                <td></td>
+                                <td></td>
+                                <td>0 minutes</td>
+                            </tr>
+                        @endfor
                     </tbody>
-                    
+
                 </table>
             </div>
         </div>
         <div class="col-md-4 px-0">
-            <div class="tabel">
-                <table class="table table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Status</th>
-                            <th>Last Update</th>
-                        </tr>
-                    </thead>
-                    <tbody style="height: 220px;">
-                        <tr>
-                            <td>RI 1</td>
-                            <td>Online</td>
-                            <td>0 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="tabel mt-4">
-                <table class="table table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Status</th>
-                            <th>Last Update</th>
-                        </tr>
-                    </thead>
-                    <tbody style="height: 220px;">
+            <table class="table table-hover d-block border table-sm">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Status</th>
+                        <th>Last Update</th>
+                    </tr>
+                </thead>
+                <tbody style="height: 32vh;">
+                    @for ($i = 0; $i < 50; $i++)
                         <tr>
                             <td>RI 1</td>
                             <td>Online</td>
                             <td>0 minutes</td>
                         </tr>
+                    @endfor
+                </tbody>
+            </table>
+            <table class="table table-hover border table-sm">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Status</th>
+                        <th>Last Update</th>
+                    </tr>
+                </thead>
+                <tbody style="height: 32.5vh;">
+                    @for ($i = 0; $i < 50; $i++)
                         <tr>
                             <td>L 123 AA</td>
                             <td>Offline</td>
                             <td>13 minutes</td>
                         </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                    @endfor
+                </tbody>
+            </table>
         </div>
-        
+
         {{-- <div class="col-md-5 overflow-auto vh-75 border">
             <div class="row">
                 <div class="col-md-6 mb-4">

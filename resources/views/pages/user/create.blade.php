@@ -35,7 +35,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror"/>
+                            <input type="password" id="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror"/>
                             @error('password') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-4">

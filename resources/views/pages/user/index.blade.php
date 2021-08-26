@@ -44,7 +44,7 @@
                         <td><span class="name">{{ $user->name }}</span></td>
                         <td><span class="name">{{ $user->email }}</span></td>
                         <td>
-                            <img src="{{ asset('storage/'.$user->avatar) }}" class="img-thumbnail" width="50px;">
+                            <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail" width="50px;">
                         </td>
                         <td>
                             <a href="{{ url('user/edit/'.$user->id) }}" class="btn btn-primary btn-sm">
@@ -76,13 +76,18 @@
 
 {{-- JS --}}
 @section('js')
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#datatable').DataTable();
-    } );
-</script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        Swal.fire(
+            'Good job!',
+            'You clicked the button!',
+            'success'
+        );
+        $(document).ready(function() {
+            $('#datatable').DataTable();
+        } );
+    </script>
 @endsection
 

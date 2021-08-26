@@ -7,7 +7,7 @@
 
 {{-- CSS --}}
 @section('css')
-<link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
+
 @endsection
 
 {{-- TITLE --}}
@@ -104,13 +104,12 @@
         $('#datatable').DataTable();
     });
 </script>
-<script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
     // DELETE COUNTRY RECORD
     $(document).on('click', '#deleteData', function() {
         var data_id = $(this).attr('data-id');
         // var url = '<?= url("devices/destroy/'+ data_id +'") ?>';
-        swal.fire({
+        Swal.fire({
             title: 'Are you sure?',
             html: 'You want to <b>delete</b> this country',
             showCancelButton: true,
