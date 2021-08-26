@@ -11,45 +11,46 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Contact')
+@section('title', 'Create User')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'User')
+@section('title-content', 'Create User')
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <strong>Tambah User</strong>
-        </div>
-        <div class="card-body card-block">
-            <form action="{{ url('user/store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="form-group">
-                    <label for="name" class="form-control-label">Username</label>
-                    <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror"/>
-                    @error('name') <div class="text-muted">{{ $message }}</div> @enderror
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{ url('user/store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Username</label>
+                            <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" autofocus/>
+                            @error('name') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Email</label>
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror"/>
+                            @error('email') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror"/>
+                            @error('password') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="photo" class="form-label">Avatar</label>
+                            <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
+                            @error('avatar') <div class="text-muted"> {{ $message }} </div> @enderror
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-block" type="submit">
+                                Save
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="type" class="form-control-label">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror"/>
-                    @error('email') <div class="text-muted">{{ $message }}</div> @enderror
-                </div>
-                <div class="form-group">
-                    <label for="password" class="form-control-label">Password</label>
-                    <input type="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror"/>
-                    @error('password') <div class="text-muted">{{ $message }}</div> @enderror
-                </div>
-                <div class="form-group">
-                    <label for="photo" class="form-control-label">Avatar</label>
-                    <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
-                    @error('avatar') <div class="text-muted"> {{ $message }} </div> @enderror
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">
-                        Tambah Data
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 @endsection

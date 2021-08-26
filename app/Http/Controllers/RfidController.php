@@ -17,7 +17,7 @@ class RfidController extends Controller
     public function index()
     {
         $savedata = Rfid::orderBy('id', 'DESC')->paginate(Rfid::count());
-        return view('pages.RFID.index')->with([
+        return view('pages.rfid.index')->with([
             'savedata' => $savedata
         ]);
     }
@@ -30,7 +30,7 @@ class RfidController extends Controller
     public function create()
     {
         $savedata = Rfid::all();
-        return view('pages.RFID.create')->with([
+        return view('pages.rfid.create')->with([
             'savedata' => $savedata
         ]);
     }
@@ -99,7 +99,7 @@ class RfidController extends Controller
     public function edit($id)
     {
         $rfid = Rfid::where('id', $id)->first();
-        return view('pages.RFID.edit')->with([
+        return view('pages.rfid.edit')->with([
             'rfid' => $rfid
         ]);
     }
