@@ -35,9 +35,17 @@
                             @error('email') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror"/>
-                            @error('password') <div class="text-muted">{{ $message }}</div> @enderror
+                            <label for="companmies" class="form-label">Company</label>
+                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
+                                <option value="">- PILIH -</option>
+                                @foreach ($companies as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('company_id', $user->company_id) == $item->id ? 'selected' : null }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-4">
                             <label for="photo" class="form-label">Avatar</label>

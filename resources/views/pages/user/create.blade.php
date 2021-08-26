@@ -38,6 +38,19 @@
                             <input type="password" id="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror"/>
                             @error('password') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="companmies" class="form-label">Company</label>
+                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
+                                <option value="">- PILIH -</option>
+                                @foreach ($users as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('company_id') == $item->id ? 'selected' : null }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div>
                         <div class="mb-4">
                             <label for="photo" class="form-label">Avatar</label>
                             <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">

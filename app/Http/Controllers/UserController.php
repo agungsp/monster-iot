@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Company;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -15,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id', 'DESC')->paginate(User::count());
+        $users = User::with('company')->orderBy('id', 'DESC')->paginate(User::count());
         return view('pages.user.index')->with([
             'users' => $users
         ]);
@@ -33,7 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $users = Company::all();
         // dd(User::all());
         return view('pages.user.create')->with([
             'users' => $users
@@ -52,11 +53,13 @@ class UserController extends Controller
             'name' => 'required:3',
             'email' => 'required',
             'password' => 'required',
+            'company_id' => 'required|integer|exists:companies,id',
             'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
         ], [
             'name.required' => 'Username tidak boleh kosong',
             'email.required' => 'Email tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
+            'company_id.required' => 'Company tidak boleh kosong',
             'avatar.required' => 'Avatar tidak boleh kosong',
         ]);
 
@@ -64,10 +67,12 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'company_id' => $request->company_id,
             'avatar' => $request->file('avatar')->store(
                 'assets/avatar', 'public'
             ),
         ]);
+        // User::create($request->all());
         return redirect('user/')->with('status', 'User berhasil ditambah!');
     }
 
@@ -91,7 +96,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->first();
-        return view('pages.user.edit', compact('user'));
+        $companies = Company::all();
+        return view('pages.user.edit', compact('user', 'companies'));
         // echo('tes');
     }
 

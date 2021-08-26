@@ -45,10 +45,6 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             Devices
                         </a>
-                        <a class="nav-link" href="{{ route('contact') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
-                            Contact
-                        </a>
                         <a class="nav-link" href="{{ route('user.index') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
                             Users
