@@ -7,15 +7,24 @@ const Toast = Swal.mixin({
     didOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
         toast.addEventListener("mouseleave", Swal.resumeTimer);
+        // playSound();
     },
 });
 
 window.Echo.channel("EveryoneChannel").listen(".EveryoneMessage", function (e) {
     let data = JSON.parse(e.message);
-    if (data.RS > 0) {
+    if (typeof data.RS !== "undefined" && data.RS.isChange) {
         Toast.fire({
-            icon: "success",
-            title: "RS = 1",
+            icon: data.RS.value ? "success" : "danger",
+            title: `Mesin ${data.RS.value ? "Menyala" : "Mati"}`,
+            footer: data.UUID,
+        });
+    }
+    if (typeof data.PROX !== "undefined" && data.PROX.isChange) {
+        Toast.fire({
+            icon: data.PROX.value ? "success" : "danger",
+            title: `Proximity ${data.PROX.value ? "Aman" : "Tidak Aman"}`,
+            footer: data.UUID,
         });
     }
     console.log(JSON.parse(e.message));
