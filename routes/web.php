@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Events\ManualEvent;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContractsController;
@@ -38,6 +39,13 @@ Route::middleware('auth')->group(function () {
      });
 
     Route::view('contact', 'pages.contact')->name('contact');
+
+    Route::view('test', 'pages.test');
+
+    Route::get('send', function () {
+        broadcast(new ManualEvent(auth()->user()));
+        return response('Send');
+    });
 
     Route::prefix('devices')->name('devices.')->group(function () {
         Route::get('/', [DevicesController::class,'index'])->name('index');
@@ -86,6 +94,5 @@ Route::middleware('auth')->group(function () {
         Route::delete('/destroy/{id}', [RfidController::class,'destroy'])->name('destroy');
     });
 });
-
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
