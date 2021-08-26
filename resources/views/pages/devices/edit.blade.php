@@ -11,10 +11,10 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Contact')
+@section('title', 'Tambah Device')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Contact')
+@section('title-content', 'Tambah Device')
 
 @section('content')
     <div class="card">
@@ -27,7 +27,12 @@
                 @csrf
                 <div class="form-group">
                     <label for="name" class="form-control-label">UUID</label>
+                    @hasrole('superadmin')
                     <input type="text" name="uuid" value="{{ old('name', $devices->uuid) }}" class="form-control @error('uuid') is-invalid @enderror"/>
+                    @endhasrole
+                    @hasrole('admin')
+                    <input type="text" name="uuid" value="{{ old('name', $devices->uuid) }}" class="form-control @error('uuid') is-invalid @enderror" readonly/>
+                    @endhasrole
                     @error('uuid') <div class="text-muted">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-group">

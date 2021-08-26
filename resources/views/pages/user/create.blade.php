@@ -51,6 +51,24 @@
                             </select>
                             @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            @hasrole('superadmin')
+                            <select name="role" class="form-control @error('role') is-invalid @enderror">
+                                <option value="">- PILIH -</option>
+                                @foreach ($roles as $item)
+                                    <option value="{{ $item->name }}"
+                                        {{ old('role') == $item->name ? 'selected' : null }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @endhasrole
+                            @hasrole('admin')
+                                <input type="text" id="role" name="role" value="user" class="form-control @error('role') is-invalid @enderror" readonly/>
+                            @endhasrole
+                            @error('role') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div>
                         <div class="mb-4">
                             <label for="photo" class="form-label">Avatar</label>
                             <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">

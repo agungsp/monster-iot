@@ -18,7 +18,7 @@ class PermissionSeeder extends Seeder
     {
         Permission::create(['name' => 'viewDashboard']);
         Permission::create(['name' => 'viewContact']);
-
+        Permission::create(['name' => 'controlEngine']);
 
         Permission::create(['name' => 'viewUsers']);
         Permission::create(['name' => 'createUsers']);
@@ -61,8 +61,7 @@ class PermissionSeeder extends Seeder
         $role->givePermissionTo(
             'viewDashboard', 'viewContact',
             'viewUsers', 'createUserClient', 'editUserClient', 'deleteUsers',
-            'viewDevices', 'editDevices',
-            'viewContracts',
+            'viewDevices', 'editDevices', 'controlEngine',
             'viewRFID', 'editRFID'
         );
 

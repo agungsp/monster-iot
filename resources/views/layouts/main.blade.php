@@ -56,7 +56,7 @@
                             </a>
                         @endcan
                         @can('viewRFID')
-                            <a class="nav-link" href="{{ route('truck-monitoring.index') }}">
+                            <a class="nav-link" href="{{ route('rfid.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-record-vinyl"></i></div>
                                 RFID
                             </a>

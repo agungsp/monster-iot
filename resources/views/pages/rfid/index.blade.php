@@ -31,9 +31,11 @@
 
                     <div class="card-body">
                         <h4 class="box-title">Daftar RFID </h4>
+                        @can('createRFID')
                         <a href="{{ url('rfid/create') }}" class="btn btn-success btn-sm">
                             <i class="fa fa-plus"></i> Add
                         </a>
+                        @endcan
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">

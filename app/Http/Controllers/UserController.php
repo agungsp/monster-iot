@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -35,9 +36,11 @@ class UserController extends Controller
     public function create()
     {
         $users = Company::all();
+        $roles = Role::all();
         // dd(User::all());
         return view('pages.user.create')->with([
-            'users' => $users
+            'users' => $users,
+            'roles' => $roles
         ]);
     }
 
@@ -54,16 +57,18 @@ class UserController extends Controller
             'email' => 'required',
             'password' => 'required',
             'company_id' => 'required|integer|exists:companies,id',
+            'role' => 'required|exists:roles,name',
             'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
         ], [
             'name.required' => 'Username tidak boleh kosong',
             'email.required' => 'Email tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
             'company_id.required' => 'Company tidak boleh kosong',
+            'role.required' => 'Role tidak boleh kosong',
             'avatar.required' => 'Avatar tidak boleh kosong',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -72,6 +77,7 @@ class UserController extends Controller
                 'assets/avatar', 'public'
             ),
         ]);
+        $user->assignRole($request->role);
         // User::create($request->all());
         return redirect('user/')->with('status', 'User berhasil ditambah!');
     }
@@ -97,7 +103,10 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         $companies = Company::all();
-        return view('pages.user.edit', compact('user', 'companies'));
+        $roles = Role::all();
+        $rolecurrent = $user->getRoleNames();
+
+        return view('pages.user.edit', compact('user', 'companies', 'roles', 'rolecurrent'));
         // echo('tes');
     }
 
@@ -114,15 +123,17 @@ class UserController extends Controller
             'name' => 'required:3',
             'email' => 'required',
             'password' => 'required',
+            'role' => 'required|exists:roles,name',
             'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
         ], [
             'name.required' => 'Username tidak boleh kosong',
             'email.required' => 'Email tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
+            'role.required' => 'Role tidak boleh kosong',
             'avatar.required' => 'Avatar tidak boleh kosong',
         ]);
 
-        User::where('id', $id)->update([
+        $user = User::where('id', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -130,6 +141,8 @@ class UserController extends Controller
                 'assets/avatar', 'public'
             ),
         ]);
+        $user->assignRole($request->role);
+
         return redirect('user/')->with('status', 'User berhasil di update!');
     }
 

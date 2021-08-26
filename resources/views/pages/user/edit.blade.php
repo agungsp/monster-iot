@@ -47,6 +47,21 @@
                             </select>
                             @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
+                        @hasrole('superadmin')
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Role</label>
+                                <select name="role" class="form-control @error('role') is-invalid @enderror">
+                                    <option value="">- PILIH -</option>
+                                    @foreach ($roles as $item)
+                                        <option value="{{ $item->name }}"
+                                            {{ old('role', $user->roles->contains($item->name)) == $item->name ? 'selected' : null }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('role') <div class="text-muted">{{ $message }}</div> @enderror
+                            </div>
+                        @endhasrole
                         <div class="mb-4">
                             <label for="photo" class="form-label">Avatar</label>
                             <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">

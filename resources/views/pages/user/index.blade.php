@@ -44,7 +44,7 @@
                         <td class="serial">{{ $users->firstItem() + $key }}</td>
                         <td><span class="name">{{ $user->name }}</span></td>
                         <td><span class="name">{{ $user->email }}</span></td>
-                        <td><span class="name">{{ $user->company->name }}</span></td>
+                        <td><span class="name">{{ empty($user->company_id) ? 'null' : $user->company->name}}</span></td>
                         <td>
                             <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail" width="50px;">
                         </td>

@@ -27,7 +27,12 @@
                 @csrf
                 <div class="form-group">
                     <label for="uuid" class="form-control-label">UUID</label>
-                    <input type="text" name="uuid" value="{{ old('uuid', $rfid->uuid) }}" class="form-control @error('uuid') is-invalid @enderror" readonly/>
+                    @hasrole('superadmin')
+                        <input type="text" name="uuid" value="{{ old('uuid', $rfid->uuid) }}" class="form-control @error('uuid') is-invalid @enderror"/>
+                    @endhasrole
+                    @hasrole('admin')
+                        <input type="text" name="uuid" value="{{ old('uuid', $rfid->uuid) }}" class="form-control @error('uuid') is-invalid @enderror" readonly/>
+                    @endhasrole
                     @error('uuid') <div class="text-muted">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-group">

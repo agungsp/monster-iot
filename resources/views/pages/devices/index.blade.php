@@ -32,9 +32,11 @@
 
                     <div class="card-body">
                         <h4 class="box-title">Daftar User </h4>
+                        @can('createDevice')
                         <a href="{{ url('devices/create') }}" class="btn btn-success btn-sm">
                             <i class="fa fa-plus"></i> Tambah
                         </a>
+                        @endcan
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">
