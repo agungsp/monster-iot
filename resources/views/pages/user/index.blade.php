@@ -32,6 +32,7 @@
                 <th class="serial">#</th>
                 <th>Nama</th>
                 <th>Email</th>
+                <th>Company</th>
                 <th>Avatar</th>
                 <th>Action</th>
             </tr>
@@ -43,6 +44,7 @@
                         <td class="serial">{{ $users->firstItem() + $key }}</td>
                         <td><span class="name">{{ $user->name }}</span></td>
                         <td><span class="name">{{ $user->email }}</span></td>
+                        <td><span class="name">{{ $user->company->name }}</span></td>
                         <td>
                             <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail" width="50px;">
                         </td>
