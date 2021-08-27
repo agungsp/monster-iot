@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -35,9 +36,11 @@ class UserController extends Controller
     public function create()
     {
         $users = Company::all();
+        $roles = Role::all();
         // dd(User::all());
         return view('pages.user.create')->with([
-            'users' => $users
+            'users' => $users,
+            'roles' => $roles
         ]);
     }
 
@@ -61,7 +64,7 @@ class UserController extends Controller
                 'password.required' => 'Password tidak boleh kosong',
                 'company_id.required' => 'Company tidak boleh kosong',
             ]);
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -81,7 +84,7 @@ class UserController extends Controller
                 'company_id.required' => 'Company tidak boleh kosong',
                 'avatar.required' => 'File harus images',
             ]);
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -91,6 +94,8 @@ class UserController extends Controller
                 ),
             ]);
         }
+
+        $user->assignRole($request->role);
 
         return redirect('user/')->with('status', 'User berhasil ditambah!');
     }
