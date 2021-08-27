@@ -45,9 +45,9 @@
                     <td><span class="name">{{ $device->uuid }}</span></td>
                     <td><span class="name">{{ $device->alias }}</span></td>
                     @if($device->is_available == 1)
-                        <td><span class="name">Tersedia</span></td>
+                        <td><span class="name badge bg-success">Tersedia</span></td>
                     @else
-                        <td><span class="name">Tidak Tersedia</span></td>
+                        <td><span class="name badge bg-danger">Tidak Tersedia</span></td>
                     @endif
                     <td><span class="name">{{ $device->created_at }}</span></td>
                     <td>

@@ -53,21 +53,24 @@
                         <td><span class="name">{{ empty($user->company_id) ? '' : $user->company->name}}</span></td>
                         <td>
                             @if( str_replace(['["','"]'], '', $user->getRoleNames()) == 'superadmin')
-                                <span class="name" style="color:blue">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
+                                <span class="name badge bg-primary">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
                             @elseif( str_replace(['["','"]'], '', $user->getRoleNames()) == 'admin')
-                                <span class="name" style="color:red">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
+                                <span class="name badge bg-warning text-dark">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
                             @elseif( str_replace(['["','"]'], '', $user->getRoleNames()) == 'user')
-                                <span class="name" style="color:green">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
+                                <span class="name badge bg-danger">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
                             @endif
                             </td>
                         <td>
                             <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail rounded-circle">
                         </td>
                         <td>
-                            <a href="{{ url('user/edit/'.$user->id) }}" class="btn btn-primary btn-sm">
+                            <?php
+                                $id = Crypt::encrypt($user->id);
+                            ?>
+                            <a href="{{ url('user/edit/'.$id) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ url('user/destroy/'.$user->id) }}" method="post" class="d-inline" id="deleteData">
+                            <form action="{{ url('user/destroy/'.$id) }}" method="post" class="d-inline" id="deleteData">
                                 @csrf
                                 @method('delete')
                                 <button class="btn btn-danger btn-sm">

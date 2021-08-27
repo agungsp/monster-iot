@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -119,9 +120,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $id = Crypt::decrypt($id);
         $user = User::where('id', $id)->first();
         $companies = Company::all();
-        return view('pages.user.edit', compact('user', 'companies'));
+        $roles = Role::all();
+        $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
+        return view('pages.user.edit', compact('user', 'companies', 'roles', 'rolecurrent'));
         // echo('tes');
     }
 
@@ -165,6 +169,10 @@ class UserController extends Controller
                 ),
             ]);
         }
+        $user = User::find($id);
+        $user->removeRole($request->rolecurrent);
+        $user->assignRole($request->role);
+
 
         return redirect('user/')->with('status', 'User berhasil di update!');
     }
@@ -176,8 +184,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {   
+        $id = Crypt::decrypt($id);
         User::where('id', $id)->delete();
         return redirect('user/')->with('status', 'User berhasil dihapus!');
     }
+
 }

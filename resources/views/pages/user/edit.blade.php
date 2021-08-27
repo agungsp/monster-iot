@@ -61,6 +61,7 @@
                                 </select>
                                 @error('role') <div class="text-muted">{{ $message }}</div> @enderror
                             </div>
+                            <input type="hidden" id="role" name="rolecurrent" value="{{ old('role', $rolecurrent) }}" class="form-control @error('role') is-invalid @enderror" readonly/>
                         @endhasrole
                         <div class="mb-4">
                             <label for="photo" class="form-label">Avatar</label>
