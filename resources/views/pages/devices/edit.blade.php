@@ -47,6 +47,7 @@
                 </div>
         </div>
     </div>
+</div>
 @endsection
 {{-- MODAL --}}
 @section('modal')
@@ -55,5 +56,5 @@
 
 {{-- JS --}}
 @section('js')
-    
+
 @endsection

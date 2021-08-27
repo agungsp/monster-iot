@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -36,11 +35,9 @@ class UserController extends Controller
     public function create()
     {
         $users = Company::all();
-        $roles = Role::all();
         // dd(User::all());
         return view('pages.user.create')->with([
-            'users' => $users,
-            'roles' => $roles
+            'users' => $users
         ]);
     }
 
@@ -52,33 +49,49 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required:3',
-            'email' => 'required',
-            'password' => 'required',
-            'company_id' => 'required|integer|exists:companies,id',
-            'role' => 'required|exists:roles,name',
-            'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
-        ], [
-            'name.required' => 'Username tidak boleh kosong',
-            'email.required' => 'Email tidak boleh kosong',
-            'password.required' => 'Password tidak boleh kosong',
-            'company_id.required' => 'Company tidak boleh kosong',
-            'role.required' => 'Role tidak boleh kosong',
-            'avatar.required' => 'Avatar tidak boleh kosong',
-        ]);
+        if ($request->avatar == null) {
+            $request->validate([
+                'name' => 'required:3',
+                'email' => 'required',
+                'password' => 'required',
+                'company_id' => 'required|integer|exists:companies,id',
+            ], [
+                'name.required' => 'Username tidak boleh kosong',
+                'email.required' => 'Email tidak boleh kosong',
+                'password.required' => 'Password tidak boleh kosong',
+                'company_id.required' => 'Company tidak boleh kosong',
+            ]);
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'company_id' => $request->company_id,
+            ]);
+        } else {
+            $request->validate([
+                'name' => 'required:3',
+                'email' => 'required',
+                'password' => 'required',
+                'company_id' => 'required|integer|exists:companies,id',
+                'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
+            ], [
+                'name.required' => 'Username tidak boleh kosong',
+                'email.required' => 'Email tidak boleh kosong',
+                'password.required' => 'Password tidak boleh kosong',
+                'company_id.required' => 'Company tidak boleh kosong',
+                'avatar.required' => 'File harus images',
+            ]);
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'company_id' => $request->company_id,
+                'avatar' => $request->file('avatar')->store(
+                    'assets/avatar', 'public'
+                ),
+            ]);
+        }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'company_id' => $request->company_id,
-            'avatar' => $request->file('avatar')->store(
-                'assets/avatar', 'public'
-            ),
-        ]);
-        $user->assignRole($request->role);
-        // User::create($request->all());
         return redirect('user/')->with('status', 'User berhasil ditambah!');
     }
 
@@ -103,10 +116,7 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         $companies = Company::all();
-        $roles = Role::all();
-        $rolecurrent = str_replace(['["','"]'], '', $user->getRoleNames());
-
-        return view('pages.user.edit', compact('user', 'companies', 'roles', 'rolecurrent'));
+        return view('pages.user.edit', compact('user', 'companies'));
         // echo('tes');
     }
 
@@ -122,35 +132,34 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required:3',
             'email' => 'required',
-            'password' => 'required',
-            // 'role' => 'required|exists:roles,name',
-            'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
+            'company_id' => 'required|integer|exists:companies,id',
         ], [
             'name.required' => 'Username tidak boleh kosong',
             'email.required' => 'Email tidak boleh kosong',
-            'password.required' => 'Password tidak boleh kosong',
-            // 'role.required' => 'Role tidak boleh kosong',
-            'avatar.required' => 'Avatar tidak boleh kosong',
+            'company_id.required' => 'Company tidak boleh kosong',
         ]);
-
-        // $user = User::where('id', $id)->update([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        //     'avatar' => $request->file('avatar')->store(
-        //         'assets/avatar', 'public'
-        //     ),
-        // ]);
 
         User::where('id', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'avatar' => $request->file('avatar')->store(
-                'assets/avatar', 'public'
-            ),
+            'company_id' => $request->company_id,
         ]);
-        // $user->assignRole($request->role);
+
+        if ($request->avatar == null) {
+
+        } else {
+            $request->validate([
+                'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
+            ], [
+                'avatar.required' => 'File harus images',
+            ]);
+
+            User::where('id', $id)->update([
+                'avatar' => $request->file('avatar')->store(
+                    'assets/avatar', 'public'
+                ),
+            ]);
+        }
 
         return redirect('user/')->with('status', 'User berhasil di update!');
     }

@@ -45,7 +45,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email:rfc,dns',
             'phone' => 'required',
             'website' => 'required',
             'address' => 'required',

@@ -26,12 +26,12 @@
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Username</label>
-                            <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-control @error('name') is-invalid @enderror" autofocus/>
+                            <input type="text" name="name" value="{{ old('name', $user->name) }}" placeholder="username" class="form-control @error('name') is-invalid @enderror" autofocus/>
                             @error('name') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label for="type" class="form-label">Email</label>
-                            <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control @error('email') is-invalid @enderror"/>
+                            <input type="email" name="email" value="{{ old('email', $user->email) }}" placeholder="email" class="form-control @error('email') is-invalid @enderror"/>
                             @error('email') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
@@ -64,7 +64,7 @@
                         @endhasrole
                         <div class="mb-4">
                             <label for="photo" class="form-label">Avatar</label>
-                            <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
+                            <input type="file" name="avatar" value="{{ old('avatar', $user->avatar) }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
                             @error('avatar') <div class="text-muted"> {{ $message }} </div> @enderror
                         </div>
                         <div class="d-grid gap-2">

@@ -97,11 +97,14 @@
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
     <script>
-        Swal.fire(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-        );
+        $(document).on('click', '#deleteData', function()  {
+            Swal.fire(
+                'Good job!',
+                'Data Has Been Deleted!',
+                'success'
+            );
+        });
+
         $(document).ready(function() {
             $('#datatable').DataTable();
         } );
