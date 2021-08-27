@@ -8,6 +8,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\RfidController;
 use App\Http\Controllers\DevicesController;
+use App\Http\Controllers\Contract_DeviceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,7 +83,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [ContractsController::class,'store'])->name('store');
         Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
         Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
-        Route::delete('/destroy/{id}', [ContractsController::class,'destroy'])->name('destroy');
+        Route::delete('/delete/{id}', [ContractsController::class,'destroy'])->name('delete');
+        Route::get('/assigndevice/{id}', [Contract_DeviceController::class,'index'])->name('assigndevice');
     });
 
     Route::prefix('rfid')->name('rfid.')->group(function () {
@@ -93,6 +95,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/update/{id}', [RfidController::class,'update'])->name('update');
         Route::delete('/destroy/{id}', [RfidController::class,'destroy'])->name('destroy');
     });
+
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

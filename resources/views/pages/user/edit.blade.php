@@ -53,8 +53,7 @@
                                 <select name="role" class="form-control @error('role') is-invalid @enderror">
                                     <option value="">- PILIH -</option>
                                     @foreach ($roles as $item)
-                                        <option value="{{ $item->name }}"
-                                            {{ old('role', $rolecurrent) == $item->name ? 'selected' : null }}>
+                                        <option value="{{ $item->name }}">
                                             {{ $item->name }}
                                         </option>
                                     @endforeach

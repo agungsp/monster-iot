@@ -121,7 +121,9 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         $companies = Company::all();
-        return view('pages.user.edit', compact('user', 'companies'));
+        $roles = Role::all();
+
+        return view('pages.user.edit', compact('user', 'companies', 'roles'));
         // echo('tes');
     }
 
