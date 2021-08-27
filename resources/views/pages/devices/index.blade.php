@@ -32,7 +32,7 @@
 
                     <div class="card-body">
                         <h4 class="box-title">Daftar User </h4>
-                        @can('createDevice')
+                        @can('createDevices')
                         <a href="{{ url('devices/create') }}" class="btn btn-success btn-sm">
                             <i class="fa fa-plus"></i> Tambah
                         </a>
@@ -52,35 +52,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ( $devices as $device )
-                                        <tr class="delete_mem{{ $device  }}">
-                                            <td class="serial">{{ $device->id }}</td>
-                                            <td><span class="name">{{ $device->uuid }}</span></td>
-                                            <td><span class="name">{{ $device->alias }}</span></td>
-                                            @if($device->is_available == 1)
-                                                <td><span class="name">Tersedia</span></td>
-                                            @else
-                                                <td><span class="name">Tidak Tersedia</span></td>
-                                            @endif
-                                            <td><span class="name">{{ $device->created_at }}</span></td>
-                                            <td>
-                                                <a href="{{ url('devices/edit/'.$device->id) }}" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                {{-- <form action="" method="post" class="d-inline"> --}}
-                                                    <button class="btn btn-danger btn-sm" id="deleteData" data-id={{ $device->id }}>
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                {{-- </form> --}}
-                                            </td>
-                                        </tr>
-                                    @empty
+                                    @if($devices->count() > 0)
+                                        @foreach ( $devices as $key => $device )
+                                            <tr class="delete_mem{{ $device  }}">
+                                                <td class="serial">{{ $device->id }}</td>
+                                                <td><span class="name">{{ $device->uuid }}</span></td>
+                                                <td><span class="name">{{ $device->alias }}</span></td>
+                                                @if($device->is_available == 1)
+                                                    <td><span class="name">Tersedia</span></td>
+                                                @else
+                                                    <td><span class="name">Tidak Tersedia</span></td>
+                                                @endif
+                                                <td><span class="name">{{ $device->created_at }}</span></td>
+                                                <td>
+                                                    <a href="{{ url('devices/edit/'.$device->id) }}" class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    {{-- <form action="" method="post" class="d-inline"> --}}
+                                                        <button class="btn btn-danger btn-sm" id="deleteData" data-id={{ $device->id }}>
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    {{-- </form> --}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
                                         <tr>
                                             <td colspan="6" class="text-center p-5">
                                                 Data Tidak Tersedia
                                             </td>
                                         </tr>
-                                    @endforelse
+                                    @endif
                                 </tbody>
                             </table>
                         </div> <!-- /.table-stats -->

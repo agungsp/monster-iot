@@ -104,7 +104,7 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
         $companies = Company::all();
         $roles = Role::all();
-        $rolecurrent = $user->getRoleNames();
+        $rolecurrent = str_replace(['["','"]'], '', $user->getRoleNames());
 
         return view('pages.user.edit', compact('user', 'companies', 'roles', 'rolecurrent'));
         // echo('tes');
@@ -123,17 +123,26 @@ class UserController extends Controller
             'name' => 'required:3',
             'email' => 'required',
             'password' => 'required',
-            'role' => 'required|exists:roles,name',
+            // 'role' => 'required|exists:roles,name',
             'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
         ], [
             'name.required' => 'Username tidak boleh kosong',
             'email.required' => 'Email tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
-            'role.required' => 'Role tidak boleh kosong',
+            // 'role.required' => 'Role tidak boleh kosong',
             'avatar.required' => 'Avatar tidak boleh kosong',
         ]);
 
-        $user = User::where('id', $id)->update([
+        // $user = User::where('id', $id)->update([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        //     'avatar' => $request->file('avatar')->store(
+        //         'assets/avatar', 'public'
+        //     ),
+        // ]);
+
+        User::where('id', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -141,7 +150,7 @@ class UserController extends Controller
                 'assets/avatar', 'public'
             ),
         ]);
-        $user->assignRole($request->role);
+        // $user->assignRole($request->role);
 
         return redirect('user/')->with('status', 'User berhasil di update!');
     }

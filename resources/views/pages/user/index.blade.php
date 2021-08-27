@@ -7,7 +7,12 @@
 
 {{-- CSS --}}
 @section('css')
-
+    <style>
+        .img-thumbnail{
+            height: 50px !important;
+            width: 50px;
+        }
+    </style>
 @endsection
 
 {{-- TITLE --}}
@@ -33,6 +38,7 @@
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Company</th>
+                <th>Role</th>
                 <th>Avatar</th>
                 <th>Action</th>
             </tr>
@@ -44,9 +50,18 @@
                         <td class="serial">{{ $users->firstItem() + $key }}</td>
                         <td><span class="name">{{ $user->name }}</span></td>
                         <td><span class="name">{{ $user->email }}</span></td>
-                        <td><span class="name">{{ empty($user->company_id) ? 'null' : $user->company->name}}</span></td>
+                        <td><span class="name">{{ empty($user->company_id) ? '' : $user->company->name}}</span></td>
                         <td>
-                            <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail" width="50px;">
+                            @if( str_replace(['["','"]'], '', $user->getRoleNames()) == 'superadmin')
+                                <span class="name" style="color:blue">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
+                            @elseif( str_replace(['["','"]'], '', $user->getRoleNames()) == 'admin')
+                                <span class="name" style="color:red">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
+                            @elseif( str_replace(['["','"]'], '', $user->getRoleNames()) == 'user')
+                                <span class="name" style="color:green">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
+                            @endif
+                            </td>
+                        <td>
+                            <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail rounded-circle">
                         </td>
                         <td>
                             <a href="{{ url('user/edit/'.$user->id) }}" class="btn btn-primary btn-sm">
