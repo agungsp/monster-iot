@@ -79,7 +79,7 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    Route::group(['middleware' => ['role:super-admin']], function () {
+    Route::group(['middleware' => ['role:superadmin']], function () {
         Route::prefix('contract')->name('contract.')->group(function () {
             Route::get('/', [ContractsController::class,'index'])->name('index');
             Route::get('/create', [ContractsController::class,'create'])->name('create');

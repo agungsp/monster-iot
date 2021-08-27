@@ -23,9 +23,11 @@
             {{ session('status') }}
         </div>
     @endif
-    <a href="{{ url('rfid/create') }}" class="btn btn-success btn-sm float-end">
-        <i class="fa fa-plus"></i> Add
-    </a>
+    @can('createRFID')
+        <a href="{{ url('rfid/create') }}" class="btn btn-success btn-sm float-end">
+            <i class="fa fa-plus"></i> Add
+        </a>
+    @endcan
     <table class="table" id="datatable">
         <thead>
             <tr>
