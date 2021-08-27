@@ -25,21 +25,21 @@
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Username</label>
-                            <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" autofocus/>
+                            <input type="text" name="name" value="{{ old('name') }}" placeholder="username" class="form-control @error('name') is-invalid @enderror" autofocus/>
                             @error('name') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label for="type" class="form-label">Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror"/>
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="email" class="form-control @error('email') is-invalid @enderror"/>
                             @error('email') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" id="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror"/>
+                            <input type="password" name="password" value="{{ old('password') }}" placeholder="password" data-toggle="password" class="form-control @error('password') is-invalid @enderror"/>
                             @error('password') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="companmies" class="form-label">Company</label>
+                            <label for="companies" class="form-label">Company</label>
                             <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
                                 <option value="">- PILIH -</option>
                                 @foreach ($users as $item)
