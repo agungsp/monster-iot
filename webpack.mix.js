@@ -17,4 +17,5 @@ mix.js("resources/js/app.js", "public/js")
         "node_modules/@fortawesome/fontawesome-free/webfonts",
         "public/webfonts"
     )
+    .copy("node_modules/leaflet/dist/images", "public/images")
     .sourceMaps();

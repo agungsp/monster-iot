@@ -14,31 +14,47 @@
         .vh-50 {
             height: 50vh !important;
         }
-        .tabel {
-            height: 250px;
-        }
-        table {
-            width: 716px; /* 140px * 5 column + 16px scrollbar width */
-            border-spacing: 0;
-        }
-
-        tbody, thead tr { display: block; }
 
         tbody {
-            height: 20vh;
-            overflow-y: auto;
-            overflow-x: hidden;
+            display:block;
+            overflow:auto;
+            cursor: pointer;
+        }
+        thead, tbody tr {
+            display:table;
+            width:100%;
+            table-layout:fixed;
+        }
+        thead {
+            width: calc( 100% - .5em );
         }
 
-        tbody td, thead th {
-            width: 140px;
-            font-size: 10pt;
+        th.fitwidth {
+            width: 1px;
+            white-space: nowrap;
         }
 
-        thead th:last-child {
-            width: 156px; /* 140px + 16px scrollbar width */
+        /* SCROLLBAR STYLE */
+        /* width */
+        ::-webkit-scrollbar {
+            width: .5em;
         }
 
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 1px var(--bs-secondary);
+            background-color: var(--bs-light);
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: var(--bs-secondary);
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bs-gray-dark);
+        }
     </style>
 @endsection
 
@@ -50,193 +66,59 @@
 
 {{-- CONTENT --}}
 @section('content')
-    <div class="row justify-content-start">
-        {{-- maps --}}
-        <div class="col-md-8 vh-50">
-            <x-maps-leaflet
-                :centerPoint="['lat' => -7.315018, 'long' => 112.790827]"
-                :zoomLevel="18"
-                :markers="[
-                    ['lat' => -7.315018, 'long' => 112.790827, 'icon' => asset('images/truck.png'), 'iconSizeX' => 60, 'iconSizeY' => 25 ],
-                ]"
-                class="vh-50">
-            </x-maps-leaflet>
-
-            <div class="mt-3" style="height: 150px;">
-                <table class="table table-hover border table-sm">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Device Name</th>
-                            <th>Status</th>
-                            <th>Geofence</th>
-                            <th>Maintenance</th>
-                            <th>Last Update</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($i = 0; $i < 50; $i++)
-                            <tr>
-                                <td>25-08-2021 13:15:00</td>
-                                <td>RI 1</td>
-                                <td>Online</td>
-                                <td></td>
-                                <td></td>
-                                <td>0 minutes</td>
-                            </tr>
-                        @endfor
-                    </tbody>
-
-                </table>
+    <div class="row mt-3">
+        <div class="col-md-8">
+            <div class="row mb-3">
+                <div class="col">
+                    <div id="map" style="height: 50vh;"></div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4 px-0">
-            <table class="table table-hover d-block border table-sm">
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Status</th>
-                        <th>Last Update</th>
-                    </tr>
-                </thead>
-                <tbody style="height: 32vh;">
-                    @for ($i = 0; $i < 50; $i++)
-                        <tr>
-                            <td>RI 1</td>
-                            <td>Online</td>
-                            <td>0 minutes</td>
-                        </tr>
-                    @endfor
-                </tbody>
-            </table>
-            <table class="table table-hover border table-sm">
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Status</th>
-                        <th>Last Update</th>
-                    </tr>
-                </thead>
-                <tbody style="height: 32.5vh;">
-                    @for ($i = 0; $i < 50; $i++)
-                        <tr>
-                            <td>L 123 AA</td>
-                            <td>Offline</td>
-                            <td>13 minutes</td>
-                        </tr>
-                    @endfor
-                </tbody>
-            </table>
-        </div>
-
-        {{-- <div class="col-md-5 overflow-auto vh-75 border">
             <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Pintu 1</h5>
-                            <p id="SP1" class="fs-5 text-end">Terbuka</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Pintu 2</h5>
-                            <p id="SP2" class="fs-5 text-end">Terbuka</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Kunci Pintu</h5>
-                            <p id="MAG" class="fs-5 text-end">Terkunci</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Berat Kontainer</h5>
-                            <p id="LC" class="fs-5 text-end">3.245</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Proximity</h5>
-                            <p id="PROX" class="fs-5 text-end">Aman</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Emergency Button</h5>
-                            <p id="PB" class="fs-5 text-end">Aman</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Kondisi Mesin</h5>
-                            <p id="RS" class="fs-5 text-end">Menyala</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Driving Behaviour</h5>
-                            <p id="DRI" class="fs-5 text-end">Stabil</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Latitude</h5>
-                            <p id="LAT" class="fs-5 text-end">-7.315018</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Longitude</h5>
-                            <p id="LON" class="fs-5 text-end">112.790827</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5>Drowsiness</h5>
-                            <p id="DRO" class="fs-5 text-end">Mengantuk</p>
-                        </div>
-                    </div>
+                <div class="col">
+                    <table class="table table-hover table-sm border">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Datetime</th>
+                                <th>Event</th>
+                                <th>Status</th>
+                                <th>Coordinate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyEvents" style="height: 20vh;"></tbody>
+                    </table>
                 </div>
             </div>
-        </div> --}}
+        </div>
+        <div class="col-md-4">
+            <div class="row mb-3">
+                <div class="col">
+                    <table class="table table-hover border table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th style="width: 4rem;">Status</th>
+                                <th style="width: 8rem;">Last Update</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyDevices" style="height: 32vh;"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-hover border table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyState" style="height: 31vh;"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-
-    {{-- <div class="row p-3">
-        <div class="col-auto border p-3 me-3">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="toggleMesin" checked>
-                <label class="form-check-label" for="toggleMesin">Mesin <span class="badge bg-success" id="stateMesin">Menyala</span></label>
-            </div>
-        </div>
-        <div class="col-auto border p-3">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="togglePintu" checked>
-                <label class="form-check-label" for="togglePintu">Pintu <span class="badge bg-success" id="statePintu">Terbuka</span></label>
-            </div>
-        </div>
-    </div> --}}
 @endsection
 
 {{-- MODAL --}}
@@ -247,75 +129,146 @@
 {{-- JS --}}
 @section('js')
     <script>
-        mqtt.connect();
-        (function () {
-            /* =============================
-             *  DOM Section
-             * =============================
-             */
+        let selectedDevice = "undefined";
+        const access = @json(auth()->user()->device_uuids);
+        const keyOfState = {
+            SP1 :{
+                name: "Pintu 1",
+                state: ["Terbuka", "Tertutup"]
+            },
+            SP2 :{
+                name: "Pintu 2",
+                state: ["Terbuka", "Tertutup"]
+            },
+            MAG :{
+                name: "Kunci Pintu",
+                state: ["Tidak Terkunci", "Terkunci"]
+            },
+            PROX :{
+                name: "Proximity",
+                state: ["Tidak aman", "Aman"]
+            },
+            PB :{
+                name: "Emergency Button",
+                state: ["Bahaya", "Aman"]
+            },
+            RS :{
+                name: "Mesin",
+                state: ["Mati", "Menyala"]
+            },
+            DRI :{
+                name: "Driving Behaviour",
+                state: ["Tidak stabil", "Stabil"]
+            },
+            DRO :{
+                name: "Drowness",
+                state: ["Mengantuk", "Tidak Mengantuk"]
+            },
+            TANK :{
+                name: "Tutup Tangki",
+                state: ["Tidak tertutup", "Tertutup"]
+            }
+        }
+        const keyOfStateExcept = {
+            LAT :{
+                name: "Latitude"
+            },
+            LON :{
+                name: "Longitude"
+            },
+            LC :{
+                name: "Berat Kontainer"
+            }
+        }
 
-            const toggleMesin = document.querySelector('#toggleMesin');
-            const stateMesin = document.querySelector('#stateMesin');
+        let tbodyDevices = document.querySelector('#tbodyDevices');
+        let tbodyState = document.querySelector('#tbodyState');
+        let tbodyEvents = document.querySelector('#tbodyEvents');
+        let lastCoordinate = {
+            LAT : 0,
+            LON : 0
+        }
 
-            /* =============================
-             *  End DOM Section
-             * =============================
-             */
-
-
-
-
-            /* =============================
-             *  Global Variable Section
-             * =============================
-             */
-
-            /* =============================
-             *  End Global Variable Section
-             * =============================
-             */
-
-
-
-            /* =============================
-             *  Event Section
-             * =============================
-             */
-
-            toggleMesin.addEventListener('click', function () {
-                if (this.checked) {
-                    engineOnpub();
-                    stateMesin.innerHTML = "Menyala";
-                    stateMesin.classList.remove('bg-danger');
-                    stateMesin.classList.add('bg-success');
-                }
-                else {
-                    engineOffpub();
-                    stateMesin.innerHTML = "Mati";
-                    stateMesin.classList.remove('bg-success');
-                    stateMesin.classList.add('bg-danger');
-                }
+        axios.get("{{ route('dashboard.getDevices') }}")
+            .then(res => {
+                tbodyDevices.innerHTML = res.data;
+            })
+            .then(() => {
+                let cells = document.querySelectorAll('#tbodyDevices tr.itemDevice td');
+                cells.forEach(cell => {
+                    cell.onclick = function () {
+                        tbodyState.innerHTML = '';
+                        let rowId = this.parentNode.rowIndex;
+                        let rowsNotSelected = document.querySelectorAll('#tbodyDevices tr.itemDevice');
+                        rowsNotSelected.forEach(row => {
+                            row.classList.remove('table-active');
+                        });
+                        let rowSelected = document.querySelectorAll('#tbodyDevices tr.itemDevice')[rowId-1];
+                        rowSelected.classList.add('table-active');
+                        selectedDevice = rowSelected.dataset.uuid;
+                        axios.get("{{ route('dashboard.getDevice') }}", {
+                            params: {
+                                id: rowSelected.id.split('.')[1],
+                            }
+                        })
+                        .then(res => {
+                            tbodyState.innerHTML = res.data;
+                        });
+                    }
+                });
             });
 
-            togglePintu.addEventListener('click', function () {
-                if (this.checked) {
-                    unlockPintu();
-                    statePintu.innerHTML = "Terbuka";
-                    statePintu.classList.remove('bg-danger');
-                    statePintu.classList.add('bg-success');
-                }
-                else {
-                    lockPintu();
-                    statePintu.innerHTML = "Tertutup";
-                    statePintu.classList.remove('bg-success');
-                    statePintu.classList.add('bg-danger');
-                }
-            });
+        window.Echo.channel("EveryoneChannel").listen(".EveryoneMessage", function (e) {
+            let data = JSON.parse(e.message);
 
-            /* =============================
-             *  End Event Section
-             * =============================
-             */
-        })();
+            // Only display uuid owned
+            if (access.indexOf(data.UUID) >= 0) {
+                for (const [k, v] of Object.entries(data)) {
+                    if (['UUID', 'id', 'GX', 'GY', 'GZ'].indexOf(k) < 0) {
+                        if (k != "LC" && k != "LAT" && k != "LON") {
+                            if (data[k].isChange) {
+                                if (selectedDevice !== "undefined") {
+                                    if (data.UUID === selectedDevice) {
+                                        if (data[k].value === "1") {
+                                            document.querySelector(`#${k}`).innerHTML = `<span class="badge rounded-pill bg-success">${keyOfState[k].state[data[k].value]}</span>`;
+                                        }
+                                        else {
+                                            document.querySelector(`#${k}`).innerHTML = `<span class="badge rounded-pill bg-danger">${keyOfState[k].state[data[k].value]}</span>`;
+                                        }
+                                        let row = tbodyEvents.insertRow(0);
+                                        let cellDateTime = row.insertCell(0);
+                                        let cellEvent = row.insertCell(1);
+                                        let cellStatus = row.insertCell(2);
+                                        let cellCoordinate = row.insertCell(3);
+                                        row.classList.add(`${data[k].value === "1" ? "text-success" : "text-danger"}`)
+                                        cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                                        cellEvent.innerHTML = keyOfState[k].name;
+                                        cellStatus.innerHTML = keyOfState[k].state[data[k].value];
+                                        cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
+                                    }
+                                }
+                                Toast.fire({
+                                    icon: data[k].value == "1" ? 'info' : 'error',
+                                    title: `${keyOfState[k].name} ${keyOfState[k].state[data[k].value]}`,
+                                    footer: data.UUID
+                                });
+                            }
+                        }
+                        else {
+                            if (selectedDevice !== "undefined") {
+                                if (data.UUID === selectedDevice) {
+                                    document.querySelector(`#${k}`).innerHTML = data[k].value + `${k === 'LC' ? ' kg' : ''}`;
+                                    if (k !== 'LC') {
+                                        lastCoordinate[k] = data[k].value;
+                                    }
+                                }
+                            }
+                            // console.log(keyOfStateExcept[k].name + " : " + data[k].value + " : " + data[k].isChange);
+                        }
+                    }
+                }
+            }
+        });
+
     </script>
 @endsection

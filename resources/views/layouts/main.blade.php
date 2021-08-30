@@ -88,8 +88,10 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h4 class="mt-4">@yield('title-content', 'Title')</h4>
-                    <hr>
+                    @if (request()->route()->getName() !== 'dashboard.index')
+                        <h4 class="mt-4">@yield('title-content', 'Title')</h4>
+                        <hr>
+                    @endif
                     @yield('content', 'This is content')
                 </div>
             </main>
