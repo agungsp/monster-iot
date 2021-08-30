@@ -31,6 +31,7 @@ if (token) {
 }
 
 window.Swal = require("sweetalert2");
+window.moment = require("moment");
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

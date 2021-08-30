@@ -8,6 +8,8 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\RfidController;
 use App\Http\Controllers\DevicesController;
+use App\Models\Contract;
+use App\Models\Device;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,8 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', 'DashboardController@index')->name('index');
+        Route::get('get-devices', 'DashboardController@getDevices')->name('getDevices');
+        Route::get('get-device', 'DashboardController@getDevice')->name('getDevice');
     });
 
     Route::prefix('truck-monitoring')->name('truck-monitoring.')->group(function () {

@@ -5,7 +5,6 @@ namespace App\Helpers;
 use PhpMqtt\Client\Facades\MQTT;
 use PhpMqtt\Client\Exceptions\ConnectionNotAvailableException;
 use PhpMqtt\Client\Exceptions\MqttClientException;
-use App\Models\Device;
 
 
 class MqttHelper {
@@ -17,11 +16,6 @@ class MqttHelper {
             $mqtt->subscribe($topic, function (string $topic, string $message) {
                 print_r(json_decode($message));
                 broadcast(new \App\Events\SendDeviceEvent($message));
-                // $data = json_decode($message);
-                // $device = Device::where('uuid', $data->UUID)->first();
-                // if ($device->hasUser(auth()->user())) {
-                //     // broadcast(new \App\Events\SendDeviceEvent($message));
-                // }
             }, $qos);
             $mqtt->loop(true);
         } catch (MqttClientException $e) {

@@ -75,6 +75,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the device's uuid.
+     *
+     * @return array
+     */
+    public function getDeviceUuidsAttribute()
+    {
+        return $this->devices->pluck('uuid')->toArray();
+    }
+
+    /**
      * Check device
      *
      * @param Device $device Device
