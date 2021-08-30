@@ -135,27 +135,25 @@ class ContractsController extends Controller
             'jumlah.required' => 'Jumlah tidak boleh kosong',
         ]);
 
-        $company = Company::find($request->company_id);
-        dd($company);
+        $contract = Contract::find($id);
+        $company = Company::find($contract->company_id);
         $users = $company->users;
 
-        $devices = Device::where('is_available', true)->limit($request->jumlah)->get();
+        $devices = Device::where('is_available', true)->get();
 
-        if ( ($devices->count() + $company->devices->count() ) < $request->jumlah) {
+        if ( ($devices->count() + $contract->devices->count() ) < $request->jumlah) {
             return redirect()->back()->withInput()->with('error', 'Maaf, device tidak cukup');
         }
 
         // Remove device
-        foreach ($company->devices as $device) {
+        foreach ($contract->devices as $device) {
             $device->update(['is_available' => true]);
-            $company->removeDevice($device);
+            $contract->removeDevice($device);
             foreach ($users as $user) {
                 $user->removeDevice($device);
             }
         }
-        // dd($devices);
 
-        $contract = Contract::find($id);
         $contract->update([
             'company_id' => $request->company_id,
             'started_at' => $request->started_at,
@@ -164,10 +162,8 @@ class ContractsController extends Controller
         ]);
 
         $devices = Device::where('is_available', true)->limit($request->jumlah)->get();
-        $contract->updateDevice($devices);
-        // $contract->updateDe
-
-        foreach ($contract->users as $user) {
+        $contract->updateDevice($devices, $company);
+        foreach ($company->users as $user) {
             $user->updateDevice($devices);
         }
 

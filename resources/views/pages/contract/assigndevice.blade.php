@@ -18,8 +18,8 @@
 
 {{-- CONTENT --}}
 @section('content')
-    
-    <form action="{{ url('contract/updatedevice', $savedata[$id]->id) }}" method="POST">
+
+    <form action="{{ url('contract/updatedevice', $contract->id) }}" method="POST">
         @method('patch')
         @csrf
         <table class="table" id="datatable">
@@ -31,16 +31,14 @@
                 </tr>
             </thead>
             <tbody>
-                @if($savedata->count() > 0)
-                    @foreach ( $savedata as $contract )
-                        {{-- @dd($contract) --}}
+                @if($contract->devices->count() > 0)
+                    @foreach ( $contract->devices as $device )
                         <tr>
-                            <td class="serial">{{ $contract->id }}</td>
-                            <td><span class="name">{{ $contract->devices->uuid }}</span></td>
-                            {{-- <input type="hidden" name="uuid" value="{{ old('uuid', $contract->devices->uuid) }}" class="form-control @error('uuid') is-invalid @enderror"/> --}}
+                            <td class="serial">{{ $device->id }}</td>
+                            <td><input type="text" name="uuid[]" value="{{ $device->uuid }}" readonly></td>
                             <td>
                                 <span class="alias">
-                                    <input type="text" name="alias" value="{{ old('alias') }}" class="form-control @error('alias') is-invalid @enderror"/>
+                                    <input type="text" name="alias[]" value="{{ old('alias', $device->alias) }}" class="form-control @error('alias') is-invalid @enderror"/>
                                 </span>
                             </td>
                         </tr>
@@ -52,7 +50,6 @@
                 @endif
             </tbody>
         </table>
-        {{-- <input type="text" name="jumlahdevice" value="{{ $jumlahdevice }}"> --}}
         <div class="d-grid gap-2">
             <button class="btn btn-primary" type="submit">
                 Edit Data

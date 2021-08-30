@@ -50,7 +50,7 @@
                             <a href="{{ url('contract/assigndevice/'.$contract->id) }}" class="btn btn-success btn-sm">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{{ url('contract/edit/'.$contract->id) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('contract/edit/'.Crypt::encrypt($contract->id)) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <form action="{{ url('contract/destroy/'.$contract->id) }}" method="post" class="d-inline">
