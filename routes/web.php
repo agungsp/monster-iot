@@ -84,27 +84,17 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-<<<<<<< HEAD
-    Route::group(['middleware' => ['role:superadmin']], function () {
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
         Route::prefix('contract')->name('contract.')->group(function () {
             Route::get('/', [ContractsController::class,'index'])->name('index');
             Route::get('/create', [ContractsController::class,'create'])->name('create');
             Route::post('/store', [ContractsController::class,'store'])->name('store');
             Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
             Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
-            Route::delete('/destroy/{id}', [ContractsController::class,'destroy'])->name('destroy');
+            Route::delete('/delete/{id}', [ContractsController::class,'destroy'])->name('delete');
+            Route::get('/assigndevice/{id}', [Contract_DeviceController::class,'index'])->name('assigndevice');
+            Route::patch('/updatedevice/{id}', [Contract_DeviceController::class,'updatedevice'])->name('updatedevice');
         });
-=======
-    Route::prefix('contract')->name('contract.')->group(function () {
-        Route::get('/', [ContractsController::class,'index'])->name('index');
-        Route::get('/create', [ContractsController::class,'create'])->name('create');
-        Route::post('/store', [ContractsController::class,'store'])->name('store');
-        Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
-        Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
-        Route::delete('/delete/{id}', [ContractsController::class,'destroy'])->name('delete');
-        Route::get('/assigndevice/{id}', [Contract_DeviceController::class,'index'])->name('assigndevice');
-        Route::patch('/updatedevice/{id}', [Contract_DeviceController::class,'updatedevice'])->name('updatedevice');
->>>>>>> origin/dede
     });
 
     Route::group(['middleware' => ['role:superadmin|admin']], function () {
@@ -117,12 +107,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/destroy/{id}', [RfidController::class,'destroy'])->name('destroy');
         });
     });
-<<<<<<< HEAD
-    });
-    
-=======
 
 });
->>>>>>> origin/dede
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
