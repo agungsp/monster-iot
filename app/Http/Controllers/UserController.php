@@ -170,6 +170,9 @@ class UserController extends Controller
                 ),
             ]);
         }
+        $user = User::find($id);
+        $user->removeRole($request->rolecurrent);
+        $user->assignRole($request->role);
 
         return redirect('user/')->with('status', 'User berhasil di update!');
     }
