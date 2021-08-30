@@ -67,7 +67,7 @@
                             <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ url('user/destroy/'.$id) }}" method="post" class="d-inline" id="deleteData">
+                            <form action="{{ url('user/destroy/'.$user->id) }}" method="post" class="d-inline" id="deleteData">
                                 @csrf
                                 @method('delete')
                                 <button class="btn btn-danger btn-sm">

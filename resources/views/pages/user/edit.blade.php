@@ -54,6 +54,7 @@
                                     <option value="">- PILIH -</option>
                                     @foreach ($roles as $item)
                                         <option value="{{ $item->name }}">
+                                            {{ old('role', $rolecurrent) == $item->name ? 'selected' : null }}>
                                             {{ $item->name }}
                                         </option>
                                     @endforeach

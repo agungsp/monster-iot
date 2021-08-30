@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -119,11 +120,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $id = Crypt::decrypt($id);
         $user = User::where('id', $id)->first();
         $companies = Company::all();
         $roles = Role::all();
+        $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
 
-        return view('pages.user.edit', compact('user', 'companies', 'roles'));
+        return view('pages.user.edit', compact('user', 'companies', 'roles', 'rolecurrent'));
         // echo('tes');
     }
 
