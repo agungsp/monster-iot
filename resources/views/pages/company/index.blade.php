@@ -49,7 +49,7 @@
                         <td><span class="name">{{ $company->website }}</span></td>
                         <td><span class="name">{{ $company->address }}</span></td>
                         <td>
-                            <a href="{{ url('company/edit/'.$company->id) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('company/edit/'.Crypt::encrypt($company->id)) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <form action="{{ url('company/destroy/'.$company->id) }}" method="post" class="d-inline">

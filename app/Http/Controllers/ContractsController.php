@@ -7,6 +7,7 @@ use App\Models\Contract;
 use App\Models\Company;
 use App\Models\Device;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
 class ContractsController extends Controller
@@ -104,6 +105,7 @@ class ContractsController extends Controller
      */
     public function edit($id)
     {
+        $id = Crypt::decrypt($id);
         $contract = Contract::where('id', $id)->first();
         $company = Company::all();
         return view('pages.contract.edit', compact('contract', 'company'));

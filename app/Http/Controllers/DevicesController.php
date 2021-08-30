@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device;
+use Illuminate\Support\Facades\Crypt;
 // use Illuminate\Support\Facades\Hash;
 
 class DevicesController extends Controller
@@ -86,7 +87,8 @@ class DevicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+        $id = Crypt::decrypt($id);
         $devices = Device::where('id', $id)->first();
         return view('pages.devices.edit', compact('devices'));
         // echo('tes');

@@ -53,7 +53,7 @@
                     @endif
                     <td><span class="name">{{ $device->created_at }}</span></td>
                     <td>
-                        <a href="{{ url('devices/edit/'.$device->id) }}" class="btn btn-primary btn-sm">
+                        <a href="{{ url('devices/edit/'.Crypt::encrypt($device->id)) }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
                         {{-- <form action="" method="post" class="d-inline"> --}}

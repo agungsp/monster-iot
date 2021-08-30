@@ -64,10 +64,7 @@
                             <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail rounded-circle">
                         </td>
                         <td>
-                            <?php
-                                $id = Crypt::encrypt($user->id);
-                            ?>
-                            <a href="{{ url('user/edit/'.$id) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <form action="{{ url('user/destroy/'.$id) }}" method="post" class="d-inline" id="deleteData">

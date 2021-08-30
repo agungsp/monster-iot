@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
@@ -88,6 +89,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
+        $id = Crypt::decrypt($id);
         $companies = Company::where('id', $id)->first();
         return view('pages.company.edit')->with([
             'companies' => $companies

@@ -57,7 +57,7 @@
                         <td><span class="kilometer_end">{{ $rfid->kilometer_end }}</span></td>
                         <td><span class="is_broken">{{ $rfid->is_broken }}</span></td>
                         <td>
-                            <a href="{{ url('rfid/edit/'.$rfid->id) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('rfid/edit/'.Crypt::encrypt($rfid->id)) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <form action="{{ url('rfid/destroy/'.$rfid->id) }}" method="post" class="d-inline">
