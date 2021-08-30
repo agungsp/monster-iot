@@ -154,9 +154,11 @@ class RfidController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        Rfid::where('id', $id)->delete();
+        $id = $request->input('DeleteData_ByID');
+        $rfid = Rfid::find($id);
+        $rfid->delete();
         return redirect('rfid/')->with('status', 'RFID berhasil dihapus!');
     }
 }

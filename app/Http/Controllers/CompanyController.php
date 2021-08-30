@@ -136,9 +136,11 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        Company::where('id', $id)->delete();
+        $id = $request->input('DeleteData_ByID');
+        $company = Company::find($id);
+        $company->delete();
         return redirect('company/')->with('status', 'Company berhasil dihapus!');
     }
 }

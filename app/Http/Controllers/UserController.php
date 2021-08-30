@@ -183,9 +183,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        User::where('id', $id)->delete();
+        $id = $request->input('DeleteData_ByID');
+        $user = User::find($id);
+        $user->delete();
         return redirect('user/')->with('status', 'User berhasil dihapus!');
     }
 }

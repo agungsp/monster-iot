@@ -177,9 +177,11 @@ class ContractsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        Contract::where('id', $id)->delete();
+        $id = $request->input('DeleteData_ByID');
+        $contract = Contract::find($id);
+        $contract->delete();
         return redirect('contract/')->with('status', 'Contract berhasil dihapus!');
     }
 
