@@ -29,7 +29,7 @@ class Contract extends Model
      */
     public function devices()
     {
-        return $this->belongsToMany(Device::class, 'contract_device', 'contract_id', 'device_id');
+        return $this->belongsToMany(Device::class, 'contract_device', 'contract_id', 'device_id', 'company_id');
     }
 
     /**
@@ -86,5 +86,6 @@ class Contract extends Model
     public function updateDevice(Collection $devices)
     {
         $this->devices()->sync($devices->pluck('id'));
+        // $this->companies()->sync($company->pluck('id'));
     }
 }

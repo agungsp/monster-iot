@@ -85,6 +85,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
         Route::delete('/delete/{id}', [ContractsController::class,'destroy'])->name('delete');
         Route::get('/assigndevice/{id}', [Contract_DeviceController::class,'index'])->name('assigndevice');
+        Route::patch('/updatedevice/{id}', [Contract_DeviceController::class,'updatedevice'])->name('updatedevice');
     });
 
     Route::prefix('rfid')->name('rfid.')->group(function () {

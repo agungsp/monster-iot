@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contract_Device;
 use Illuminate\Http\Request;
+use App\Models\Device;
 
 class Contract_DeviceController extends Controller
 {
@@ -12,10 +13,18 @@ class Contract_DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $count = Contract_Device::orderBy('id', 'DESC')->paginate(Contract_Device::count());
-        dd($count);
+        // foreach($request as $data) {
+        $savedata = Contract_Device::with('devices')->where('contract_id', $id)->get();
+            // dd($data);
+        // }
+        // $id = [];
+        // dd($savedata);
+        return view('pages.contract.assigndevice')->with([
+            'savedata' => $savedata,
+            'id' => $id,
+        ]);
     }
 
     /**
@@ -68,9 +77,19 @@ class Contract_DeviceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updatedevice(Request $request, $id)
     {
-        //
+        if ($request->alias == null) {
+            return redirect('contract/')->with('status', 'Data berhasil di update!');
+        } else {
+            // for ($i = 0; $i < $request->jumlahdevice; $i++) {
+            //     // dd($id);
+            // }
+            Device::where('id', $id)->update([
+                'alias' => $request->alias
+            ]);
+            return redirect('contract/')->with('status', 'Data berhasil di update!');
+        }
     }
 
     /**
