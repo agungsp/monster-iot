@@ -8,6 +8,8 @@ use App\Models\Company;
 use App\Models\Device;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\Contract_Device;
+use App\Models\Rfid;
 use Illuminate\Support\Facades\Auth;
 
 class ContractsController extends Controller
@@ -19,6 +21,7 @@ class ContractsController extends Controller
      */
     public function index()
     {
+        // $devices = Device::all();
         $savedata = Contract::with('company')->orderBy('id', 'DESC')->paginate(Contract::count());
         return view('pages.contract.index')->with([
             'savedata' => $savedata
@@ -64,7 +67,7 @@ class ContractsController extends Controller
         $devices = Device::where('is_available', true)->limit($request->jumlah)->get();
 
         if ($devices->count() < $request->jumlah) {
-            return redirect()->back()->with('error', 'Maaf, device tidak cukup');
+            return redirect()->back()->withInput()->with('error', 'Maaf, device tidak cukup');
         }
 
         $contract = Contract::create([
@@ -133,30 +136,42 @@ class ContractsController extends Controller
         ]);
 
         $company = Company::find($request->company_id);
+        dd($company);
         $users = $company->users;
 
-        $devices = Device::where('is_available', false)->limit($request->jumlah)->get();
-        // dd($devices);
+        $devices = Device::where('is_available', true)->limit($request->jumlah)->get();
 
-        if ($devices->count() < $request->jumlah) {
-            return redirect()->back()->with('error', 'Maaf, device tidak cukup');
+        if ( ($devices->count() + $company->devices->count() ) < $request->jumlah) {
+            return redirect()->back()->withInput()->with('error', 'Maaf, device tidak cukup');
         }
 
-        $contract = Contract::where('id', $id)->update([
+        // Remove device
+        foreach ($company->devices as $device) {
+            $device->update(['is_available' => true]);
+            $company->removeDevice($device);
+            foreach ($users as $user) {
+                $user->removeDevice($device);
+            }
+        }
+        // dd($devices);
+
+        $contract = Contract::find($id);
+        $contract->update([
             'company_id' => $request->company_id,
             'started_at' => $request->started_at,
             'expired_at' => $request->expired_at,
             'updated_by' => Auth::id(),
         ]);
 
+        $devices = Device::where('is_available', true)->limit($request->jumlah)->get();
         $contract->updateDevice($devices);
+        // $contract->updateDe
 
-        foreach ($devices as $device) {
-            $device->updateUser($users);
-            $device->is_available = true;
-            $device->save();
+        foreach ($contract->users as $user) {
+            $user->updateDevice($devices);
         }
 
+        Device::whereIn('id', $devices->pluck('id'))->update(['is_available' => false]);
         return redirect('contract/')->with('status', 'Contract berhasil di update!');
     }
 
@@ -170,5 +185,16 @@ class ContractsController extends Controller
     {
         Contract::where('id', $id)->delete();
         return redirect('contract/')->with('status', 'Contract berhasil dihapus!');
+    }
+
+    public function assigndevice(Request $request, $id) {
+        // $savedata = Contract::with('company')->orderBy('id', 'DESC')->paginate(Contract::count());
+        // $devices = Contract::with('device')->orderBy('id', 'DESC')->paginate(Device::count());
+        $contractdevice = Rfid::all();
+        dd($contractdevice);
+        // return view('pages.contract.assigndevice')->with([
+        //     'savedata' => $savedata,
+        //     'devices' => $devices,
+        // ]);
     }
 }

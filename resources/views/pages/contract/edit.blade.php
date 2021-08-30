@@ -17,6 +17,11 @@
 @section('title-content', 'Contract')
 
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-md-5">
             <div class="card">
@@ -48,11 +53,11 @@
                             <input type="date" name="expired_at" value="{{ Carbon\Carbon::create($contract->expired_at)->toDateString() }}" class="form-control @error('expired_at') is-invalid @enderror"/>
                             @error('expired_at') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
-                        {{--  <div class="form-group">
-                            <label for="jumlah" class="form-control-label">Jumlah Devices</label>
+                        <div class="mb-3">
+                            <label for="jumlah" class="form-label">Jumlah Devices</label>
                             <input type="number" name="jumlah" value="{{ old('jumlah', $contract->jumlah) }}" class="form-control @error('jumlah') is-invalid @enderror"/>
                             @error('jumlah') <div class="text-muted">{{ $message }}</div> @enderror
-                        </div>  --}}
+                        </div>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary btn-block" type="submit">
                                 Edit Data

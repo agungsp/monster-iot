@@ -10,6 +10,7 @@ use App\Http\Controllers\RfidController;
 use App\Http\Controllers\DevicesController;
 use App\Models\Contract;
 use App\Models\Device;
+use App\Http\Controllers\Contract_DeviceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,7 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+<<<<<<< HEAD
     Route::group(['middleware' => ['role:superadmin']], function () {
         Route::prefix('contract')->name('contract.')->group(function () {
             Route::get('/', [ContractsController::class,'index'])->name('index');
@@ -92,6 +94,17 @@ Route::middleware('auth')->group(function () {
             Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
             Route::delete('/destroy/{id}', [ContractsController::class,'destroy'])->name('destroy');
         });
+=======
+    Route::prefix('contract')->name('contract.')->group(function () {
+        Route::get('/', [ContractsController::class,'index'])->name('index');
+        Route::get('/create', [ContractsController::class,'create'])->name('create');
+        Route::post('/store', [ContractsController::class,'store'])->name('store');
+        Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
+        Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
+        Route::delete('/delete/{id}', [ContractsController::class,'destroy'])->name('delete');
+        Route::get('/assigndevice/{id}', [Contract_DeviceController::class,'index'])->name('assigndevice');
+        Route::patch('/updatedevice/{id}', [Contract_DeviceController::class,'updatedevice'])->name('updatedevice');
+>>>>>>> origin/dede
     });
 
     Route::group(['middleware' => ['role:superadmin|admin']], function () {
@@ -104,7 +117,12 @@ Route::middleware('auth')->group(function () {
             Route::delete('/destroy/{id}', [RfidController::class,'destroy'])->name('destroy');
         });
     });
+<<<<<<< HEAD
     });
     
+=======
+
+});
+>>>>>>> origin/dede
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
