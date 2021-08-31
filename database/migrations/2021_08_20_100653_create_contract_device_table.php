@@ -16,7 +16,7 @@ class CreateContractDeviceTable extends Migration
         Schema::create('contract_device', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('contract_id')->index();
-            $table->unsignedBigInteger('davice_id')->index();
+            $table->unsignedBigInteger('device_id')->index();
         });
     }
 

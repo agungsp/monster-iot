@@ -434,6 +434,9 @@ function onMessageArrived(msg) {
         document.getElementById("LON").innerHTML = data.LON.value;
         lastCoordinate.LAT = data.LAT.value;
         lastCoordinate.LON = data.LON.value;
+        // L.marker([lastCoordinate.LAT, lastCoordinate.LON], {
+        //     icon: myIcon,
+        // }).addTo(map);
     }
 
     //  TAMBAHAN MULAI DISINI
@@ -452,12 +455,6 @@ function onMessageArrived(msg) {
                 document.getElementById("rfid1").innerHTML =
                     '<span class="badge rounded-pill bg-success">detected</span>';
             }
-
-            if (data.status == "0") {
-                document.getElementById("status1").innerHTML = "keluar";
-            } else {
-                document.getElementById("status1").innerHTML = "masuk";
-            }
         }
 
         if (data.id == "b2") {
@@ -467,12 +464,6 @@ function onMessageArrived(msg) {
             } else {
                 document.getElementById("rfid2").innerHTML =
                     '<span class="badge rounded-pill bg-success">detected</span>';
-            }
-
-            if (data.status == "0") {
-                document.getElementById("status2").innerHTML = "keluar";
-            } else {
-                document.getElementById("status2").innerHTML = "masuk";
             }
         }
 
@@ -484,12 +475,6 @@ function onMessageArrived(msg) {
                 document.getElementById("rfid3").innerHTML =
                     '<span class="badge rounded-pill bg-success">detected</span>';
             }
-
-            if (data.status == "0") {
-                document.getElementById("status3").innerHTML = "keluar";
-            } else {
-                document.getElementById("status3").innerHTML = "masuk";
-            }
         }
 
         if (data.id == "b4") {
@@ -499,12 +484,6 @@ function onMessageArrived(msg) {
             } else {
                 document.getElementById("rfid4").innerHTML =
                     '<span class="badge rounded-pill bg-success">detected</span>';
-            }
-
-            if (data.status == "0") {
-                document.getElementById("status4").innerHTML = "keluar";
-            } else {
-                document.getElementById("status4").innerHTML = "masuk";
             }
         }
     }
@@ -548,14 +527,14 @@ function unlockPintu() {
 }
 
 function engineOnpub() {
-    var pesanengineOn = new Paho.MQTT.Message("b0");
+    var pesanengineOn = new Paho.MQTT.Message("b1");
     pesanengineOn.destinationName =
         "/control/858771fe-15bb-4619-a36e-6a8f8094aaa1/eng";
     mqtt.send(pesanengineOn);
 }
 
 function engineOffpub() {
-    var pesanengineOff = new Paho.MQTT.Message("b1");
+    var pesanengineOff = new Paho.MQTT.Message("b0");
     pesanengineOff.destinationName =
         "/control/858771fe-15bb-4619-a36e-6a8f8094aaa1/eng";
     mqtt.send(pesanengineOff);
