@@ -56,6 +56,11 @@
             background: var(--bs-gray-dark);
         }
     </style>
+
+    <script src="{{ asset('js/sub.js') }}"></script>
+    <script>
+        MQTTconnect();
+    </script>
 @endsection
 
 {{-- TITLE --}}
