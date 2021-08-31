@@ -16,6 +16,7 @@ class CreateDeviceLogsTable extends Migration
         Schema::create('device_logs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('device_id')->index();
+            $table->string('uuid');
             $table->string('event');
             $table->string('value');
             $table->boolean('is_change');

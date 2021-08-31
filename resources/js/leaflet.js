@@ -1,5 +1,5 @@
 require("leaflet/dist/leaflet");
-let map = L.map("map").setView([-7.46311, 112.43192], 16);
+let map = L.map("map").setView([-7.31513, 112.79084], 16);
 let url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 let myIcon = L.icon({
     iconUrl: "../images/marker-icon.png",
@@ -19,6 +19,6 @@ L.tileLayer(url, {
     tileSize: 512,
     zoomOffset: -1,
 }).addTo(map);
-L.marker([-7.46311, 112.43192], {
+L.marker([-7.31513, 112.79084], {
     icon: myIcon,
 }).addTo(map);
