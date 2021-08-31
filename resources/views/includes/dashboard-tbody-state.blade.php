@@ -90,4 +90,39 @@
         8754837
     </td>
 </tr>
+<tr>
+    <td>RFID 1</td>
+    <td id="rfid1"></td>
+</tr>
+<tr>
+    <td>RFID 2</td>
+    <td id="rfid2"></td>
+</tr>
+<tr>
+    <td>RFID 3</td>
+    <td id="rfid3"></td>
+</tr>
+<tr>
+    <td>RFID 4</td>
+    <td id="rfid4"></td>
+</tr>
+<tr>
+    <td>Toogle Pintu</td>
+    <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-sm btn-success" onclick="lockPintu()">Lock</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="unlockPintu()">Unlock</button>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td>Toogle Mesin</td>
+    <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-sm btn-success" onclick="engineOnpub()">On</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="engineOffpub()">Off</button>
+        </div>
+    </td>
+</tr>
+
 

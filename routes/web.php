@@ -30,7 +30,8 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
-        Route::get('/', 'DashboardController@index')->name('index');
+        // Route::get('/', 'DashboardController@index')->name('index');
+        Route::view('/', 'pages.mario.index')->name('index');
         Route::get('get-devices', 'DashboardController@getDevices')->name('getDevices');
         Route::get('get-device', 'DashboardController@getDevice')->name('getDevice');
     });
