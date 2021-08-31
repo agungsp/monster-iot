@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device;
+use Illuminate\Support\Facades\Crypt;
 // use Illuminate\Support\Facades\Hash;
 
 class DevicesController extends Controller
@@ -59,7 +60,7 @@ class DevicesController extends Controller
 
         Device::create([
             'uuid' => $request->uuid,
-            'alias' => $request->alias,     
+            'alias' => $request->alias,
             'created_by' => $request->user()->id,
             'updated_by' => $request->user()->id,
 
@@ -87,6 +88,7 @@ class DevicesController extends Controller
      */
     public function edit($id)
     {
+        $id = Crypt::decrypt($id);
         $devices = Device::where('id', $id)->first();
         return view('pages.devices.edit', compact('devices'));
         // echo('tes');
@@ -122,9 +124,11 @@ class DevicesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        Device::where('id', $id)->delete();
-        return redirect('devices')->with('status', 'Device berhasil dihapus!');
+        $id = $request->input('DeleteData_ByID');
+        $device = Device::find($id);
+        $device->delete();
+        return redirect('devices/')->with('status', 'Device berhasil dihapus!');
     }
 }

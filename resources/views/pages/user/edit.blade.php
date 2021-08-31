@@ -26,22 +26,46 @@
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Username</label>
-                            <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-control @error('name') is-invalid @enderror" autofocus/>
+                            <input type="text" name="name" value="{{ old('name', $user->name) }}" placeholder="username" class="form-control @error('name') is-invalid @enderror" autofocus/>
                             @error('name') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label for="type" class="form-label">Email</label>
-                            <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control @error('email') is-invalid @enderror"/>
+                            <input type="email" name="email" value="{{ old('email', $user->email) }}" placeholder="email" class="form-control @error('email') is-invalid @enderror"/>
                             @error('email') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror"/>
-                            @error('password') <div class="text-muted">{{ $message }}</div> @enderror
+                            <label for="companmies" class="form-label">Company</label>
+                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
+                                <option value="">- PILIH -</option>
+                                @foreach ($companies as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('company_id', $user->company_id) == $item->id ? 'selected' : null }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
+                        @hasrole('superadmin')
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Role</label>
+                                <select name="role" class="form-control @error('role') is-invalid @enderror">
+                                    <option value="">- PILIH -</option>
+                                    @foreach ($roles as $item)
+                                        <option value="{{ $item->name }}"
+                                            {{ old('role', $rolecurrent) == $item->name ? 'selected' : null }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('role') <div class="text-muted">{{ $message }}</div> @enderror
+                            </div>
+                            <input type="hidden" id="role" name="rolecurrent" value="{{ old('role', $rolecurrent) }}" class="form-control @error('role') is-invalid @enderror" readonly/>
+                        @endhasrole
                         <div class="mb-4">
                             <label for="photo" class="form-label">Avatar</label>
-                            <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
+                            <input type="file" name="avatar" value="{{ old('avatar', $user->avatar) }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
                             @error('avatar') <div class="text-muted"> {{ $message }} </div> @enderror
                         </div>
                         <div class="d-grid gap-2">

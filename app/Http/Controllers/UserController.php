@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Company;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -15,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id', 'DESC')->paginate(User::count());
+        $users = User::with('company')->orderBy('id', 'DESC')->paginate(User::count());
         return view('pages.user.index')->with([
             'users' => $users
         ]);
@@ -33,10 +36,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $users = Company::all();
+        $roles = Role::all();
         // dd(User::all());
         return view('pages.user.create')->with([
-            'users' => $users
+            'users' => $users,
+            'roles' => $roles
         ]);
     }
 
@@ -48,26 +53,51 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required:3',
-            'email' => 'required',
-            'password' => 'required',
-            'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
-        ], [
-            'name.required' => 'Username tidak boleh kosong',
-            'email.required' => 'Email tidak boleh kosong',
-            'password.required' => 'Password tidak boleh kosong',
-            'avatar.required' => 'Avatar tidak boleh kosong',
-        ]);
+        if ($request->avatar == null) {
+            $request->validate([
+                'name' => 'required:3',
+                'email' => 'required',
+                'password' => 'required',
+                'company_id' => 'required|integer|exists:companies,id',
+            ], [
+                'name.required' => 'Username tidak boleh kosong',
+                'email.required' => 'Email tidak boleh kosong',
+                'password.required' => 'Password tidak boleh kosong',
+                'company_id.required' => 'Company tidak boleh kosong',
+            ]);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'company_id' => $request->company_id,
+            ]);
+        } else {
+            $request->validate([
+                'name' => 'required:3',
+                'email' => 'required',
+                'password' => 'required',
+                'company_id' => 'required|integer|exists:companies,id',
+                'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
+            ], [
+                'name.required' => 'Username tidak boleh kosong',
+                'email.required' => 'Email tidak boleh kosong',
+                'password.required' => 'Password tidak boleh kosong',
+                'company_id.required' => 'Company tidak boleh kosong',
+                'avatar.required' => 'File harus images',
+            ]);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'company_id' => $request->company_id,
+                'avatar' => $request->file('avatar')->store(
+                    'assets/avatar', 'public'
+                ),
+            ]);
+        }
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'avatar' => $request->file('avatar')->store(
-                'assets/avatar', 'public'
-            ),
-        ]);
+        $user->assignRole($request->role);
+
         return redirect('user/')->with('status', 'User berhasil ditambah!');
     }
 
@@ -90,8 +120,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $id = Crypt::decrypt($id);
         $user = User::where('id', $id)->first();
-        return view('pages.user.edit', compact('user'));
+        $companies = Company::all();
+        $roles = Role::all();
+        $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
+
+        return view('pages.user.edit', compact('user', 'companies', 'roles', 'rolecurrent'));
         // echo('tes');
     }
 
@@ -107,23 +142,38 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required:3',
             'email' => 'required',
-            'password' => 'required',
-            'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
+            'company_id' => 'required|integer|exists:companies,id',
         ], [
             'name.required' => 'Username tidak boleh kosong',
             'email.required' => 'Email tidak boleh kosong',
-            'password.required' => 'Password tidak boleh kosong',
-            'avatar.required' => 'Avatar tidak boleh kosong',
+            'company_id.required' => 'Company tidak boleh kosong',
         ]);
 
         User::where('id', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'avatar' => $request->file('avatar')->store(
-                'assets/avatar', 'public'
-            ),
+            'company_id' => $request->company_id,
         ]);
+
+        if ($request->avatar == null) {
+
+        } else {
+            $request->validate([
+                'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
+            ], [
+                'avatar.required' => 'File harus images',
+            ]);
+
+            User::where('id', $id)->update([
+                'avatar' => $request->file('avatar')->store(
+                    'assets/avatar', 'public'
+                ),
+            ]);
+        }
+        $user = User::find($id);
+        $user->removeRole($request->rolecurrent);
+        $user->assignRole($request->role);
+
         return redirect('user/')->with('status', 'User berhasil di update!');
     }
 
@@ -133,9 +183,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        User::where('id', $id)->delete();
+        $id = $request->input('DeleteData_ByID');
+        $user = User::find($id);
+        $user->delete();
         return redirect('user/')->with('status', 'User berhasil dihapus!');
     }
 }

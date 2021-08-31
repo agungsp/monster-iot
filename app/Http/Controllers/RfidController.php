@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rfid;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Ramsey\Uuid\Uuid;
 
 class RfidController extends Controller
@@ -98,6 +99,7 @@ class RfidController extends Controller
      */
     public function edit($id)
     {
+        $id = Crypt::decrypt($id);
         $rfid = Rfid::where('id', $id)->first();
         return view('pages.rfid.edit')->with([
             'rfid' => $rfid
@@ -152,9 +154,11 @@ class RfidController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        Rfid::where('id', $id)->delete();
+        $id = $request->input('DeleteData_ByID');
+        $rfid = Rfid::find($id);
+        $rfid->delete();
         return redirect('rfid/')->with('status', 'RFID berhasil dihapus!');
     }
 }

@@ -16,35 +16,58 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        //
-        Permission::create([
-            'name' => 'control engine'
-        ]);
+        Permission::create(['name' => 'viewDashboard']);
+        Permission::create(['name' => 'viewContact']);
+        Permission::create(['name' => 'controlEngine']);
 
-        Permission::create([
-            'name' => 'view kendaraan all'
-        ]);
+        Permission::create(['name' => 'viewUsers']);
+        Permission::create(['name' => 'createUsers']);
+        Permission::create(['name' => 'createUserClient']);
+        Permission::create(['name' => 'editUsers']);
+        Permission::create(['name' => 'editUserClient']);
+        Permission::create(['name' => 'deleteUsers']);
 
-        Permission::create([
-            'name' => 'view kendaraan sewa'
-        ]);
+        Permission::create(['name' => 'viewDevices']);
+        Permission::create(['name' => 'createDevices']);
+        Permission::create(['name' => 'editDevices']);
+        Permission::create(['name' => 'deleteDevices']);
 
-        Permission::create([
-            'name' => 'view kendaraan dimiliki'
-        ]);
+        Permission::create(['name' => 'viewCompanies']);
+        Permission::create(['name' => 'createCompanies']);
+        Permission::create(['name' => 'editCompanies']);
+        Permission::create(['name' => 'deleteCompanies']);
+
+        Permission::create(['name' => 'viewContracts']);
+        Permission::create(['name' => 'createContracts']);
+        Permission::create(['name' => 'editContracts']);
+        Permission::create(['name' => 'deleteContracts']);
+
+        Permission::create(['name' => 'viewRFID']);
+        Permission::create(['name' => 'createRFID']);
+        Permission::create(['name' => 'editRFID']);
+        Permission::create(['name' => 'deleteRFID']);
+
 
 
 
         //===== Give Permission =====
 
-        $role = Role::findByName('superadmin');                  //super admin
+        // super admin
+        $role = Role::findByName('superadmin');
         $role->givePermissionTo(Permission::all());
 
-        $role = Role::findByName('admin');                  //admin
-        $role->givePermissionTo('view kendaraan dimiliki', 'control engine');
+        // admin / perusahaan
+        $role = Role::findByName('admin');
+        $role->givePermissionTo(
+            'viewDashboard', 'viewContact',
+            'viewUsers', 'createUserClient', 'editUserClient', 'deleteUsers',
+            'viewDevices', 'editDevices', 'controlEngine',
+            'viewRFID', 'editRFID'
+        );
 
-        $role = Role::findByName('user');                  //user
-        $role->givePermissionTo('view kendaraan sewa');
+        // user / client
+        $role = Role::findByName('user');
+        $role->givePermissionTo('viewDashboard', 'viewContact');
 
         
     }

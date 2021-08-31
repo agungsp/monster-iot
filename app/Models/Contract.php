@@ -9,10 +9,18 @@ use Illuminate\Support\Collection;
 class Contract extends Model
 {
     use HasFactory;
-    protected $fillable = ['company_id', 'started_at', 'expired_at', 'created_by', 'updated_by'];
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    protected $table = 'contracts';
+
+    public function contract_device()
+    {
+        return $this->belongsTo(Contract_Device::class, 'device_id', 'id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
 
     /**
      * The devices that belong to the Contract
@@ -78,5 +86,6 @@ class Contract extends Model
     public function updateDevice(Collection $devices)
     {
         $this->devices()->sync($devices->pluck('id'));
+        // $this->companies()->sync($company->pluck('id'));
     }
 }

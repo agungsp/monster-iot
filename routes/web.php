@@ -10,6 +10,7 @@ use App\Http\Controllers\RfidController;
 use App\Http\Controllers\DevicesController;
 use App\Models\Contract;
 use App\Models\Device;
+use App\Http\Controllers\Contract_DeviceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,10 +40,6 @@ Route::middleware('auth')->group(function () {
        Route::get('/','TruckMonitoringController@index')->name('index');
     });
 
-    Route::prefix('devices')->name('devices.')->group(function () {
-        Route::get('/','DevicesController@index')->name('index');
-     });
-
     Route::view('contact', 'pages.contact')->name('contact');
 
     Route::view('test', 'pages.test');
@@ -52,52 +49,66 @@ Route::middleware('auth')->group(function () {
         return response('Send');
     });
 
-    Route::prefix('devices')->name('devices.')->group(function () {
-        Route::get('/', [DevicesController::class,'index'])->name('index');
-        Route::get('/create', [DevicesController::class,'create'])->name('create');
-        Route::post('/store', [DevicesController::class,'store'])->name('store');
-        Route::get('/edit/{id}', [DevicesController::class,'edit'])->name('edit');
-        Route::patch('/update/{id}', [DevicesController::class,'update'])->name('update');
-        Route::delete('/destroy/{id}', [DevicesController::class,'destroy'])->name('destroy');
-        // Route::resource('user', UserController::class);
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
+        Route::prefix('devices')->name('devices.')->group(function () {
+            Route::get('/', [DevicesController::class,'index'])->name('index');
+            Route::get('/create', [DevicesController::class,'create'])->name('create');
+            Route::post('/store', [DevicesController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [DevicesController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [DevicesController::class,'update'])->name('update');
+            Route::delete('/destroy', [DevicesController::class,'destroy'])->name('destroy');
+            // Route::resource('user', UserController::class);
+        });
     });
 
-    Route::prefix('user')->name('user.')->group(function () {
-        Route::get('/', [UserController::class,'index'])->name('index');
-        Route::get('/create', [UserController::class,'create'])->name('create');
-        Route::post('/store', [UserController::class,'store'])->name('store');
-        Route::get('/edit/{id}', [UserController::class,'edit'])->name('edit');
-        Route::patch('/update/{id}', [UserController::class,'update'])->name('update');
-        Route::delete('/destroy/{id}', [UserController::class,'destroy'])->name('destroy');
-        // Route::resource('user', UserController::class);
+
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('/', [UserController::class,'index'])->name('index');
+            Route::get('/create', [UserController::class,'create'])->name('create');
+            Route::post('/store', [UserController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [UserController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [UserController::class,'update'])->name('update');
+            Route::delete('/destroy', [UserController::class,'destroy'])->name('destroy');
+            // Route::resource('user', UserController::class);
+        });
     });
 
-    Route::prefix('company')->name('company.')->group(function () {
-        Route::get('/', [CompanyController::class,'index'])->name('index');
-        Route::get('/create', [CompanyController::class,'create'])->name('create');
-        Route::post('/store', [CompanyController::class,'store'])->name('store');
-        Route::get('/edit/{id}', [CompanyController::class,'edit'])->name('edit');
-        Route::patch('/update/{id}', [CompanyController::class,'update'])->name('update');
-        Route::delete('/destroy/{id}', [CompanyController::class,'destroy'])->name('destroy');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::prefix('company')->name('company.')->group(function () {
+            Route::get('/', [CompanyController::class,'index'])->name('index');
+            Route::get('/create', [CompanyController::class,'create'])->name('create');
+            Route::post('/store', [CompanyController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [CompanyController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [CompanyController::class,'update'])->name('update');
+            Route::delete('/destroy', [CompanyController::class,'destroy'])->name('destroy');
+        });
     });
 
-    Route::prefix('contract')->name('contract.')->group(function () {
-        Route::get('/', [ContractsController::class,'index'])->name('index');
-        Route::get('/create', [ContractsController::class,'create'])->name('create');
-        Route::post('/store', [ContractsController::class,'store'])->name('store');
-        Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
-        Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
-        Route::delete('/destroy/{id}', [ContractsController::class,'destroy'])->name('destroy');
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
+        Route::prefix('contract')->name('contract.')->group(function () {
+            Route::get('/', [ContractsController::class,'index'])->name('index');
+            Route::get('/create', [ContractsController::class,'create'])->name('create');
+            Route::post('/store', [ContractsController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
+            Route::delete('/destroy', [ContractsController::class,'destroy'])->name('destroy');
+            Route::get('/assigndevice/{id}', [Contract_DeviceController::class,'index'])->name('assigndevice');
+            Route::patch('/updatedevice/{id}', [Contract_DeviceController::class,'updatedevice'])->name('updatedevice');
+        });
     });
 
-    Route::prefix('rfid')->name('rfid.')->group(function () {
-        Route::get('/', [RfidController::class,'index'])->name('index');
-        Route::get('/create', [RfidController::class,'create'])->name('create');
-        Route::post('/store', [RfidController::class,'store'])->name('store');
-        Route::get('/edit/{id}', [RfidController::class,'edit'])->name('edit');
-        Route::patch('/update/{id}', [RfidController::class,'update'])->name('update');
-        Route::delete('/destroy/{id}', [RfidController::class,'destroy'])->name('destroy');
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
+        Route::prefix('rfid')->name('rfid.')->group(function () {
+            Route::get('/', [RfidController::class,'index'])->name('index');
+            Route::get('/create', [RfidController::class,'create'])->name('create');
+            Route::post('/store', [RfidController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [RfidController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [RfidController::class,'update'])->name('update');
+            Route::delete('/destroy', [RfidController::class,'destroy'])->name('destroy');
+        });
     });
+
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

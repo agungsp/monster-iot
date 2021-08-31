@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
@@ -45,7 +46,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email:rfc,dns',
             'phone' => 'required',
             'website' => 'required',
             'address' => 'required',
@@ -88,6 +89,7 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
+        $id = Crypt::decrypt($id);
         $companies = Company::where('id', $id)->first();
         return view('pages.company.edit')->with([
             'companies' => $companies
@@ -134,9 +136,11 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        Company::where('id', $id)->delete();
+        $id = $request->input('DeleteData_ByID');
+        $company = Company::find($id);
+        $company->delete();
         return redirect('company/')->with('status', 'Company berhasil dihapus!');
     }
 }
