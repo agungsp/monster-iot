@@ -24,7 +24,7 @@
         </div>
     @endif
     @can('createRFID')
-        <a href="{{ url('rfid/create') }}" class="btn btn-success btn-sm float-end">
+        <a href="{{ url('rfid/create') }}" class="btn btn-success btn-sm float-end" title="Add">
             <i class="fa fa-plus"></i> Add
         </a>
     @endcan
@@ -57,10 +57,10 @@
                         <td><span class="kilometer_end">{{ $rfid->kilometer_end }}</span></td>
                         <td><span class="is_broken">{{ $rfid->is_broken }}</span></td>
                         <td>
-                            <a href="{{ url('rfid/edit/'.Crypt::encrypt($rfid->id)) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('rfid/edit/'.Crypt::encrypt($rfid->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $rfid->id }}">
+                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $rfid->id }}" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>

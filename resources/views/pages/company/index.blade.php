@@ -23,7 +23,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <a href="{{ url('company/create') }}" class="btn btn-success btn-sm float-end">
+    <a href="{{ url('company/create') }}" class="btn btn-success btn-sm float-end" title="Add">
         <i class="fa fa-plus"></i> Add
     </a>
     <table class="table" id="datatable">
@@ -46,13 +46,13 @@
                         <td><span class="name">{{ $company->name }}</span></td>
                         <td><span class="name">{{ $company->email }}</span></td>
                         <td><span class="name">{{ $company->phone }}</span></td>
-                        <td><span class="name">{{ $company->website }}</span></td>
+                        <td><span class="name"> <a href="{{ $company->website }}" target="_blank"> {{ $company->website }} </a></span></td>
                         <td><span class="name">{{ $company->address }}</span></td>
                         <td>
-                            <a href="{{ url('company/edit/'.Crypt::encrypt($company->id)) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('company/edit/'.Crypt::encrypt($company->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $company->id }}">
+                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $company->id }}" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>

@@ -23,7 +23,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <a href="{{ url('contract/create') }}" class="btn btn-success btn-sm float-end">
+    <a href="{{ url('contract/create') }}" class="btn btn-success btn-sm float-end" title="Add">
         <i class="fa fa-plus"></i> Add
     </a>
     <table class="table" id="datatable">
@@ -47,13 +47,19 @@
                         <td><span class="name">{{ $contract->expired_at }}</span></td>
                         <td><span class="name">{{ $contract->devices->count() }}</span></td>
                         <td>
-                            <a href="{{ url('contract/assigndevice/'.$contract->id) }}" class="btn btn-success btn-sm">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="{{ url('contract/edit/'.Crypt::encrypt($contract->id)) }}" class="btn btn-primary btn-sm">
+                            @if ($contract->devices->count() != null)
+                                <a href="{{ url('contract/assigndevice/'.$contract->id) }}" class="btn btn-success btn-sm" title="Show">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            @else
+                                <button class="btn btn-success btn-sm" disabled>
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            @endif
+                            <a href="{{ url('contract/edit/'.Crypt::encrypt($contract->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $contract->id }}">
+                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $contract->id }}" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
@@ -71,6 +77,32 @@
 {{-- MODAL --}}
 @section('modal')
     {{-- Delete Modal --}}
+    <div class="modal" id="deletemodal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url('contract/destroy') }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="title">
+                    <h4 style="margin-left: 15px;">Are you sure delete data?</h4>
+                </div>
+                <input type="hidden" id="deleting_id" name="DeleteData_ByID">
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Delete Data</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{-- End Delete Modal --}}
+
+    {{-- Assign Devices Modal --}}
     <div class="modal" id="deletemodal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -29,7 +29,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <a href="{{ route('user.create') }}" class="btn btn-success btn-sm float-end">
+    <a href="{{ route('user.create') }}" class="btn btn-success btn-sm float-end" title="Add">
         <i class="fa fa-plus"></i> Add
     </a>
     <table class="table" id="datatable">
@@ -65,10 +65,10 @@
                             <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail rounded-circle">
                         </td>
                         <td>
-                            <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}">
+                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>

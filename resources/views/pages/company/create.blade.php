@@ -66,12 +66,14 @@
 
 {{-- JS --}}
 @section('js')
-{{--  <script src="{{ asset('js/cleave.min.js') }}"></script>
+<script src="{{ asset('js/cleave.min.js') }}"></script>
 <script src="cleave-phone.{ID}.js"></script>
 <script>
-    var cleave = new Cleave('.phone', {
-        phone: true,
-        phoneRegionCode: '{ID}'
-    });
-</script>  --}}
+    // import "cleave.js/dist/addons/cleave-phone.your-country-here";
+    // import Cleave from 'cleave.js/react';
+    // var cleave = new Cleave('.phone', {
+    //     phone: true,
+    //     phoneRegionCode: 'ID'
+    // });
+</script>
 @endsection
