@@ -44,11 +44,12 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        $regex = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email:rfc,dns',
+            'email' => 'email:rfc,dns',
             'phone' => 'required',
-            'website' => 'required',
+            'website' => 'required|regex:'.$regex,
             'address' => 'required',
         ], [
             'name.required' => 'Name tidak boleh kosong',
@@ -107,7 +108,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'email:rfc,dns',
             'phone' => 'required',
             'website' => 'required',
             'address' => 'required',

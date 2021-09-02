@@ -18,7 +18,6 @@ class Contract_DeviceController extends Controller
     {
         $contract = Contract::find($id);
         // $devices = $contract->devices;
-
         return view('pages.contract.assigndevice', compact('contract'));
     }
 

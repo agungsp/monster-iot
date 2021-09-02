@@ -25,7 +25,7 @@
         </div>
     @endif
     @can('createDevices')
-        <a href="{{ url('devices/create') }}" class="btn btn-success btn-sm float-end">
+        <a href="{{ url('devices/create') }}" class="btn btn-success btn-sm float-end" title="Add">
             <i class="fa fa-plus"></i> Add
         </a>
     @endcan
@@ -53,10 +53,10 @@
                     @endif
                     <td><span class="name">{{ $device->created_at }}</span></td>
                     <td>
-                        <a href="{{ url('devices/edit/'.Crypt::encrypt($device->id)) }}" class="btn btn-primary btn-sm">
+                        <a href="{{ url('devices/edit/'.Crypt::encrypt($device->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button class="btn btn-danger deletebtn btn-sm" value="{{ $device->id }}">
+                        <button class="btn btn-danger deletebtn btn-sm" value="{{ $device->id }}" title="Delete">
                             <i class="fa fa-trash"></i>
                         </button>
                         {{-- <form action="" method="post" class="d-inline"> --}}

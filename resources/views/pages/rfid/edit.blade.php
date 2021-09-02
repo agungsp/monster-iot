@@ -56,12 +56,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="kilometer_start" class="form-label">KM Start</label>
-                            <input type="number" name="kilometer_start" value="{{ old('kilometer_start', $rfid->kilometer_start) }}" class="form-control @error('kilometer_start') is-invalid @enderror"/>
+                            <input type="text" name="kilometer_start" value="{{ old('kilometer_start', $rfid->kilometer_start) }}" class="form-control number1 @error('kilometer_start') is-invalid @enderror" data-index="1"/>
                             @error('kilometer_start') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label for="kilometer_end" class="form-label">KM End</label>
-                            <input type="number" name="kilometer_end" value="{{ old('kilometer_end', $rfid->kilometer_end) }}" class="form-control @error('kilometer_end') is-invalid @enderror"/>
+                            <input type="text" name="kilometer_end" value="{{ old('kilometer_end', $rfid->kilometer_end) }}" class="form-control number2 @error('kilometer_end') is-invalid @enderror" data-index="2"/>
                             @error('kilometer_end') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
@@ -87,5 +87,16 @@
 
 {{-- JS --}}
 @section('js')
+<script src="{{ asset('js/cleave.min.js') }}"></script>
+<script>
+    var cleave = new Cleave('.number1', {
+        numeral: true,
+        numeralThousandsGroupStyle: 'thousand'
+    });
 
+    var cleave = new Cleave('.number2', {
+        numeral: true,
+        numeralThousandsGroupStyle: 'thousand'
+    });
+</script>
 @endsection
