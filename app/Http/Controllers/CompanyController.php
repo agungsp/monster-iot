@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\Contract;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::orderBy('id', 'DESC')->paginate(Company::count());
+        $companies = Company::with('contracts')->orderBy('id', 'DESC')->paginate(Company::count());
         return view('pages.company.index')->with([
             'companies' => $companies
         ]);

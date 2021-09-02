@@ -7,7 +7,7 @@
 
 {{-- CSS --}}
 @section('css')
-
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 @endsection
 
 {{-- TITLE --}}
@@ -68,6 +68,11 @@
                             <input type="file" name="avatar" value="{{ old('avatar', $user->avatar) }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
                             @error('avatar') <div class="text-muted"> {{ $message }} </div> @enderror
                         </div>
+
+                        <div class="mb-4">
+                            <label for="is_active" class="form-label">Is Active</label>
+                            <input class="toggle-one" checked type="checkbox">
+                        </div>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" type="submit">
                                 Save
@@ -86,5 +91,10 @@
 
 {{-- JS --}}
 @section('js')
-
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script>
+        $(function() {
+            $('.toggle-one').bootstrapToggle();
+        })
+    </script>
 @endsection
