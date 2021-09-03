@@ -31,6 +31,7 @@
             <tr>
                 <th class="serial">#</th>
                 <th>Nama</th>
+                <th>Company from contract</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Website</th>
@@ -44,6 +45,7 @@
                     <tr>
                         <td class="serial">{{ $companies->firstItem() + $key }}</td>
                         <td><span class="name">{{ $company->name }}</span></td>
+                        <td><span class="name">{{ $company->name }}</span></td>
                         <td><span class="name">{{ $company->email }}</span></td>
                         <td><span class="name">{{ $company->phone }}</span></td>
                         <td><span class="name"> <a href="{{ $company->website }}" target="_blank"> {{ $company->website }} </a></span></td>
@@ -52,6 +54,9 @@
                             <a href="{{ url('company/edit/'.Crypt::encrypt($company->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
+                            {{-- @if ($contract->company->name != null) {
+
+                            } --}}
                             <button class="btn btn-danger deletebtn btn-sm" value="{{ $company->id }}" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </button>

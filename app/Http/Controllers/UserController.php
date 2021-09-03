@@ -63,7 +63,7 @@ class UserController extends Controller
         if ($request->avatar == null) {
             $request->validate([
                 'name' => 'required:3',
-                'email' => 'email:rfc,dns',
+                'email' => 'unique:users|email|:rfc,dns',
                 'password' => 'required',
                 'company_id' => 'required|integer|exists:companies,id',
             ], [
@@ -81,7 +81,7 @@ class UserController extends Controller
         } else {
             $request->validate([
                 'name' => 'required:3',
-                'email' => 'email:rfc,dns',
+                'email' => 'unique:users|email:rfc,dns',
                 'password' => 'required',
                 'company_id' => 'required|integer|exists:companies,id',
                 'avatar' => 'required|mimes:jpeg,bmp,png,jpg',
@@ -148,7 +148,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required:3',
-            'email' => 'email:rfc,dns',
+            'email' => 'unique:users|email:rfc,dns',
             'company_id' => 'required|integer|exists:companies,id',
         ], [
             'name.required' => 'Username tidak boleh kosong',
@@ -198,5 +198,19 @@ class UserController extends Controller
         return redirect('user/')->with('status', 'User berhasil dihapus!');
     }
 
-    
+    public function trash()
+    {
+        $users = User::with('company')->onlyTrashed()->paginate(User::onlyTrashed()->count());
+        // dd($users);
+        return view('pages.user.trash')->with([
+            'users' => $users
+        ]);
+    }
+
+    public function restore(Request $request)
+    {
+        $id = $request->input('restoredata_byid');
+        $user = User::with('company')->onlyTrashed()->find($id)->restore();
+        return redirect('user/')->with('status', 'User berhasil di restore!');
+    }
 }

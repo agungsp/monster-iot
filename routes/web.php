@@ -70,9 +70,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [UserController::class,'edit'])->name('edit');
             Route::patch('/update/{id}', [UserController::class,'update'])->name('update');
             Route::delete('/destroy', [UserController::class,'destroy'])->name('destroy');
-            Route::get('/filter', [UserController::class,'filter'])->name('filter');
-            Route::post('/cari', [UserController::class,'cari'])->name('cari');
-            // Route::resource('user', UserController::class);
+            Route::get('/trash', [UserController::class,'trash'])->name('trash');
+            Route::get('/restore', [UserController::class,'restore'])->name('restore');
         });
     });
 

@@ -42,7 +42,7 @@
                 @foreach ( $savedata as $key => $contract )
                     <tr>
                         <td class="serial">{{ $savedata->firstItem() + $key }}</td>
-                        <td><span class="name">{{ $contract->company->name }}</span></td>
+                        <td><span class="name">{{ $contract->company->name }}</span></td>   
                         <td><span class="name">{{ $contract->started_at }}</span></td>
                         <td><span class="name">{{ $contract->expired_at }}</span></td>
                         <td><span class="name">{{ $contract->devices->count() }}</span></td>
