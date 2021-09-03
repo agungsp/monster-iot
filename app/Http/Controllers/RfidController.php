@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Rfid;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use DateTime;
+use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 
 class RfidController extends Controller
@@ -18,8 +20,19 @@ class RfidController extends Controller
     public function index()
     {
         $savedata = Rfid::orderBy('id', 'DESC')->paginate(Rfid::count());
+
+        $saveexpired = Rfid::get();
+        foreach($saveexpired as $apply) {
+            $tmp[] = $apply->expired_at;
+        }
+        // dd($tmp);
+        // dd($saveexpired->expired_at);
+
+        $expired_at = Carbon::parse($tmp)->subDays(7)->toDateString();
+        // dd($expired_at);
         return view('pages.rfid.index')->with([
-            'savedata' => $savedata
+            'savedata' => $savedata,
+            'expired_at' => $expired_at,
         ]);
     }
 
@@ -50,6 +63,7 @@ class RfidController extends Controller
             'type' => 'required',
             'sn' => 'required',
             'buy_at' => 'required',
+            'expired_at' => 'required',
             'kilometer_start' => 'required',
             'kilometer_end' => 'required',
             'is_broken' => 'required',
@@ -59,6 +73,7 @@ class RfidController extends Controller
             'type.required' => 'Tipe tidak boleh kosong',
             'sn.required' => 'Serial tidak boleh kosong',
             'buy_at.required' => 'Kolom tidak boleh kosong',
+            'expired_at.required' => 'Expired at tidak boleh kosong',
             'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
             'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
             'is_broken.required' => 'is_broken tidak boleh kosong',
@@ -70,6 +85,7 @@ class RfidController extends Controller
             'type' => $request->type,
             'sn' => $request->sn,
             'buy_at' => $request->buy_at,
+            'expired_at' => $request->expired_at,
             'kilometer_start' => $request->kilometer_start,
             'kilometer_end' => $request->kilometer_end,
             'is_broken' => $request->is_broken,
@@ -120,6 +136,7 @@ class RfidController extends Controller
             'type' => 'required',
             'sn' => 'required',
             'buy_at' => 'required',
+            'expired_at' => 'required',
             'kilometer_start' => 'required',
             'kilometer_end' => 'required',
             'is_broken' => 'required',
@@ -128,6 +145,7 @@ class RfidController extends Controller
             'type.required' => 'Tipe tidak boleh kosong',
             'sn.required' => 'Serial tidak boleh kosong',
             'buy_at.required' => 'Kolom tidak boleh kosong',
+            'expired_at.required' => 'Expired at tidak boleh kosong',
             'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
             'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
             'is_broken.required' => 'is_broken tidak boleh kosong',
@@ -139,6 +157,7 @@ class RfidController extends Controller
             'type' => $request->type,
             'sn' => $request->sn,
             'buy_at' => $request->buy_at,
+            'expired_at' => $request->expired_at,
             'kilometer_start' => $request->kilometer_start,
             'kilometer_end' => $request->kilometer_end,
             'is_broken' => $request->is_broken,

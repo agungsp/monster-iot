@@ -31,11 +31,12 @@
             <tr>
                 <th class="serial">#</th>
                 <th>Nama</th>
-                <th>Company from contract</th>
+                {{-- <th>Company from contract</th> --}}
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Website</th>
                 <th>Address</th>
+                <th>Created At</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -45,11 +46,12 @@
                     <tr>
                         <td class="serial">{{ $companies->firstItem() + $key }}</td>
                         <td><span class="name">{{ $company->name }}</span></td>
-                        <td><span class="name">{{ $company->name }}</span></td>
+                        {{-- <td><span class="name">{{ $company->name }}</span></td> --}}
                         <td><span class="name">{{ $company->email }}</span></td>
                         <td><span class="name">{{ $company->phone }}</span></td>
                         <td><span class="name"> <a href="{{ $company->website }}" target="_blank"> {{ $company->website }} </a></span></td>
                         <td><span class="name">{{ $company->address }}</span></td>
+                        <td><span class="name">{{ $company->created_at }}</span></td>
                         <td>
                             <a href="{{ url('company/edit/'.Crypt::encrypt($company->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>

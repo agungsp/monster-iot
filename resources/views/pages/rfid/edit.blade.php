@@ -55,6 +55,11 @@
                             @error('buy_at') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
+                            <label for="expired_at" class="form-label">Expired At</label>
+                            <input type="date" name="expired_at" value="{{ Carbon\Carbon::create($rfid->expired_at)->toDateString() }}" class="form-control expired_at @error('expired_at') is-invalid @enderror"/>
+                            @error('expired_at') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-3">
                             <label for="kilometer_start" class="form-label">KM Start</label>
                             <input type="text" name="kilometer_start" value="{{ old('kilometer_start', $rfid->kilometer_start) }}" class="form-control number1 @error('kilometer_start') is-invalid @enderror" data-index="1"/>
                             @error('kilometer_start') <div class="text-muted">{{ $message }}</div> @enderror
