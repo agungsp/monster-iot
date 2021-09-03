@@ -37,6 +37,7 @@
                 <th>Type</th>
                 <th>SN</th>
                 <th>Buy At</th>
+                <th>Expired At</th>
                 <th>KM Start</th>
                 <th>KM End</th>
                 <th>Is Broken</th>
@@ -53,6 +54,15 @@
                         <td><span class="type">{{ $rfid->type }}</span></td>
                         <td><span class="sn">{{ $rfid->sn }}</span></td>
                         <td><span class="buy_at">{{ $rfid->buy_at }}</span></td>
+                        <td>
+                            @if(now() >= $rfid->expired_at)
+                                <span class="expired_at" style="background-color: red;">{{ $rfid->expired_at }}</span>
+                            @elseif(now() >= $expired_at && now() < $rfid->expired_at )
+                                <span class="expired_at" style="background-color: yellow;">{{ $rfid->expired_at }}</span>
+                            @else
+                                <span class="expired_at">{{ $rfid->expired_at }}</span>
+                            @endif
+                        </td>
                         <td><span class="kilometer_start">{{ $rfid->kilometer_start }}</span></td>
                         <td><span class="kilometer_end">{{ $rfid->kilometer_end }}</span></td>
                         <td><span class="is_broken">{{ $rfid->is_broken }}</span></td>
@@ -68,7 +78,7 @@
                 @endforeach
             @else
                 <tr>
-                    <td colspan="10" class="text-center">Data Kosong</td>
+                    <td colspan="11" class="text-center">Data Kosong</td>
                 </tr>
             @endif
         </tbody>
