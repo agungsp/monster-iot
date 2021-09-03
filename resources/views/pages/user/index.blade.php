@@ -45,7 +45,7 @@
                 <th>Company</th>
                 <th>Role</th>
                 <th>Avatar</th>
-                {{-- <th>Is Active</th>  --}}
+                <th>Is Active</th> 
                 <th>Action</th>
             </tr>
         </thead>
