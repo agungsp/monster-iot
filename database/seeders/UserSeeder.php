@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'vendor',
             'email' => 'vendor@mail.com',
             'password' => bcrypt('12345678'),
+            'is_active' => 1
         ]);
         $vendor->assignRole('superadmin');
 
@@ -26,7 +27,8 @@ class UserSeeder extends Seeder
             'name' => 'User Company',
             'email' => 'user.company@mail.com',
             'password' => bcrypt('12345678'),
-            'company_id' => 1
+            'company_id' => 1,
+            'is_active' => 1
         ]);
         $userCompany->assignRole('admin');
 
