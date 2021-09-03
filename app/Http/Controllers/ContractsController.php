@@ -148,10 +148,10 @@ class ContractsController extends Controller
         // Remove device
         foreach ($contract->devices as $device) {
             $device->update(['is_available' => true]);
-            $contract->removeDevice($device);
-            foreach ($users as $user) {
-                $user->removeDevice($device);
-            }
+            // $contract->removeDevice($device);
+            // foreach ($users as $user) {
+            //     $user->removeDevice($device);
+            // }
         }
 
         $contract->update([
@@ -162,7 +162,8 @@ class ContractsController extends Controller
         ]);
 
         $devices = Device::where('is_available', true)->limit($request->jumlah)->get();
-        $contract->updateDevice($devices, $company);
+
+        $contract->updateDevice($devices);
         foreach ($company->users as $user) {
             $user->updateDevice($devices);
         }

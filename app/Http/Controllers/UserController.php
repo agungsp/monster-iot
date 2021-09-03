@@ -142,7 +142,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required:3',
-            'email' => 'unique:users|email:rfc,dns',
+            'email' => 'email:rfc,dns',
             'company_id' => 'required|integer|exists:companies,id',
         ], [
             'name.required' => 'Username tidak boleh kosong',
