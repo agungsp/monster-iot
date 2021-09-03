@@ -20,6 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $userCompany = Auth::user()->company_id;
+        // $userId = Auth::user()->id;
         if(Auth::user()->hasRole('admin')){
             $users = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany)->orderBy('id', 'DESC')->paginate(User::count());
         } else {
@@ -27,7 +28,8 @@ class UserController extends Controller
         }
         $users1 = $users;
         return view('pages.user.index')->with([
-            'users' => $users1
+            'users' => $users1,
+            // 'userAuthId' => $userId
         ]);
     }
 
@@ -77,6 +79,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'company_id' => $request->company_id,
+                'is_active' => $request->is_active,
             ]);
         } else {
             $request->validate([
@@ -97,6 +100,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'company_id' => $request->company_id,
+                'is_active' => $request->is_active,
                 'avatar' => $request->file('avatar')->store(
                     'assets/avatar', 'public'
                 ),
@@ -160,6 +164,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'company_id' => $request->company_id,
+            'is_active' => $request->is_activeVal,
         ]);
 
         if ($request->avatar == null) {

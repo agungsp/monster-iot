@@ -68,11 +68,36 @@
                             <input type="file" name="avatar" value="{{ old('avatar', $user->avatar) }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
                             @error('avatar') <div class="text-muted"> {{ $message }} </div> @enderror
                         </div>
-
-                        <div class="mb-4">
-                            <label for="is_active" class="form-label">Is Active</label>
-                            <input class="toggle-one" checked type="checkbox">
-                        </div>
+                        @hasrole('superadmin')
+                            <div class="mb-4">
+                                <div class="form-check form-switch">
+                                    @if($user->is_active == 1)
+                                        <input class="form-check-input" type="checkbox" id="is_active" checked>
+                                        <label class="form-check-label" for="is_active"><span class="badge bg-success" id="stateAktif">Aktif</span></label>
+                                    @else
+                                        <input class="form-check-input" type="checkbox" id="is_active">
+                                        <label class="form-check-label" for="is_active"><span class="badge bg-danger" id="stateAktif">Tidak Aktif</span></label>
+                                    @endif
+                                    <input type="hidden" name="is_activeVal" id="is_activeVal" value="{{ old('is_active', $user->is_active) }}"/>
+                                </div>
+                            </div>
+                        @endhasrole
+                        @hasrole('admin')
+                            @if($rolecurrent != "admin")
+                                <div class="mb-4">
+                                    <div class="form-check form-switch">
+                                        @if($user->is_active == 1)
+                                            <input class="form-check-input" type="checkbox" id="is_active" checked>
+                                            <label class="form-check-label" for="is_active"><span class="badge bg-success" id="stateAktif">Aktif</span></label>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="is_active">
+                                            <label class="form-check-label" for="is_active"><span class="badge bg-danger" id="stateAktif">Tidak Aktif</span></label>
+                                        @endif
+                                        <input type="hidden" name="is_activeVal" id="is_activeVal" value="{{ old('is_active', $user->is_active) }}"/>
+                                    </div>
+                                </div>
+                            @endif
+                        @endhasrole
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" type="submit">
                                 Save
@@ -96,5 +121,25 @@
         $(function() {
             $('.toggle-one').bootstrapToggle();
         })
+    </script>
+    <script>
+        const is_active = document.querySelector('#is_active');
+        const stateAktif = document.querySelector('#stateAktif');
+        const is_activeVal = document.querySelector('#is_activeVal');
+
+        is_active.addEventListener('click', function () {
+            if (this.checked) {
+                stateAktif.innerHTML = "Aktif";
+                stateAktif.classList.remove('bg-danger');
+                stateAktif.classList.add('bg-success');
+                is_activeVal.value = '1';
+            }
+            else {
+                stateAktif.innerHTML = "Tidak Aktif";
+                stateAktif.classList.remove('bg-success');
+                stateAktif.classList.add('bg-danger');
+                is_activeVal.value = '0';
+            }
+        });
     </script>
 @endsection

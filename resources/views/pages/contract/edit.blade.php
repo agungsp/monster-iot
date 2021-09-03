@@ -58,6 +58,10 @@
                             <input type="number" name="jumlah" value="{{ old('jumlah', $contract->jumlah) }}" class="form-control @error('jumlah') is-invalid @enderror"/>
                             @error('jumlah') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="keterangan" class="form-label">Keterangan</label>
+                            <textarea class="form-control" name="keterangan" rows="5">{{ old('keterangan') }}</textarea>
+                        </div>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary btn-block" type="submit">
                                 Edit Data

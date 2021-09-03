@@ -74,6 +74,7 @@ class ContractsController extends Controller
             'company_id' => $request->company_id,
             'started_at' => $request->started_at,
             'expired_at' => $request->expired_at,
+            'keterangan' => $request->keterangan,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
         ]);
@@ -156,6 +157,7 @@ class ContractsController extends Controller
 
         $contract->update([
             'company_id' => $request->company_id,
+            'keterangan' => $request->keterangan,
             'started_at' => $request->started_at,
             'expired_at' => $request->expired_at,
             'updated_by' => Auth::id(),

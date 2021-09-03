@@ -74,6 +74,7 @@
                             <input type="file" name="avatar" value="{{ old('avatar') }}" accept="image/*" class="form-control @error('avatar') is-invalid @enderror">
                             @error('avatar') <div class="text-muted"> {{ $message }} </div> @enderror
                         </div>
+                        <input type="hidden" name="is_active" value="1" class="form-control" readonly/>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary btn-block" type="submit">
                                 Save
