@@ -45,7 +45,7 @@
                 <th>Company</th>
                 <th>Role</th>
                 <th>Avatar</th>
-                <th>Is Active</th> 
+                <th>Status</th> 
                 <th>Action</th>
             </tr>
         </thead>
@@ -71,18 +71,28 @@
                         </td>
                         <td>
                             @if ($user->is_active == 1)
-                                <input class="toggle-one" checked type="checkbox" value="{{ $user->is_active }}">
+                                <span class="name badge bg-success">Aktif</span>
                             @else
-                                <input class="toggle-one" type="checkbox" value="{{ $user->is_active }}">
+                                <span class="name badge bg-danger">Tidak Aktif</span>
                             @endif
                         </td>
                         <td>
                             <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}" title="Delete">
-                                <i class="fa fa-trash"></i>
-                            </button>
+                            @hasrole('superadmin')
+                                <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}" title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            @endhasrole
+                            @hasrole('admin')
+                                @if( str_replace(['["','"]'], '', $user->getRoleNames()) != 'admin' || Auth::user()->id != $user->id)
+                                    <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}" title="Delete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                @endif
+                                
+                            @endhasrole
                         </td>
                     </tr>
                 @endforeach
