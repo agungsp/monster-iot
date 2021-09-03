@@ -32,6 +32,9 @@
     <a href="{{ route('user.create') }}" class="btn btn-success btn-sm float-end" title="Add">
         <i class="fa fa-plus"></i> Add
     </a>
+    <a href="{{ route('user.filter') }}" class="btn btn-info btn-sm float-end mx-1" title="Add">
+        <i class="fa fa-plus"></i> Filter
+    </a>
     <table class="table" id="datatable">
         <thead>
             <tr>
