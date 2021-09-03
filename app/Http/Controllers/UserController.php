@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -18,10 +19,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('company')->orderBy('id', 'DESC')->paginate(User::count());
-        // dd($users);
+        $userCompany = Auth::user()->company_id;
+        if(Auth::user()->hasRole('admin')){
+            $users = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany)->orderBy('id', 'DESC')->paginate(User::count());
+        } else {
+            $users = User::with('company')->orderBy('id', 'DESC')->paginate(User::count());
+        }
+        $users1 = $users;
         return view('pages.user.index')->with([
-            'users' => $users
+            'users' => $users1
         ]);
     }
 
