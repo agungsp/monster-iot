@@ -77,21 +77,30 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
+                            {{-- <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
-                            </a>
+                            </a> --}}
                             @hasrole('superadmin')
+                                <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
                                 <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}" title="Delete">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             @endhasrole
                             @hasrole('admin')
-                                @if( str_replace(['["','"]'], '', $user->getRoleNames()) != 'admin' || Auth::user()->id != $user->id)
+                                @if(str_replace(['["','"]'], '', $user->getRoleNames()) != 'admin' && Auth::user()->id != $user->id)
+                                    <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                     <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}" title="Delete">
                                         <i class="fa fa-trash"></i>
                                     </button>
-                                @endif
-                                
+                                @elseif(str_replace(['["','"]'], '', $user->getRoleNames()) == 'admin' && Auth::user()->id == $user->id)
+                                    <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endif      
                             @endhasrole
                         </td>
                     </tr>
