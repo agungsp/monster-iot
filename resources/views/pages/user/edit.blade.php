@@ -78,11 +78,11 @@
                                         <input class="form-check-input" type="checkbox" id="is_active">
                                         <label class="form-check-label" for="is_active"><span class="badge bg-danger" id="stateAktif">Tidak Aktif</span></label>
                                     @endif
-                                    <input type="hidden" name="is_activeVal" id="is_activeVal" value="{{ old('is_active', $user->is_active) }}"/>
                                 </div>
                             </div>
                         @endhasrole
                         @hasrole('admin')
+                            <input type="hidden" id="role" name="role" value="{{ old('role', $rolecurrent) }}" class="form-control @error('role') is-invalid @enderror" readonly/>   
                             @if($rolecurrent != "admin")
                                 <div class="mb-4">
                                     <div class="form-check form-switch">
@@ -98,6 +98,8 @@
                                 </div>
                             @endif
                         @endhasrole
+                        <input type="hidden" name="is_activeVal" id="is_activeVal" value="{{ old('is_active', $user->is_active) }}"/>
+                        <input type="hidden" id="role" name="rolecurrent" value="{{ old('role', $rolecurrent) }}" class="form-control @error('role') is-invalid @enderror" readonly/>
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary" type="submit">
                                 Save
