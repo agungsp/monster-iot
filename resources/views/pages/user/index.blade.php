@@ -42,9 +42,9 @@
                 <th class="serial">#</th>
                 <th>Nama</th>
                 <th>Email</th>
-                {{-- <th>Company</th>
+                {{-- <th>Company</th> --}}
                 <th>Role</th>
-                <th>Avatar</th>
+                {{-- <th>Avatar</th>
                 <th>Status</th>  --}}
                 <th>Action</th>
             </tr>
@@ -161,9 +161,10 @@
                 {data: 'id', name: 'id'},
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
+                {data: 'role', name: 'role', type: 'html'},
                 {
-                    data: 'view', 
-                    name: 'view',
+                    data: 'action', 
+                    name: 'action',
                     type: 'html', 
                     orderable: false, 
                     searchable: false

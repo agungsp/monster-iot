@@ -36,9 +36,21 @@ class UserController extends Controller
     public function getDataUser()
     {
         $user = User::all();
+        // $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
         return DataTables::of($user)
-        ->addColumn('view', '<a class="btn btn-primary" href="#" role="button">Link</a>')
-        ->rawColumns(['view'])
+        ->addColumn('role', function($user){
+            if($user->hasRole('superadmin')){
+                return '<span class="name badge bg-primary">'.str_replace(['["','"]', ","], '',$user->getRoleNames()).'</span>';
+            } elseif($user->hasRole('admin')){
+                return '<span class="name badge bg-warning">'.str_replace(['["','"]', ","], '',$user->getRoleNames()).'</span>';
+            } elseif($user->hasRole('user')){
+                return '<span class="name badge bg-danger">'.str_replace(['["','"]', ","], '',$user->getRoleNames()).'</span>';
+            } else {
+                return '';
+            }
+        })
+        ->addColumn('action', '<a class="btn btn-primary" href="#" role="button">Link</a>')
+        ->rawColumns(['role', 'action'])
         ->make(true);
     }
 
