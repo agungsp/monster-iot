@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
@@ -19,24 +20,27 @@ class UserController extends Controller
      */
     public function index()
     {
-        $userCompany = Auth::user()->company_id;
-        // $userId = Auth::user()->id;
-        if(Auth::user()->hasRole('admin')){
-            $users = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany)->orderBy('id', 'DESC')->paginate(User::count());
-        } else {
-            $users = User::with('company')->orderBy('id', 'DESC')->paginate(User::count());
-        }
-        $users1 = $users;
-        return view('pages.user.index')->with([
-            'users' => $users1,
-            // 'userAuthId' => $userId
-        ]);
+        // $userCompany = Auth::user()->company_id;
+        // if(Auth::user()->hasRole('admin')){
+        //     $users = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany)->orderBy('id', 'DESC')->paginate(User::count());
+        // } else {
+        //     $users = User::with('company')->orderBy('id', 'DESC')->paginate(User::count());
+        // }
+        // $users1 = $users;
+        // return view('pages.user.index')->with([
+        //     'users' => $users1,
+        // ]);
+        return view('pages.user.index');
     }
 
-    // public function getDataUser()
-    // {
-    //     return User::all();
-    // }
+    public function getDataUser()
+    {
+        $user = User::all();
+        return DataTables::of($user)
+        ->addColumn('view', '<a class="btn btn-primary" href="#" role="button">Link</a>')
+        ->rawColumns(['view'])
+        ->make(true);
+    }
 
     /**
      * Show the form for creating a new resource.
