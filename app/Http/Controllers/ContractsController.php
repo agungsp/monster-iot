@@ -30,16 +30,44 @@ class ContractsController extends Controller
         return view('pages.contract.index');
     }
 
-    public function getContract(Request $request)
+    public function getContract()
     {
-        if ($request->ajax()) {
-            $model = Contract::with('company')->with('devices');
-                return DataTables::eloquent($model)
-                ->addColumn('company', function(Contract $contract){
-                    return $contract->company->name;
-                })
-                ->toJson();
-        }
+        // if ($request->ajax()) {
+        //     $model = Contract::with('company')->with('devices');
+        //         return DataTables::eloquent($model)
+        //         ->addColumn('company', function(Contract $contract){
+        //             return $contract->company->name;
+        //         })
+        //         ->toJson();
+        // }
+        $devices = Device::all();
+        $contract = Contract::all();
+        // dd($contract->devices->count());
+        return DataTables::of($contract)
+        ->addColumn('company', function($contract) {
+            if (empty($contract->company_id)) {
+                return '';
+            } else {
+                return $contract->company->name;
+            }
+        })
+        ->addColumn('jumlahdevice', function($contract) {
+            if (empty($contract->devices->count())) {
+                return 0;
+            } else {
+                return $contract->devices->count();
+            }
+        })
+        ->addColumn('action', function ($contract) {
+            if ($contract->devices->count() == null) {
+                $action = '<button class="btn btn-success btn-sm" disabled><i class="fas fa-eye"></i></button>';
+            } else {
+                $action = '<a href="contract/assigndevice/'.$contract->id.'" class="btn btn-success btn-sm me-2" title="Assign Device"><i class="fas fa-eye"></i></a>';
+            }
+            $action .= '<a href="contract/edit/'.Crypt::encrypt($contract->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
+            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $contract->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            return $action;
+        })->make(true);
     }
 
     /**
@@ -126,6 +154,7 @@ class ContractsController extends Controller
         $id = Crypt::decrypt($id);
         $contract = Contract::where('id', $id)->first();
         $company = Company::all();
+        // dd($contract->devices->count());
         return view('pages.contract.edit', compact('contract', 'company'));
     }
 

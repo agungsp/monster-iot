@@ -35,8 +35,8 @@
                 <th>Phone</th>
                 <th>Website</th>
                 <th>Address</th>
-                {{--  <th>Created At</th>
-                <th>Action</th>  --}}
+                <th>Created At</th>
+                <th>Action</th>
             </tr>
         </thead>
         {{--  <tbody>
@@ -120,6 +120,14 @@
                 {data: 'phone', name: 'phone'},
                 {data: 'website', name: 'website'},
                 {data: 'address', name: 'address'},
+                {data: 'created_at', name: 'created_at'},
+                {
+                    data: 'action',
+                    name: 'action',
+                    type: 'html',
+                    orderable: false,
+                    searchable: false
+                },
             ]
         });
 
