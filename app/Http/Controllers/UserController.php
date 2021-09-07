@@ -37,9 +37,9 @@ class UserController extends Controller
     {
         $userCompany = Auth::user()->company_id;
         if(Auth::user()->hasRole('admin')){
-            $getusers = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany)->orderBy('id', 'DESC');
+            $getusers = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany);
         } else {
-            $getusers = User::with('company')->orderBy('id', 'DESC');
+            $getusers = User::with('company');
         }
         $users = $getusers;
         // $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
