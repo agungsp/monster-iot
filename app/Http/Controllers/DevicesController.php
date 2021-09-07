@@ -36,6 +36,9 @@ class DevicesController extends Controller
                 return '<span class="name badge bg-danger">Tidak Tersedia</span>';
             }
         })
+        ->addColumn('created_at', function ($device) {
+            return $device->created_at;
+        })
         ->addColumn('action', function ($device) {
             $action = '<a href="devices/edit/'.Crypt::encrypt($device->id).'" class="btn btn-primary btn-sm me-2" title="Edit"> <i class="fas fa-edit"></i> </a>';
             $action .= '<button class="btn btn-danger deletebtn btn-sm" value="' .$device->id. '" title="Delete"><i class="fa fa-trash"></i></button>';

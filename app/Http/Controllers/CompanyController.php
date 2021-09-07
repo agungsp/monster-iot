@@ -32,11 +32,14 @@ class CompanyController extends Controller
         ->addColumn('website', function ($company) {
             return '<span class="name"> <a href="'.$company->website.'" target="_blank"> ' .$company->website. ' </a></span>';
         })
+        ->addColumn('created_at', function ($company) {
+            return $company->created_at;
+        })
         ->addColumn('action', function ($company) {
             $action = '<a href="company/edit/'.Crypt::encrypt($company->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
             $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $company->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
             return $action;
-        })->rawColumns(['website', 'action'])
+        })->rawColumns(['website', 'created_at', 'action'])
         ->make(true);
     }
 
