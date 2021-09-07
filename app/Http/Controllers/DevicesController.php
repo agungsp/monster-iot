@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Device;
 use Illuminate\Support\Facades\Crypt;
 // use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
 class DevicesController extends Controller
 {
@@ -16,17 +17,19 @@ class DevicesController extends Controller
      */
     public function index()
     {
-        $devices = Device::all();
-        // dd(User::all());
-        return view('pages.devices.index')->with([
-            'devices' => $devices
-        ]);
+        // $devices = Device::all();
+        // // dd(User::all());
+        // return view('pages.devices.index')->with([
+        //     'devices' => $devices
+        // ]);
+        return view('pages.devices.index');
     }
 
-    // public function getDataUser()
-    // {
-    //     return User::all();
-    // }
+    public function getDevices()
+    {
+        $device = Device::all();
+        return DataTables::of($device)->make(true);
+    }
 
     /**
      * Show the form for creating a new resource.

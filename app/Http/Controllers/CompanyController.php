@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Contract;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class CompanyController extends Controller
 {
@@ -17,10 +18,17 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::with('contracts')->orderBy('id', 'DESC')->paginate(Company::count());
-        return view('pages.company.index')->with([
-            'companies' => $companies
-        ]);
+        // $companies = Company::with('contracts')->orderBy('id', 'DESC')->paginate(Company::count());
+        // return view('pages.company.index')->with([
+        //     'companies' => $companies
+        // ]);
+        return view('pages.company.index');
+    }
+
+    public function getCompany()
+    {
+        $company = Company::all();
+        return DataTables::of($company)->make(true);
     }
 
     /**

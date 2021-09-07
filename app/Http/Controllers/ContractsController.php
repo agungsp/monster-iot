@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\Contract_Device;
 use App\Models\Rfid;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class ContractsController extends Controller
 {
@@ -22,10 +23,23 @@ class ContractsController extends Controller
     public function index()
     {
         // $devices = Device::all();
-        $savedata = Contract::with('company')->orderBy('id', 'DESC')->paginate(Contract::count());
-        return view('pages.contract.index')->with([
-            'savedata' => $savedata
-        ]);
+        // $savedata = Contract::with('company')->orderBy('id', 'DESC')->paginate(Contract::count());
+        // return view('pages.contract.index')->with([
+        //     'savedata' => $savedata
+        // ]);
+        return view('pages.contract.index');
+    }
+
+    public function getContract(Request $request)
+    {
+        if ($request->ajax()) {
+            $model = Contract::with('company')->with('devices');
+                return DataTables::eloquent($model)
+                ->addColumn('company', function(Contract $contract){
+                    return $contract->company->name;
+                })
+                ->toJson();
+        }
     }
 
     /**

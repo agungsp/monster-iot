@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Crypt;
 use DateTime;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
+use Yajra\DataTables\Facades\DataTables;
 
 class RfidController extends Controller
 {
@@ -19,21 +20,30 @@ class RfidController extends Controller
      */
     public function index()
     {
-        $savedata = Rfid::orderBy('id', 'DESC')->paginate(Rfid::count());
+        // $savedata = Rfid::orderBy('id', 'DESC')->paginate(Rfid::count());
 
-        $saveexpired = Rfid::get();
-        foreach($saveexpired as $apply) {
-            $tmp[] = $apply->expired_at;
-        }
-        // dd($tmp);
-        // dd($saveexpired->expired_at);
+        // // dd($savedata);
 
-        $expired_at = Carbon::parse($tmp)->subDays(7)->toDateString();
-        // dd($expired_at);
-        return view('pages.rfid.index')->with([
-            'savedata' => $savedata,
-            'expired_at' => $expired_at,
-        ]);
+        // // $saveexpired = Rfid::get();
+        // // foreach($saveexpired as $apply) {
+        // //     $tmp = $apply->expired_at;
+        // // }
+        // // dd($tmp);
+        // // dd($saveexpired->expired_at);
+
+        // // $expired_at = Carbon::subDays(7)->toDateString();
+        // // dd($expired_at);
+        // return view('pages.rfid.index')->with([
+        //     'savedata' => $savedata,
+        //     // 'expired_at' => $expired_at,
+        // ]);
+        return view('pages.rfid.index');
+    }
+
+    public function getRfid()
+    {
+        $rfid = Rfid::all();
+        return DataTables::of($rfid)->make(true);
     }
 
     /**

@@ -33,9 +33,9 @@
     <a href="{{ route('user.create') }}" class="btn btn-success btn-sm float-end" title="Add">
         <i class="fa fa-plus"></i> Add
     </a>
-    <a href="{{ route('user.trash') }}" class="btn btn-danger btn-sm float-end" title="Trash">
+    {{--  <a href="{{ route('user.trash') }}" class="btn btn-danger btn-sm float-end" title="Trash">
         <i class="fa fa-trash"></i> Trash
-    </a>
+    </a>  --}}
     <table class="table" id="datatable">
         <thead>
             <tr>
@@ -97,7 +97,7 @@
                                     <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                @endif      
+                                @endif
                             @endhasrole
                         </td>
                     </tr>
@@ -163,10 +163,10 @@
                 {data: 'email', name: 'email'},
                 {data: 'role', name: 'role', type: 'html'},
                 {
-                    data: 'action', 
+                    data: 'action',
                     name: 'action',
-                    type: 'html', 
-                    orderable: false, 
+                    type: 'html',
+                    orderable: false,
                     searchable: false
                 },
             ]

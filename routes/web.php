@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['role:superadmin|admin']], function () {
         Route::prefix('devices')->name('devices.')->group(function () {
             Route::get('/', [DevicesController::class,'index'])->name('index');
+            Route::get('/getDevices', [DevicesController::class,'getDevices'])->name('getDevices');
             Route::get('/create', [DevicesController::class,'create'])->name('create');
             Route::post('/store', [DevicesController::class,'store'])->name('store');
             Route::get('/edit/{id}', [DevicesController::class,'edit'])->name('edit');
@@ -79,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['role:superadmin']], function () {
         Route::prefix('company')->name('company.')->group(function () {
             Route::get('/', [CompanyController::class,'index'])->name('index');
+            Route::get('/getCompany', [CompanyController::class,'getCompany'])->name('getCompany');
             Route::get('/create', [CompanyController::class,'create'])->name('create');
             Route::post('/store', [CompanyController::class,'store'])->name('store');
             Route::get('/edit/{id}', [CompanyController::class,'edit'])->name('edit');
@@ -90,6 +92,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['role:superadmin|admin']], function () {
         Route::prefix('contract')->name('contract.')->group(function () {
             Route::get('/', [ContractsController::class,'index'])->name('index');
+            Route::get('/getContract', [ContractsController::class,'getContract'])->name('getContract');
             Route::get('/create', [ContractsController::class,'create'])->name('create');
             Route::post('/store', [ContractsController::class,'store'])->name('store');
             Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
@@ -103,6 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['role:superadmin|admin']], function () {
         Route::prefix('rfid')->name('rfid.')->group(function () {
             Route::get('/', [RfidController::class,'index'])->name('index');
+            Route::get('/getRfid', [RfidController::class,'getRfid'])->name('getRfid');
             Route::get('/create', [RfidController::class,'create'])->name('create');
             Route::post('/store', [RfidController::class,'store'])->name('store');
             Route::get('/edit/{id}', [RfidController::class,'edit'])->name('edit');

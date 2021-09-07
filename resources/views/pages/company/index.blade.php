@@ -31,22 +31,20 @@
             <tr>
                 <th class="serial">#</th>
                 <th>Nama</th>
-                {{-- <th>Company from contract</th> --}}
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Website</th>
                 <th>Address</th>
-                <th>Created At</th>
-                <th>Action</th>
+                {{--  <th>Created At</th>
+                <th>Action</th>  --}}
             </tr>
         </thead>
-        <tbody>
+        {{--  <tbody>
             @if($companies->count() > 0)
                 @foreach ( $companies as $key => $company )
                     <tr>
                         <td class="serial">{{ $companies->firstItem() + $key }}</td>
                         <td><span class="name">{{ $company->name }}</span></td>
-                        {{-- <td><span class="name">{{ $company->name }}</span></td> --}}
                         <td><span class="name">{{ $company->email }}</span></td>
                         <td><span class="name">{{ $company->phone }}</span></td>
                         <td><span class="name"> <a href="{{ $company->website }}" target="_blank"> {{ $company->website }} </a></span></td>
@@ -56,9 +54,6 @@
                             <a href="{{ url('company/edit/'.Crypt::encrypt($company->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            {{-- @if ($contract->company->name != null) {
-
-                            } --}}
                             <button class="btn btn-danger deletebtn btn-sm" value="{{ $company->id }}" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </button>
@@ -70,7 +65,7 @@
                     <td colspan="5" class="text-center">Data Kosong</td>
                 </tr>
             @endif
-        </tbody>
+        </tbody>  --}}
     </table>
 @endsection
 
@@ -106,13 +101,27 @@
 {{-- JS --}}
 @section('js')
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+{{--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>  --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#datatable').DataTable();
+        $('#datatable').DataTable({
+            processing  : true,
+            serverSide  : true,
+            scroolX     : true,
+            autoWitdh   : false,
+            ajax        : "{{ url('company/getCompany') }}",
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'name', name: 'name'},
+                {data: 'email', name: 'email'},
+                {data: 'phone', name: 'phone'},
+                {data: 'website', name: 'website'},
+                {data: 'address', name: 'address'},
+            ]
+        });
 
         $(document).on('click', '.deletebtn', function() {
             var id = $(this).val();
