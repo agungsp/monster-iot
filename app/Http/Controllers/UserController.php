@@ -35,33 +35,53 @@ class UserController extends Controller
 
     public function getDataUser()
     {
-        $user = User::all();
+        $userCompany = Auth::user()->company_id;
+        if(Auth::user()->hasRole('admin')){
+            $getusers = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany)->orderBy('id', 'DESC');
+        } else {
+            $getusers = User::with('company')->orderBy('id', 'DESC');
+        }
+        $users = $getusers;
         // $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
-        return DataTables::of($user)
-        ->addColumn('role', function($user){
-            if($user->hasRole('superadmin')){
-                return '<span class="name badge bg-primary">'.str_replace(['["','"]', ","], '',$user->getRoleNames()).'</span>';
-            } elseif($user->hasRole('admin')){
-                return '<span class="name badge bg-warning">'.str_replace(['["','"]', ","], '',$user->getRoleNames()).'</span>';
-            } elseif($user->hasRole('user')){
-                return '<span class="name badge bg-danger">'.str_replace(['["','"]', ","], '',$user->getRoleNames()).'</span>';
+        return DataTables::of($users)
+        ->addColumn('company', function ($users) {
+            if(empty($users->company_id)){
+                return '';
+            } else {
+                return $users->company->name;
+            }
+        })
+        ->addColumn('role', function($users){
+            if($users->hasRole('superadmin')){
+                return '<span class="name badge bg-primary">'.str_replace(['["','"]', ","], '',$users->getRoleNames()).'</span>';
+            } elseif($users->hasRole('admin')){
+                return '<span class="name badge bg-warning">'.str_replace(['["','"]', ","], '',$users->getRoleNames()).'</span>';
+            } elseif($users->hasRole('user')){
+                return '<span class="name badge bg-danger">'.str_replace(['["','"]', ","], '',$users->getRoleNames()).'</span>';
             } else {
                 return '';
             }
         })
-        ->addColumn('is_active', function ($user) {
-            if($user->is_active == 1){
+        ->addColumn('avatar', function ($users) {
+            if(empty($users->avatar)){
+                return '<img src="https://ui-avatars.com/api/?name='.$users->name.'" class="img-thumbnail rounded-circle">';
+            } else {
+                return '<img src="asset("storage/"'.$users->avatar.')" class="img-thumbnail rounded-circle">';
+            }
+        })
+        ->addColumn('is_active', function ($users) {
+            if($users->is_active == 1){
                 return '<span class="name badge bg-success">Aktif</span>';
             } else {
                 return '<span class="name badge bg-danger">Tidak Aktif</span>';
             }
         })
-        ->addColumn('action', function ($user) {
-            $action = '<a href="user/edit/'.Crypt::encrypt($user->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
-            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $user->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+        ->addColumn('action', function ($users) {
+            $action = '<a href="user/edit/'.Crypt::encrypt($users->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
+            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $users->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
             return $action;
         })
-        ->rawColumns(['role', 'is_active', 'action'])
+        ->rawColumns(['role', 'avatar', 'is_active', 'action'])
         ->make(true);
     }
 
