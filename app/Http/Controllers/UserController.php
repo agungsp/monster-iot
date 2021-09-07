@@ -49,7 +49,12 @@ class UserController extends Controller
                 return '';
             }
         })
-        ->addColumn('action', '<a class="btn btn-primary" href="#" role="button">Link</a>')
+        
+        ->addColumn('action', function ($user) {
+            $action = '<a href="user/edit/'.Crypt::encrypt($user->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
+            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $user->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            return $action;
+        })
         ->rawColumns(['role', 'action'])
         ->make(true);
     }
