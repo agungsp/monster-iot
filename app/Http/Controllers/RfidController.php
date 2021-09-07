@@ -43,7 +43,12 @@ class RfidController extends Controller
     public function getRfid()
     {
         $rfid = Rfid::all();
-        return DataTables::of($rfid)->make(true);
+        return DataTables::of($rfid)
+        ->addColumn('action', function($rfid) {
+            $action = '<a href="rfid/edit/'.Crypt::encrypt($rfid->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
+            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'.$rfid->id.'" title="Delete"><i class="fa fa-trash"></i></button>';
+            return $action;
+        })->make(true);
     }
 
     /**

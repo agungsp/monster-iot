@@ -34,7 +34,7 @@
                 <th>Started At</th>
                 <th>Expired At</th>
                 <th>Jumlah device</th>
-                {{--  <th>Action</th>  --}}
+                <th>Action</th>
             </tr>
         </thead>
         {{--  <tbody>
@@ -146,10 +146,17 @@
             ajax        : "{{ url('contract/getContract') }}",
             columns     : [
                 {data: 'id', name: 'id'},
-                {data: 'company_id', name: 'contract.company.name'},
+                {data: 'company', name: 'company'},
                 {data: 'started_at', name: 'started_at'},
                 {data: 'expired_at', name: 'expired_at'},
-                {data: 'devices', name: 'devices' }
+                {data: 'jumlahdevice', name: 'jumlahdevice'},
+                {
+                    data: 'action',
+                    name: 'action',
+                    type: 'html',
+                    orderable: false,
+                    searchable: false,
+                },
             ]
         });
 

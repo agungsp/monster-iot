@@ -17,6 +17,7 @@ class Contract_DeviceController extends Controller
     public function index($id)
     {
         $contract = Contract::find($id);
+        // dd($contract);
         // $devices = $contract->devices;
         return view('pages.contract.assigndevice', compact('contract'));
     }

@@ -41,7 +41,7 @@
                 <th>KM Start</th>
                 <th>KM End</th>
                 <th>Is Broken</th>
-                {{--  <th>Action</th>  --}}
+                <th>Action</th>
             </tr>
         </thead>
         {{--  <tbody>
@@ -141,7 +141,14 @@
                 {data: 'expired_at', name: 'expired_at'},
                 {data: 'kilometer_start', name: 'kilometer_start'},
                 {data: 'kilometer_end', name: 'kilometer_end'},
-                {data: 'is_broken', name: 'is_broken'}
+                {data: 'is_broken', name: 'is_broken'},
+                {
+                    data: 'action',
+                    name: 'action',
+                    type: 'html',
+                    orderable: false,
+                    searchable: false,
+                },
             ]
         });
 

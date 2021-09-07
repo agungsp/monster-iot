@@ -37,7 +37,7 @@
                 <th>Alias</th>
                 <th>Tersedia</th>
                 <th>Created At</th>
-                {{--  <th>Action</th>  --}}
+                <th>Action</th>
             </tr>
         </thead>
         {{--  <tbody>
@@ -118,8 +118,15 @@
                 {data: 'id', name: 'id'},
                 {data: 'uuid', name: 'uuid'},
                 {data: 'alias', name: 'alias'},
-                {data: 'is_available', name: 'is_available'},
+                {data: 'statusdevice', name: 'statusdevice', type: 'html'},
                 {data: 'created_at', name: 'created_at'},
+                {
+                    data: 'action',
+                    name: 'action',
+                    type: 'html',
+                    orderable: false,
+                    searchable: false
+                },
             ]
         });
 

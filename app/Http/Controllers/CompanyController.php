@@ -28,7 +28,16 @@ class CompanyController extends Controller
     public function getCompany()
     {
         $company = Company::all();
-        return DataTables::of($company)->make(true);
+        return DataTables::of($company)
+        ->addColumn('website', function ($company) {
+            return '<span class="name"> <a href="'.$company->website.'" target="_blank"> ' .$company->website. ' </a></span>';
+        })
+        ->addColumn('action', function ($company) {
+            $action = '<a href="company/edit/'.Crypt::encrypt($company->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
+            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $company->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            return $action;
+        })->rawColumns(['website', 'action'])
+        ->make(true);
     }
 
     /**

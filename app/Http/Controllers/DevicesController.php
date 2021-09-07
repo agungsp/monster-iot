@@ -28,7 +28,21 @@ class DevicesController extends Controller
     public function getDevices()
     {
         $device = Device::all();
-        return DataTables::of($device)->make(true);
+        return DataTables::of($device)
+        ->addColumn('statusdevice', function ($device) {
+            if ($device->is_available == 1) {
+                return '<span class="name badge bg-success">Tersedia</span>';
+            } else {
+                return '<span class="name badge bg-danger">Tidak Tersedia</span>';
+            }
+        })
+        ->addColumn('action', function ($device) {
+            $action = '<a href="devices/edit/'.Crypt::encrypt($device->id).'" class="btn btn-primary btn-sm me-2" title="Edit"> <i class="fas fa-edit"></i> </a>';
+            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="' .$device->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            return $action;
+        })
+        ->rawColumns(['statusdevice', 'action'])
+        ->make(true);
     }
 
     /**
@@ -66,8 +80,6 @@ class DevicesController extends Controller
             'alias' => $request->alias,
             'created_by' => $request->user()->id,
             'updated_by' => $request->user()->id,
-
-
         ]);
         return redirect('devices')->with('status', 'Device berhasil ditambah!');
     }
