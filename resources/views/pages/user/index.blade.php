@@ -44,8 +44,8 @@
                 <th>Email</th>
                 {{-- <th>Company</th> --}}
                 <th>Role</th>
-                {{-- <th>Avatar</th>
-                <th>Status</th>  --}}
+                {{-- <th>Avatar</th> --}}
+                <th>Status</th> 
                 <th>Action</th>
             </tr>
         </thead>
@@ -162,6 +162,7 @@
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
                 {data: 'role', name: 'role', type: 'html'},
+                {data: 'is_active', name: 'is_active', type: 'html'},
                 {
                     data: 'action',
                     name: 'action',

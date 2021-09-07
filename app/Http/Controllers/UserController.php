@@ -49,13 +49,19 @@ class UserController extends Controller
                 return '';
             }
         })
-        
+        ->addColumn('is_active', function ($user) {
+            if($user->is_active == 1){
+                return '<span class="name badge bg-success">Aktif</span>';
+            } else {
+                return '<span class="name badge bg-danger">Tidak Aktif</span>';
+            }
+        })
         ->addColumn('action', function ($user) {
             $action = '<a href="user/edit/'.Crypt::encrypt($user->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
             $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $user->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
             return $action;
         })
-        ->rawColumns(['role', 'action'])
+        ->rawColumns(['role', 'is_active', 'action'])
         ->make(true);
     }
 
