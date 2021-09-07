@@ -90,12 +90,16 @@
 <script>
     var cleave = new Cleave('.number1', {
         numeral: true,
-        numeralThousandsGroupStyle: 'thousand'
+        // numeralThousandsGroupStyle: 'thousand'
+        numeralDecimalMark: ',',
+        delimiter: '.'
     });
 
     var cleave = new Cleave('.number2', {
         numeral: true,
-        numeralThousandsGroupStyle: 'thousand'
+        // numeralThousandsGroupStyle: 'thousand'
+        numeralDecimalMark: ',',
+        delimiter: '.'
     });
 </script>
 @endsection
