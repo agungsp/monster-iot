@@ -45,7 +45,9 @@
                 <th>Company</th>
                 <th>Role</th>
                 <th>Avatar</th>
-                <th>Status</th> 
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Updated At</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -165,6 +167,8 @@
                 {data: 'role', name: 'role', type: 'html'},
                 {data: 'avatar', name: 'avatar', type: 'html'},
                 {data: 'is_active', name: 'is_active', type: 'html'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
                 {
                     data: 'action',
                     name: 'action',

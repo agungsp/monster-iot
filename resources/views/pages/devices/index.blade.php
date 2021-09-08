@@ -37,6 +37,7 @@
                 <th>Alias</th>
                 <th>Tersedia</th>
                 <th>Created At</th>
+                <th>Updated At</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -120,6 +121,7 @@
                 {data: 'alias', name: 'alias'},
                 {data: 'statusdevice', name: 'statusdevice', type: 'html'},
                 {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
                 {
                     data: 'action',
                     name: 'action',

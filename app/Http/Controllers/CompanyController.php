@@ -36,6 +36,9 @@ class CompanyController extends Controller
         ->addColumn('created_at', function ($company) {
             return $company->created_at;
         })
+        ->addColumn('updated_at', function ($company) {
+            return $company->updated_at;
+        })
         ->addColumn('action', function ($company) {
             $contract = Contract::all();
             $user = User::all();

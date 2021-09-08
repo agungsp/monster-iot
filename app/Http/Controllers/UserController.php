@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\User_Device;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -76,9 +77,19 @@ class UserController extends Controller
                 return '<span class="name badge bg-danger">Tidak Aktif</span>';
             }
         })
+        ->addColumn('created_at', function ($users) {
+            return $users->created_at;
+        })
+        ->addColumn('updated_at', function ($users) {
+            return $users->updated_at;
+        })
         ->addColumn('action', function ($users) {
             $action = '<a href="user/edit/'.Crypt::encrypt($users->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
-            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $users->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            if (User_Device::where('user_id', $users->id)->exists()) {
+                $action .= '<button class="btn btn-danger btn-sm" disabled><i class="fa fa-trash"></i></button>';
+            } else {
+                $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $users->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            }
             return $action;
         })
         ->rawColumns(['role', 'avatar', 'is_active', 'action'])

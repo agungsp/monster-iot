@@ -62,6 +62,7 @@ class PermissionSeeder extends Seeder
             'viewDashboard', 'viewContact',
             'viewUsers', 'createUserClient', 'editUserClient', 'deleteUsers',
             'viewDevices', 'editDevices', 'controlEngine',
+            'viewContracts',
             'viewRFID', 'editRFID'
         );
 
@@ -69,6 +70,6 @@ class PermissionSeeder extends Seeder
         $role = Role::findByName('user');
         $role->givePermissionTo('viewDashboard', 'viewContact');
 
-        
+
     }
 }

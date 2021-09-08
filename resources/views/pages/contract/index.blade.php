@@ -34,6 +34,8 @@
                 <th>Started At</th>
                 <th>Expired At</th>
                 <th>Jumlah device</th>
+                <th>Created At</th>
+                <th>Updated At</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -150,6 +152,8 @@
                 {data: 'started_at', name: 'started_at'},
                 {data: 'expired_at', name: 'expired_at'},
                 {data: 'jumlahdevice', name: 'jumlahdevice'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
                 {
                     data: 'action',
                     name: 'action',
