@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Contract;
+use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -36,8 +37,17 @@ class CompanyController extends Controller
             return $company->created_at;
         })
         ->addColumn('action', function ($company) {
+            $contract = Contract::all();
+            $user = User::all();
             $action = '<a href="company/edit/'.Crypt::encrypt($company->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
-            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $company->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            // dd(Contract::where('company_id', '=', Company::get('id'))->exists());
+            if (Contract::where('company_id', $company->id)->exists() || User::where('company_id', $company->id)->exists()) {
+                // dd(true);
+                $action .= '<button class="btn btn-danger btn-sm" disabled><i class="fa fa-trash"></i></button>';
+            } else {
+                // dd(false);
+                $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $company->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            }
             return $action;
         })->rawColumns(['website', 'created_at', 'action'])
         ->make(true);

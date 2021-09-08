@@ -40,8 +40,13 @@ class DevicesController extends Controller
             return $device->created_at;
         })
         ->addColumn('action', function ($device) {
-            $action = '<a href="devices/edit/'.Crypt::encrypt($device->id).'" class="btn btn-primary btn-sm me-2" title="Edit"> <i class="fas fa-edit"></i> </a>';
-            $action .= '<button class="btn btn-danger deletebtn btn-sm" value="' .$device->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            if ($device->is_available == 0) {
+                $action = '<button class="btn btn-primary btn-sm me-2" disabled><i class="fas fa-edit"></i></button>';
+                $action .= '<button class="btn btn-danger btn-sm" disabled><i class="fa fa-trash"></i></button>';
+            } else {
+                $action = '<a href="devices/edit/'.Crypt::encrypt($device->id).'" class="btn btn-primary btn-sm me-2" title="Edit"> <i class="fas fa-edit"></i> </a>';
+                $action .= '<button class="btn btn-danger deletebtn btn-sm" value="' .$device->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            }
             return $action;
         })
         ->rawColumns(['statusdevice', 'action'])
