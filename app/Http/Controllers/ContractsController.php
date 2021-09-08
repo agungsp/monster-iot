@@ -40,8 +40,15 @@ class ContractsController extends Controller
         //         })
         //         ->toJson();
         // }
-        $devices = Device::all();
-        $contract = Contract::all();
+        // $devices = Device::all();
+        $userCompany = Auth::user()->company_id;
+        if(Auth::user()->hasRole('admin')){
+            $getcontract = Contract::all()->where('company_id', $userCompany);
+        } else {
+            $getcontract = Contract::all();
+        }
+        $contract = $getcontract;
+        // $contract = Contract::all();
         // dd($contract->devices->count());
         return DataTables::of($contract)
         ->addColumn('company', function($contract) {
