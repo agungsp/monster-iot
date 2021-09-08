@@ -61,6 +61,7 @@ class PermissionSeeder extends Seeder
         $role->givePermissionTo(
             'viewDashboard', 'viewContact',
             'viewUsers', 'createUserClient', 'editUserClient', 'deleteUsers',
+            'viewContracts',
             'viewDevices', 'editDevices', 'controlEngine',
             'viewRFID', 'editRFID'
         );
