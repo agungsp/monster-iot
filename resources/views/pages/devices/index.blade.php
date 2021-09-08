@@ -115,7 +115,7 @@
             serverSide  : true,
             ajax        : "{{ url('devices/getDevices') }}",
             columns     : [
-                {data: 'id', name: 'id'},
+                {data: 'id', name: 'device_id'},
                 {data: 'uuid', name: 'uuid'},
                 {data: 'alias', name: 'alias'},
                 {data: 'statusdevice', name: 'statusdevice', type: 'html'},

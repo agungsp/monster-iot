@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Device;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,7 +29,18 @@ class DevicesController extends Controller
 
     public function getDevices()
     {
-        $device = Device::all();
+        $userCompany = Auth::user()->company_id;
+        // $device = Device::all();
+        if(Auth::user()->hasRole('admin')){
+            $device = DB::table('devices')
+                ->join('contract_device', 'contract_device.device_id', '=', 'devices.id')
+                ->join('contracts', 'contracts.id', '=', 'contract_device.contract_id', )
+                ->where('company_id', $userCompany);
+        } else {
+            $device = Device::all();
+        }
+        
+
         return DataTables::of($device)
         ->addColumn('statusdevice', function ($device) {
             if ($device->is_available == 1) {
