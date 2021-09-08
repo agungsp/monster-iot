@@ -40,15 +40,28 @@
                         </div>
                         <div class="mb-3">
                             <label for="companies" class="form-label">Company</label>
-                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
+                            @hasrole('superadmin')
+                                <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
+                                    <option value="">- PILIH -</option>
+                                    @foreach ($users as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ old('company_id') == $item->id ? 'selected' : null }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            @endhasrole
+                            @hasrole('admin')
+                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror" disabled>
                                 <option value="">- PILIH -</option>
-                                @foreach ($users as $item)
+                                @foreach ($companies as $item)
                                     <option value="{{ $item->id }}"
-                                        {{ old('company_id') == $item->id ? 'selected' : null }}>
+                                        {{ old('company_id', $userCompany) == $item->id ? 'selected' : null }}>
                                         {{ $item->name }}
                                     </option>
                                 @endforeach
                             </select>
+                            @endhasrole
                             @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">

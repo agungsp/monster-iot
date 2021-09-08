@@ -36,7 +36,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="companmies" class="form-label">Company</label>
-                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
+                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror" disabled>
                                 <option value="">- PILIH -</option>
                                 @foreach ($companies as $item)
                                     <option value="{{ $item->id }}"

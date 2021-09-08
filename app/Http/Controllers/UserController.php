@@ -39,12 +39,12 @@ class UserController extends Controller
         if(Auth::user()->hasRole('admin')){
             $getusers = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany);
         } else {
-            $getusers = User::with('company');
+            $getusers = User::with('company', 'roles');
         }
         $users = $getusers;
         // $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
         return DataTables::of($users)
-        ->addColumn('company', function ($users) {
+        ->editColumn('company', function ($users) {
             if(empty($users->company_id)){
                 return '';
             } else {
@@ -53,11 +53,11 @@ class UserController extends Controller
         })
         ->addColumn('role', function($users){
             if($users->hasRole('superadmin')){
-                return '<span class="name badge bg-primary">'.str_replace(['["','"]', ","], '',$users->getRoleNames()).'</span>';
+                return '<span class="name badge bg-primary" data-order="'.$users->roles->first()->id.'">'.$users->roles->first()->name.'</span>';
             } elseif($users->hasRole('admin')){
-                return '<span class="name badge bg-warning">'.str_replace(['["','"]', ","], '',$users->getRoleNames()).'</span>';
+                return '<span class="name badge bg-warning" data-order="'.$users->roles->first()->id.'">'.$users->roles->first()->name.'</span>';
             } elseif($users->hasRole('user')){
-                return '<span class="name badge bg-danger">'.str_replace(['["','"]', ","], '',$users->getRoleNames()).'</span>';
+                return '<span class="name badge bg-danger data-order="'.$users->roles->first()->id.'">'.$users->roles->first()->name.'</span>';
             } else {
                 return '';
             }
@@ -69,7 +69,7 @@ class UserController extends Controller
                 return '<img src="asset("storage/"'.$users->avatar.')" class="img-thumbnail rounded-circle">';
             }
         })
-        ->addColumn('is_active', function ($users) {
+        ->editColumn('is_active', function ($users) {
             if($users->is_active == 1){
                 return '<span class="name badge bg-success">Aktif</span>';
             } else {
@@ -92,12 +92,15 @@ class UserController extends Controller
      */
     public function create()
     {
-        $users = Company::all();
+        $companies = Company::all();
         $roles = Role::all();
+        $userCompany = Auth::user()->company_id;
+
         // dd(User::all());
         return view('pages.user.create')->with([
-            'users' => $users,
-            'roles' => $roles
+            'companies' => $companies,
+            'roles' => $roles,
+            'userCompany' => $userCompany
         ]);
     }
 

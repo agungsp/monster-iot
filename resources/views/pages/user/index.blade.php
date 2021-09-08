@@ -161,10 +161,10 @@
                 {data: 'id', name: 'id'},
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
-                {data: 'company', name: 'company'},
+                {data: 'company', name: 'company_id'},
                 {data: 'role', name: 'role', type: 'html'},
                 {data: 'avatar', name: 'avatar', type: 'html'},
-                {data: 'is_active', name: 'is_active', type: 'html'},
+                {data: 'is_active', name: 'is_active'},
                 {
                     data: 'action',
                     name: 'action',
