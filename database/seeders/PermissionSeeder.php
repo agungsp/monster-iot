@@ -62,7 +62,7 @@ class PermissionSeeder extends Seeder
             'viewDashboard', 'viewContact',
             'viewUsers', 'createUserClient', 'editUserClient', 'deleteUsers',
             'viewContracts',
-            'viewDevices', 'editDevices', 'controlEngine',
+            'viewDevices', 'controlEngine',
             'viewRFID', 'editRFID'
         );
 
