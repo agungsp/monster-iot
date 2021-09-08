@@ -23,9 +23,11 @@
             {{ session('status') }}
         </div>
     @endif
-    <a href="{{ url('contract/create') }}" class="btn btn-success btn-sm float-end" title="Add">
-        <i class="fa fa-plus"></i> Add
-    </a>
+    @can('createContracts')
+        <a href="{{ url('contract/create') }}" class="btn btn-success btn-sm float-end" title="Add">
+            <i class="fa fa-plus"></i> Add
+        </a>
+    @endcan
     <table class="table" id="datatable">
         <thead>
             <tr>
