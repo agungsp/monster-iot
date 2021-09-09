@@ -55,6 +55,12 @@ class RfidController extends Controller
                 return $rfid->expired_at;
             }
         })
+        ->addColumn('created_at', function ($rfid) {
+            return $rfid->created_at;
+        })
+        ->addColumn('updated_at', function ($rfid) {
+            return $rfid->updated_at;
+        })
         ->addColumn('action', function($rfid) {
             $action = '<a href="rfid/edit/'.Crypt::encrypt($rfid->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
             $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'.$rfid->id.'" title="Delete"><i class="fa fa-trash"></i></button>';
@@ -85,43 +91,47 @@ class RfidController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'uuid' => 'required:3',
-            'brand' => 'required',
-            'type' => 'required',
-            'sn' => 'required',
-            'buy_at' => 'required',
-            'expired_at' => 'required',
-            'kilometer_start' => 'required',
-            'kilometer_end' => 'required',
-            'is_broken' => 'required',
-        ], [
-            'uuid.required' => 'uuid tidak boleh kosong',
-            'brand.required' => 'Brand tidak boleh kosong',
-            'type.required' => 'Tipe tidak boleh kosong',
-            'sn.required' => 'Serial tidak boleh kosong',
-            'buy_at.required' => 'Kolom tidak boleh kosong',
-            'expired_at.required' => 'Expired at tidak boleh kosong',
-            'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
-            'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
-            'is_broken.required' => 'is_broken tidak boleh kosong',
-        ]);
+        if (Rfid::where('uuid', $request->uuid)->exists()) {
+            return redirect()->back()->withInput()->with('error', 'UUID Rfid sudah terdaftar');
+        } else {
+            $request->validate([
+                'uuid' => 'required:3',
+                'brand' => 'required',
+                'type' => 'required',
+                'sn' => 'required',
+                'buy_at' => 'required',
+                'expired_at' => 'required',
+                'kilometer_start' => 'required',
+                'kilometer_end' => 'required',
+                'is_broken' => 'required',
+            ], [
+                'uuid.required' => 'uuid tidak boleh kosong',
+                'brand.required' => 'Brand tidak boleh kosong',
+                'type.required' => 'Tipe tidak boleh kosong',
+                'sn.required' => 'Serial tidak boleh kosong',
+                'buy_at.required' => 'Kolom tidak boleh kosong',
+                'expired_at.required' => 'Expired at tidak boleh kosong',
+                'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
+                'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
+                'is_broken.required' => 'is_broken tidak boleh kosong',
+            ]);
 
-        Rfid::create([
-            'uuid' => $request->uuid,
-            'brand' => $request->brand,
-            'type' => $request->type,
-            'sn' => $request->sn,
-            'buy_at' => $request->buy_at,
-            'expired_at' => $request->expired_at,
-            'kilometer_start' => str_replace(".", "", $request->kilometer_start),
-            'kilometer_end' => str_replace(".", "", $request->kilometer_end),
-            'is_broken' => $request->is_broken,
-            'created_by' => Auth::id(),
-            'updated_by' => Auth::id(),
-        ]);
+            Rfid::create([
+                'uuid' => $request->uuid,
+                'brand' => $request->brand,
+                'type' => $request->type,
+                'sn' => $request->sn,
+                'buy_at' => $request->buy_at,
+                'expired_at' => $request->expired_at,
+                'kilometer_start' => str_replace(".", "", $request->kilometer_start),
+                'kilometer_end' => str_replace(".", "", $request->kilometer_end),
+                'is_broken' => $request->is_broken,
+                'created_by' => Auth::id(),
+                'updated_by' => Auth::id(),
+            ]);
 
-        return redirect('rfid/')->with('status', 'RFID berhasil ditambah!');
+            return redirect('rfid/')->with('status', 'RFID berhasil ditambah!');
+        }
     }
 
     /**
@@ -159,40 +169,45 @@ class RfidController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'brand' => 'required',
-            'type' => 'required',
-            'sn' => 'required',
-            'buy_at' => 'required',
-            'expired_at' => 'required',
-            'kilometer_start' => 'required',
-            'kilometer_end' => 'required',
-            'is_broken' => 'required',
-        ], [
-            'brand.required' => 'Brand tidak boleh kosong',
-            'type.required' => 'Tipe tidak boleh kosong',
-            'sn.required' => 'Serial tidak boleh kosong',
-            'buy_at.required' => 'Kolom tidak boleh kosong',
-            'expired_at.required' => 'Expired at tidak boleh kosong',
-            'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
-            'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
-            'is_broken.required' => 'is_broken tidak boleh kosong',
-        ]);
+        try {
+            $request->validate([
+                'brand' => 'required',
+                'type' => 'required',
+                'sn' => 'required',
+                'buy_at' => 'required',
+                'expired_at' => 'required',
+                'kilometer_start' => 'required',
+                'kilometer_end' => 'required',
+                'is_broken' => 'required',
+            ], [
+                'brand.required' => 'Brand tidak boleh kosong',
+                'type.required' => 'Tipe tidak boleh kosong',
+                'sn.required' => 'Serial tidak boleh kosong',
+                'buy_at.required' => 'Kolom tidak boleh kosong',
+                'expired_at.required' => 'Expired at tidak boleh kosong',
+                'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
+                'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
+                'is_broken.required' => 'is_broken tidak boleh kosong',
+            ]);
 
-        Rfid::where('id', $id)->update([
-            'uuid' => $request->uuid,
-            'brand' => $request->brand,
-            'type' => $request->type,
-            'sn' => $request->sn,
-            'buy_at' => $request->buy_at,
-            'expired_at' => $request->expired_at,
-            'kilometer_start' => str_replace(".", "", $request->kilometer_start),
-            'kilometer_end' => str_replace(".", "", $request->kilometer_end),
-            'is_broken' => $request->is_broken,
-            'updated_by' => Auth::id(),
-        ]);
+            Rfid::where('id', $id)->update([
+                'uuid' => $request->uuid,
+                'brand' => $request->brand,
+                'type' => $request->type,
+                'sn' => $request->sn,
+                'buy_at' => $request->buy_at,
+                'expired_at' => $request->expired_at,
+                'kilometer_start' => str_replace(".", "", $request->kilometer_start),
+                'kilometer_end' => str_replace(".", "", $request->kilometer_end),
+                'is_broken' => $request->is_broken,
+                'updated_by' => Auth::id(),
+            ]);
 
-        return redirect('rfid/')->with('status', 'RFID berhasil di update!');
+            return redirect('rfid/')->with('status', 'RFID berhasil di update!');
+        } catch (\Illuminate\Database\QueryException) {
+            return redirect()->back()->withInput()->with('error', 'UUID Device sudah terdaftar');
+        }
+
     }
 
     /**

@@ -65,6 +65,12 @@ class ContractsController extends Controller
                 return $contract->devices->count();
             }
         })
+        ->addColumn('created_at', function ($contract) {
+            return $contract->created_at;
+        })
+        ->addColumn('updated_at', function ($contract) {
+            return $contract->updated_at;
+        })
         ->addColumn('action', function ($contract) {
             if ($contract->devices->count() == null) {
                 $action = '<button class="btn btn-success btn-sm me-2" disabled><i class="fas fa-eye"></i></button>';

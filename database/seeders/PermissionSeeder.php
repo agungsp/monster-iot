@@ -70,6 +70,6 @@ class PermissionSeeder extends Seeder
         $role = Role::findByName('user');
         $role->givePermissionTo('viewDashboard', 'viewContact');
 
-        
+
     }
 }

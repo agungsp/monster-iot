@@ -11,15 +11,20 @@
 @endsection
 
 {{-- TITLE --}}
-@section('title', 'Tambah Device')
+@section('title', 'Edit Device')
 
 {{-- TITLE CONTENT --}}
-@section('title-content', 'Tambah Device')
+@section('title-content', 'Edit Device')
 
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-header">
-            <strong>Tambah Device</strong>
+            <strong>Edit Device</strong>
         </div>
         <div class="card-body card-block">
             <form action="{{ url('devices/update', $devices->id) }}" method="POST">

@@ -48,6 +48,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the user_device that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     */
+    public function user_device()
+    {
+        return $this->belongsToMany(User_Device::class, 'user_id', 'id');
+    }
+
+    /**
      * Get the company that owns the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

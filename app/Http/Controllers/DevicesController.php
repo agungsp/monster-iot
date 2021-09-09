@@ -52,6 +52,9 @@ class DevicesController extends Controller
         ->addColumn('created_at', function ($device) {
             return $device->created_at;
         })
+        ->addColumn('updated_at', function ($device) {
+            return $device->updated_at;
+        })
         ->addColumn('action', function ($device) {
             // if(Auth::user()->hasAllDirectPermissions(['editDevices', 'deleteDevices'])){
                 if ($device->is_available == 0) {
@@ -93,21 +96,26 @@ class DevicesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'uuid' => 'required',
-            'alias' => 'required',
-        ], [
-            'uuid.required' => 'UUID tidak boleh kosong',
-            'alias.required' => 'Alias tidak boleh kosong',
-        ]);
+        if (Device::where('uuid', $request->uuid)->exists()) {
+            // dd($request->uuid);
+            return redirect()->back()->withInput()->with('error', 'UUID Device sudah terdaftar');
+        } else {
+            $request->validate([
+                'uuid' => 'unique:rfids,uuid',
+                'alias' => 'required',
+            ], [
+                'uuid.required' => 'UUID tidak boleh kosong',
+                'alias.required' => 'Alias tidak boleh kosong',
+            ]);
 
-        Device::create([
-            'uuid' => $request->uuid,
-            'alias' => $request->alias,
-            'created_by' => $request->user()->id,
-            'updated_by' => $request->user()->id,
-        ]);
-        return redirect('devices')->with('status', 'Device berhasil ditambah!');
+            Device::create([
+                'uuid' => $request->uuid,
+                'alias' => $request->alias,
+                'created_by' => $request->user()->id,
+                'updated_by' => $request->user()->id,
+            ]);
+            return redirect('devices')->with('status', 'Device berhasil ditambah!');
+        }
     }
 
     /**
@@ -144,23 +152,58 @@ class DevicesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'uuid' => 'required',
-            'alias' => 'required',
-        ], [
-            'uuid.required' => 'UUID tidak boleh kosong',
-            'alias.required' => 'Alias tidak boleh kosong',
-        ]);
-
         try {
+            $request->validate([
+                'uuid' => 'required',
+                'alias' => 'required',
+            ], [
+                'uuid.required' => 'UUID tidak boleh kosong',
+                'alias.required' => 'Alias tidak boleh kosong',
+            ]);
             Device::where('id', $id)->update([
                 'uuid' => $request->uuid,
                 'alias' => $request->alias,
             ]);
+            return redirect('devices')->with('status', 'Device berhasil di update!');
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('devices')->with('status', 'Device gagal di update!');
+            return redirect()->back()->withInput()->with('error', 'UUID Device sudah terdaftar');
         }
-        return redirect('devices')->with('status', 'Device berhasil di update!');
+
+        // try {
+        //     Device::where('id', $id)->update([
+        //         'uuid' => $request->uuid,
+        //         'alias' => $request->alias,
+        //     ]);
+        // } catch (\Illuminate\Database\QueryException $e) {
+        //     return redirect('devices')->with('status', 'Device gagal di update!');
+        // }
+        // return redirect('devices')->with('status', 'Device berhasil di update!');
+
+        // dd(Device::where('uuid', $request->uuid)->get());
+        // dd($request->old($request->uuid));
+
+        // if (Device::where('uuid', $request->uuid) || $request->uuid) {
+        //     if (Device::where('uuid', $request->uuid)->exists()) {
+        //         return redirect()->back()->withInput()->with('error', 'UUID Device sudah terdaftar');
+        //     } else {
+        //         // dd("cek");
+        //         $request->validate([
+        //             'uuid' => 'required',
+        //             'alias' => 'required',
+        //         ], [
+        //             'uuid.required' => 'UUID tidak boleh kosong',
+        //             'alias.required' => 'Alias tidak boleh kosong',
+        //         ]);
+        //         Device::where('id', $id)->update([
+        //             'uuid' => $request->uuid,
+        //             'alias' => $request->alias,
+        //         ]);
+        //         return redirect('devices')->with('status', 'Device berhasil di update!');
+        //     }
+        // }
+        // elseif (Device::where('uuid', $request->uuid)->exists()) {
+        //     return redirect()->back()->withInput()->with('error', 'UUID Device sudah terdaftar');
+        // }
     }
 
     /**
