@@ -50,7 +50,7 @@
                             @hasrole('superadmin')
                                 <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
                                     <option value="">- PILIH -</option>
-                                    @foreach ($users as $item)
+                                    @foreach ($companies as $item)
                                         <option value="{{ $item->id }}"
                                             {{ old('company_id') == $item->id ? 'selected' : null }}>
                                             {{ $item->name }}
