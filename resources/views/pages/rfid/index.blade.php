@@ -132,7 +132,7 @@
             serverSide  : true,
             ajax        : "{{ url('rfid/getRfid') }}",
             columns     : [
-                {data: 'id', name: 'id'},
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'uuid', name: 'uuid'},
                 {data: 'brand', name: 'brand'},
                 {data: 'type', name: 'type'},
@@ -151,7 +151,17 @@
                     orderable: false,
                     searchable: false,
                 },
-            ]
+            ],
+            // "createdRow": function( row, data, index ) {
+            //     if ( data.kilometer_end > "10" ) {
+            //         $(row).addClass( 'redRow' );
+            //     }
+            // },
+            // "createdRow": function ( row, data, index ) {
+            //     if ( data[5].replace(/[\$,]/g, '') * 1 > 10 ) {
+            //         $('td', row).eq(5).addClass('highlight');
+            //     }
+            // }
         });
 
         $(document).on('click', '.deletebtn', function() {

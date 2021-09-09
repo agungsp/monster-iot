@@ -42,9 +42,10 @@ class UserController extends Controller
         } else {
             $getusers = User::with('company', 'roles');
         }
-        $users = $getusers;
+        $users = User::all();
         // $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
         return DataTables::of($users)
+        ->addIndexColumn()
         ->editColumn('company', function ($users) {
             if(empty($users->company_id)){
                 return '';

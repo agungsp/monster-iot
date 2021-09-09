@@ -42,6 +42,7 @@ class DevicesController extends Controller
 
 
         return DataTables::of($device)
+        ->addIndexColumn()
         ->addColumn('statusdevice', function ($device) {
             if ($device->is_available == 1) {
                 return '<span class="name badge bg-success">Tersedia</span>';
@@ -167,16 +168,6 @@ class DevicesController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect()->back()->withInput()->with('error', 'UUID Device sudah terdaftar');
         }
-
-        // try {
-        //     Device::where('id', $id)->update([
-        //         'uuid' => $request->uuid,
-        //         'alias' => $request->alias,
-        //     ]);
-        // } catch (\Illuminate\Database\QueryException $e) {
-        //     return redirect('devices')->with('status', 'Device gagal di update!');
-        // }
-        // return redirect('devices')->with('status', 'Device berhasil di update!');
 
         // dd(Device::where('uuid', $request->uuid)->get());
         // dd($request->old($request->uuid));
