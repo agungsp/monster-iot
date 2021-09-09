@@ -23,7 +23,7 @@
                             <input class="form-control @error('email') is-invalid @enderror"
                                    id="email" name="email" type="email"
                                    placeholder="name@example.com" value="{{ old('email') }}"
-                                   required autocomplete="email" style="height: 70px; size: 40px;" autofocus/>
+                                   required autocomplete="email" autofocus/>
                             <label for="email">Email address</label>
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -40,8 +40,8 @@
                                    <label for="password">Password</label>
                             </div>
                             <span class="input-group-text" onclick="password_show_hide();" style="cursor: pointer;">
-                                <i class="fas fa-eye"></i>
-                                <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                                <i class="fas fa-eye-slash" id="btn-eye"></i>
+                                {{-- <i class="fas fa-eye-slash d-none" id="hide_eye"></i> --}}
                             </span>
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -84,17 +84,15 @@
 <script>
     function password_show_hide() {
         var x = document.getElementById("password");
-        var show_eye = document.getElementById("show_eye");
-        var hide_eye = document.getElementById("hide_eye");
-        hide_eye.classList.remove("d-none");
+        var show_eye = document.getElementById("btn-eye");
         if (x.type === "password") {
             x.type = "text";
-            show_eye.style.display = "none";
-            hide_eye.style.display = "block";
+            show_eye.classList.remove("fa-eye-slash");
+            show_eye.classList.add("fa-eye");
         } else {
             x.type = "password";
-            show_eye.style.display = "block";
-            hide_eye.style.display = "none";
+            show_eye.classList.add("fa-eye-slash");
+            show_eye.classList.remove("fa-eye");
         }
     }
 </script>
