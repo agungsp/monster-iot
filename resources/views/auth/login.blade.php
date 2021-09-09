@@ -32,20 +32,17 @@
                             @enderror
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <div class="input-group">
+                        <div class="input-group mb-3">
+                            <div class="form-floating form-floating-group flex-grow-1">
                                 <input class="form-control @error('password') is-invalid @enderror"
                                    id="password" name="password" type="password"
-                                   required autocomplete="current-password" placeholder="Password" style="height: 70px; size: 40px;"/>
-                                <span class="input-group-text" onclick="password_show_hide();" style="cursor: pointer;">
-                                    <i class="fas fa-eye" id="show_eye"></i>
-                                    <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
-                                </span>
+                                   required autocomplete="current-password" placeholder="Password"/>
+                                   <label for="password">Password</label>
                             </div>
-                            {{-- <input class="form-control @error('password') is-invalid @enderror"
-                                   id="password" name="password" type="password"
-                                   required autocomplete="current-password" placeholder="Password"/> --}}
-                            {{-- <label for="password">Password</label> --}}
+                            <span class="input-group-text" onclick="password_show_hide();" style="cursor: pointer;">
+                                <i class="fas fa-eye"></i>
+                                <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                            </span>
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
