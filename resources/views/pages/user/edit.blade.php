@@ -40,7 +40,7 @@
                             <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
                             @endhasrole
                             @hasrole('admin')
-                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror" disabled>
+                            <select class="form-control @error('company_id') is-invalid @enderror" disabled>
                             @endhasrole
                                 <option value="">- PILIH -</option>
                                 @foreach ($companies as $item)
@@ -50,8 +50,12 @@
                                     </option>
                                 @endforeach
                             </select>
+                            @hasrole('admin')
+                            <input type="hidden" id="company_id" name="company_id" value="{{ $user->company_id }}" class="form-control" readonly/>
+                            @endhasrole
                             @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
+                        
                         @hasrole('superadmin')
                             <div class="mb-3">
                                 <label for="role" class="form-label">Role</label>
@@ -98,7 +102,7 @@
                                             <input class="form-check-input" type="checkbox" id="is_active">
                                             <label class="form-check-label" for="is_active"><span class="badge bg-danger" id="stateAktif">Tidak Aktif</span></label>
                                         @endif
-                                        <input type="hidden" name="is_activeVal" id="is_activeVal" value="{{ old('is_active', $user->is_active) }}"/>
+                                        {{-- <input type="hidden" name="is_activeVal" id="is_activeVal" value="{{ old('is_active', $user->is_active) }}"/> --}}
                                     </div>
                                 </div>
                             @endif

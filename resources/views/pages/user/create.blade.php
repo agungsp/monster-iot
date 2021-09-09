@@ -59,7 +59,7 @@
                                 </select>
                             @endhasrole
                             @hasrole('admin')
-                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror" disabled>
+                            <select class="form-control @error('company_id') is-invalid @enderror" disabled>
                                 <option value="">- PILIH -</option>
                                 @foreach ($companies as $item)
                                     <option value="{{ $item->id }}"
@@ -68,6 +68,7 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <input type="hidden" id="company_id" name="company_id" value="{{ $userCompany }}" class="form-control" readonly/>
                             @endhasrole
                             @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>

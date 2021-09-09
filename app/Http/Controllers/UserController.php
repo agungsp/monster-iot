@@ -38,27 +38,38 @@ class UserController extends Controller
     {
         $userCompany = Auth::user()->company_id;
         if(Auth::user()->hasRole('admin')){
-            $getusers = User::with('company')->role(['admin', 'user'])->where('company_id', $userCompany);
+            $getusers = User::role(['admin', 'user'])->where('company_id', $userCompany);
         } else {
-            $getusers = User::with('company', 'roles');
+            $getusers = User::query();
         }
+        // if(Auth::user()->hasRole('admin')){
+        //     $getusers = User::with('company', 'roles')->role(['admin', 'user'])->where('company_id', $userCompany);
+        // } else {
+        //     $getusers = User::with('company', 'roles');
+        // }
         $users = $getusers;
-        // $rolecurrent = str_replace(['["','"]', ","], '', $user->getRoleNames());
+        
+        $users->leftJoin('companies', 'users.company_id', '=', 'companies.id');
+        $users->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id');
+        $users->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id');
+        
+        $users->select('users.*', 'companies.name as company', 'roles.name as role_name')->get();
+
         return DataTables::of($users)
         ->editColumn('company', function ($users) {
             if(empty($users->company_id)){
                 return '';
             } else {
-                return $users->company->name;
+                return $users->company;
             }
         })
-        ->addColumn('role', function($users){
+        ->editColumn('role', function($users){
             if($users->hasRole('superadmin')){
-                return '<span class="name badge bg-primary" data-order="'.$users->roles->first()->id.'">'.$users->roles->first()->name.'</span>';
+                return '<span class="name badge bg-primary">'.$users->role_name.'</span>';
             } elseif($users->hasRole('admin')){
-                return '<span class="name badge bg-warning" data-order="'.$users->roles->first()->id.'">'.$users->roles->first()->name.'</span>';
+                return '<span class="name badge bg-warning">'.$users->role_name.'</span>';
             } elseif($users->hasRole('user')){
-                return '<span class="name badge bg-danger data-order="'.$users->roles->first()->id.'">'.$users->roles->first()->name.'</span>';
+                return '<span class="name badge bg-danger">'.$users->role_name.'</span>';
             } else {
                 return '';
             }
@@ -77,10 +88,10 @@ class UserController extends Controller
                 return '<span class="name badge bg-danger">Tidak Aktif</span>';
             }
         })
-        ->addColumn('created_at', function ($users) {
+        ->editColumn('created_at', function ($users) {
             return $users->created_at;
         })
-        ->addColumn('updated_at', function ($users) {
+        ->editColumn('updated_at', function ($users) {
             return $users->updated_at;
         })
         ->addColumn('action', function ($users) {
