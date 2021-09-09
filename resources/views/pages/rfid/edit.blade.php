@@ -74,11 +74,23 @@
                             <input type="text" name="kilometer_end" value="{{ old('kilometer_end', $rfid->kilometer_end) }}" class="form-control number2 @error('kilometer_end') is-invalid @enderror" data-index="2"/>
                             @error('kilometer_end') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                @if($rfid->is_broken == 1)
+                                    <input class="form-check-input" type="checkbox" id="is_broken" style="cursor: pointer;" checked>
+                                    <label class="form-check-label" for="is_broken"><span class="badge bg-success" id="stateAktif">True</span></label>
+                                @else
+                                    <input class="form-check-input" type="checkbox" id="is_broken" style="cursor: pointer;">
+                                    <label class="form-check-label" for="is_broken"><span class="badge bg-danger" id="stateAktif">False</span></label>
+                                @endif
+                            </div>
+                        </div>
+                        <input type="hidden" name="is_brokenVal" id="is_brokenVal" value="{{ old('is_broken', $rfid->is_broken) }}"/>
+                        {{-- <div class="mb-3">
                             <label for="is_broken" class="form-label">Is Broken</label>
                             <input type="number" name="is_broken" value="{{ old('is_broken', $rfid->is_broken) }}" class="form-control @error('is_broken') is-invalid @enderror"/>
                             @error('is_broken') <div class="text-muted">{{ $message }}</div> @enderror
-                        </div>
+                        </div> --}}
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary btn-block" type="submit">
                                 Edit Data
@@ -112,5 +124,23 @@
         numeralDecimalMark: ',',
         delimiter: '.'
     });
+
+    const is_broken = document.querySelector('#is_broken');
+    const stateAktif = document.querySelector('#stateAktif');
+    const is_brokenVal = document.querySelector('#is_brokenVal');
+
+    is_broken.addEventListener('click', function () {
+        if (this.checked) {
+            stateAktif.innerHTML = "True";
+            stateAktif.classList.remove('bg-danger');
+            stateAktif.classList.add('bg-success');
+            is_brokenVal.value = '1';
+        } else {
+            stateAktif.innerHTML = "False";
+            stateAktif.classList.remove('bg-success');
+            stateAktif.classList.add('bg-danger');
+            is_brokenVal.value = '0';
+        }
+    })
 </script>
 @endsection

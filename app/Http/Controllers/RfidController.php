@@ -44,6 +44,7 @@ class RfidController extends Controller
     {
         $rfid = Rfid::all();
         return DataTables::of($rfid)
+        ->addIndexColumn()
         ->editColumn('expired_at', function($rfid){
             $diff = abs(strtotime($rfid->expired_at) - strtotime(date('Y-m-d H:i:s')));
             $days = floor($diff/ (60*60*24)) + 1;
@@ -53,6 +54,13 @@ class RfidController extends Controller
                 return '<span style="color:orange;font-weight:600;">'.$rfid->expired_at.'</span>';
             } else {
                 return $rfid->expired_at;
+            }
+        })
+        ->addColumn('is_broken', function ($rfid) {
+            if ($rfid->is_broken == 0) {
+                return '<span class="name badge bg-danger">False</span>';
+            } else {
+                return '<span class="name badge bg-success">True</span>';
             }
         })
         ->addColumn('created_at', function ($rfid) {
@@ -66,7 +74,16 @@ class RfidController extends Controller
             $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'.$rfid->id.'" title="Delete"><i class="fa fa-trash"></i></button>';
             return $action;
         })
-        ->rawColumns(['expired_at', 'action'])
+        // ->setRowClass(function ($rfid) {
+        //     return $rfid->id % 2 == 0 ? '' : '';
+        // })
+        ->setRowAttr([
+            'style' => function($rfid){
+                return $rfid->is_broken == 0 ? 'background-color: red;' :
+                        ( $rfid->is_broken == 1 ? 'background-color: yellow;' : 'background-color: green;' );
+            }
+        ])
+        ->rawColumns(['is_broken', 'expired_at', 'action'])
         ->make(true);
     }
 
@@ -103,7 +120,7 @@ class RfidController extends Controller
                 'expired_at' => 'required',
                 'kilometer_start' => 'required',
                 'kilometer_end' => 'required',
-                'is_broken' => 'required',
+                // 'is_broken' => 'required',
             ], [
                 'uuid.required' => 'uuid tidak boleh kosong',
                 'brand.required' => 'Brand tidak boleh kosong',
@@ -113,7 +130,7 @@ class RfidController extends Controller
                 'expired_at.required' => 'Expired at tidak boleh kosong',
                 'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
                 'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
-                'is_broken.required' => 'is_broken tidak boleh kosong',
+                // 'is_broken.required' => 'is_broken tidak boleh kosong',
             ]);
 
             Rfid::create([
@@ -125,7 +142,7 @@ class RfidController extends Controller
                 'expired_at' => $request->expired_at,
                 'kilometer_start' => str_replace(".", "", $request->kilometer_start),
                 'kilometer_end' => str_replace(".", "", $request->kilometer_end),
-                'is_broken' => $request->is_broken,
+                'is_broken' => 0,
                 'created_by' => Auth::id(),
                 'updated_by' => Auth::id(),
             ]);
@@ -169,8 +186,10 @@ class RfidController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->is_broken);
         try {
             $request->validate([
+                'uuid' => 'required',
                 'brand' => 'required',
                 'type' => 'required',
                 'sn' => 'required',
@@ -178,8 +197,8 @@ class RfidController extends Controller
                 'expired_at' => 'required',
                 'kilometer_start' => 'required',
                 'kilometer_end' => 'required',
-                'is_broken' => 'required',
             ], [
+                'uuid.required' => 'UUID tidak boleh kosong',
                 'brand.required' => 'Brand tidak boleh kosong',
                 'type.required' => 'Tipe tidak boleh kosong',
                 'sn.required' => 'Serial tidak boleh kosong',
@@ -187,7 +206,6 @@ class RfidController extends Controller
                 'expired_at.required' => 'Expired at tidak boleh kosong',
                 'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
                 'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
-                'is_broken.required' => 'is_broken tidak boleh kosong',
             ]);
 
             Rfid::where('id', $id)->update([
@@ -199,7 +217,7 @@ class RfidController extends Controller
                 'expired_at' => $request->expired_at,
                 'kilometer_start' => str_replace(".", "", $request->kilometer_start),
                 'kilometer_end' => str_replace(".", "", $request->kilometer_end),
-                'is_broken' => $request->is_broken,
+                'is_broken' => $request->is_brokenVal,
                 'updated_by' => Auth::id(),
             ]);
 

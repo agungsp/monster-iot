@@ -30,6 +30,7 @@ class CompanyController extends Controller
     {
         $company = Company::all();
         return DataTables::of($company)
+        ->addIndexColumn()
         ->addColumn('website', function ($company) {
             return '<span class="name"> <a href="'.$company->website.'" target="_blank"> ' .$company->website. ' </a></span>';
         })
@@ -52,7 +53,7 @@ class CompanyController extends Controller
                 $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $company->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
             }
             return $action;
-        })->rawColumns(['website', 'created_at', 'action'])
+        })->rawColumns(['DT_Row_Index', 'website', 'created_at', 'action'])
         ->make(true);
     }
 

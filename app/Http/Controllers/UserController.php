@@ -56,6 +56,7 @@ class UserController extends Controller
         $users->select('users.*', 'companies.name as company', 'roles.name as role_name')->get();
 
         return DataTables::of($users)
+        ->addIndexColumn()
         ->editColumn('company', function ($users) {
             if(empty($users->company_id)){
                 return '';

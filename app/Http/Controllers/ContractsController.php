@@ -51,6 +51,7 @@ class ContractsController extends Controller
         // $contract = Contract::all();
         // dd($contract->devices->count());
         return DataTables::of($contract)
+        ->addIndexColumn()
         ->addColumn('company', function($contract) {
             if (empty($contract->company_id)) {
                 return '';
@@ -84,8 +85,8 @@ class ContractsController extends Controller
                 } else {
                     $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $contract->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
                 }
-            } 
-            
+            }
+
             return $action;
         })->make(true);
     }

@@ -157,10 +157,9 @@
             serverSide: true,
             scrollX   : true,
             autoWidth : false,
-            ajax: "{{ url('user/getUser', [], false) }}",
+            ajax: "{{ url('user/getUser') }}",
             columns: [
-                //   {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'id', name: 'users.id'},
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'name', name: 'users.name'},
                 {data: 'email', name: 'email'},
                 {data: 'company', name: 'companies.name'},
@@ -175,7 +174,7 @@
                     type: 'html',
                     orderable: false,
                     searchable: false
-                },
+                }
             ]
         });
 
