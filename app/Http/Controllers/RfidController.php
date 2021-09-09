@@ -48,9 +48,9 @@ class RfidController extends Controller
             $diff = abs(strtotime($rfid->expired_at) - strtotime(date('Y-m-d H:i:s')));
             $days = floor($diff/ (60*60*24)) + 1;
             if($rfid->expired_at <= date('Y-m-d H:i:s')){
-                return '<span style="color:red;border: 3px solid red;padding: 2px 10px;border-radius: 50px;">'.$rfid->expired_at.'</span>';
+                return '<span style="color:red;font-weight:600;">'.$rfid->expired_at.'</span>';
             } elseif($rfid->expired_at > date('Y-m-d H:i:s') && $days <= 7) {
-                return '<span style="color:orange;border: 3px solid orange;padding: 2px 10px;border-radius: 50px;">'.$rfid->expired_at.'</span>';
+                return '<span style="color:orange;font-weight:600;">'.$rfid->expired_at.'</span>';
             } else {
                 return $rfid->expired_at;
             }
@@ -204,7 +204,7 @@ class RfidController extends Controller
             ]);
 
             return redirect('rfid/')->with('status', 'RFID berhasil di update!');
-        } catch (\Illuminate\Database\QueryException) {
+        } catch (\Illuminate\Database\QueryException $e) {
             return redirect()->back()->withInput()->with('error', 'UUID Device sudah terdaftar');
         }
 
