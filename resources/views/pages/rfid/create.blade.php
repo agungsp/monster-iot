@@ -55,7 +55,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="expired_at" class="form-label">Expired At</label>
-                            <input type="date" name="expired_at" value="{{ old('expired_at') }}" class="form-control expired_at @error('expired_at') is-invalid @enderror"/>
+                            {{-- <input type="date" name="expired_at" value="{{ old('expired_at') }}" class="form-control expired_at @error('expired_at') is-invalid @enderror"/> --}}
+                            <input type="text" name="time_limit" value="{{ old('time_limit') }}" class="form-control number0 @error('time_limit') is-invalid @enderror" data-index="1"/>
                             @error('expired_at') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         {{-- <div class="mb-3">

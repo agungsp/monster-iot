@@ -73,18 +73,20 @@ class ContractsController extends Controller
             return $contract->updated_at;
         })
         ->addColumn('action', function ($contract) {
-            if ($contract->devices->count() == null) {
-                $action = '<button class="btn btn-success btn-sm me-2" disabled><i class="fas fa-eye"></i></button>';
-            } else {
-                $action = '<a href="contract/assigndevice/'.$contract->id.'" class="btn btn-success btn-sm me-2" title="Assign Device"><i class="fas fa-eye"></i></a>';
-            }
             if(Auth::user()->hasRole('superadmin')){
+                if ($contract->devices->count() == null) {
+                    $action = '<button class="btn btn-success btn-sm me-2" disabled><i class="fas fa-eye"></i></button>';
+                } else {
+                    $action = '<a href="contract/assigndevice/'.$contract->id.'" class="btn btn-success btn-sm me-2" title="Assign Device"><i class="fas fa-eye"></i></a>';
+                }
                 $action .= '<a href="contract/edit/'.Crypt::encrypt($contract->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
                 if ($contract->devices->count() != null) {
                     $action .= '<button class="btn btn-danger btn-sm" disabled><i class="fa fa-trash"></i></button>';
                 } else {
                     $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $contract->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
                 }
+            } else {
+                $action = '';
             }
 
             return $action;

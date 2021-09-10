@@ -50,9 +50,9 @@
                         Edit Data
                     </button>
                 </div>
+            </form>
         </div>
     </div>
-</div>
 @endsection
 {{-- MODAL --}}
 @section('modal')

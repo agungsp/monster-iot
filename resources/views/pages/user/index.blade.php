@@ -159,7 +159,7 @@
             autoWidth : false,
             ajax: "{{ url('user/getUser') }}",
             columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'name', name: 'users.name'},
                 {data: 'email', name: 'email'},
                 {data: 'company', name: 'companies.name'},

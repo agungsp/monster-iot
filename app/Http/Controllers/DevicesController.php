@@ -57,16 +57,17 @@ class DevicesController extends Controller
             return $device->updated_at;
         })
         ->addColumn('action', function ($device) {
-            // if(Auth::user()->hasAllDirectPermissions(['editDevices', 'deleteDevices'])){
-            $action = '<a href="devices/edit/'.Crypt::encrypt($device->id).'" class="btn btn-primary btn-sm me-2" title="Edit"> <i class="fas fa-edit"></i> </a>';
-            if ($device->is_available == 0) {
-                $action .= '<button class="btn btn-danger btn-sm" disabled><i class="fa fa-trash"></i></button>';
+            if(Auth::user()->hasRole('superadmin')){
+            
+                $action = '<a href="devices/edit/'.Crypt::encrypt($device->id).'" class="btn btn-primary btn-sm me-2" title="Edit"> <i class="fas fa-edit"></i> </a>';
+                if ($device->is_available == 0) {
+                    $action .= '<button class="btn btn-danger btn-sm" disabled><i class="fa fa-trash"></i></button>';
+                } else {
+                    $action .= '<button class="btn btn-danger deletebtn btn-sm" value="' .$device->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+                }
             } else {
-                $action .= '<button class="btn btn-danger deletebtn btn-sm" value="' .$device->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+                $action = '';
             }
-            // } else {
-                // $action = '';
-            // }
 
             return $action;
         })
