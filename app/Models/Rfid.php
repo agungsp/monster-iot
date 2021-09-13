@@ -12,4 +12,9 @@ class Rfid extends Model
     use SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    public function device()
+    {
+        return $this->belongsTo(Device::class, 'device_id', 'id');
+    }
 }

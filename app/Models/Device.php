@@ -34,6 +34,12 @@ class Device extends Model
     {
         return $this->belongsToMany(Contract::class, 'contract_device', 'device_id', 'contract_id');
     }
+    
+
+    public function rfid()
+    {
+        return $this->hasMany(Rfid::class, 'device_id', 'id');
+    }
 
     /**
      * Get the user's id.

@@ -114,6 +114,7 @@ class ContractsController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'company_id' => 'required',
             'started_at' => 'required|date',
@@ -139,6 +140,10 @@ class ContractsController extends Controller
             'company_id' => $request->company_id,
             'started_at' => $request->started_at,
             'expired_at' => $request->expired_at,
+            'use_base' => $request->node_base_val,
+            'use_load' => $request->node_load_val,
+            'use_door' => $request->node_door_val,
+            'use_rfid' => $request->node_rfid_val,
             'note' => $request->keterangan,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
@@ -224,6 +229,10 @@ class ContractsController extends Controller
         $contract->update([
             'company_id' => $request->company_id,
             'note' => $request->keterangan,
+            'use_base' => $request->node_base_val,
+            'use_load' => $request->node_load_val,
+            'use_door' => $request->node_door_val,
+            'use_rfid' => $request->node_rfid_val,
             'started_at' => $request->started_at,
             'expired_at' => $request->expired_at,
             'updated_by' => Auth::id(),
