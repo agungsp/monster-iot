@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('telegram/assign', 'TelegramController@assign');
 Route::get('telegram/get-devices', 'TelegramController@getDevices');
+Route::post('rfid/quick-insert', 'RfidController@quickInsert');
