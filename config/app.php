@@ -177,6 +177,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
 
         App\Providers\DeviceHelperServiceProvider::class,
+        App\Providers\FunctionHelperServiceProvider::class,
 
     ],
 
@@ -233,6 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'DeviceHelper' => App\Helpers\DeviceHelper::class,
+        'FunctionHelper' => App\Helpers\FunctionHelper::class,
     ],
 
 ];
