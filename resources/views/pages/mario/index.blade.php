@@ -263,6 +263,7 @@
     <script>
         let selectedDevice = "undefined";
         const access = @json(auth()->user()->device_uuids);
+        const uuids = "{{ DeviceHelper::getUuids(Crypt::encryptString(auth()->id())) }}";
         let tbodyDevices = document.querySelector('#tbodyDevices');
         let tbodyState = document.querySelector('#tbodyState');
         // let tbodyEvents = document.querySelector('#tbodyEvents');
@@ -272,7 +273,7 @@
         // }
         window.onload = () => {
             @if ($classic)
-                MQTTconnect();
+                MQTTconnect(uuids);
             @endif
             axios.get("{{ route('dashboard.getDevices') }}")
             .then(res => {
@@ -300,7 +301,7 @@
                             .then(res => {
                                 tbodyState.innerHTML = res.data;
                                 @if (!$classic)
-                                    MQTTconnect();
+                                    MQTTconnect(uuids);
                                 @endif
                             });
                         }

@@ -66,6 +66,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all of the telegrams for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function telegrams()
+    {
+        return $this->hasMany(UserTelegram::class, 'user_id', 'id');
+    }
+
+    /**
      * Get the device's id.
      *
      * @return array
@@ -86,6 +96,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the telegram's chat id.
+     *
+     * @return array
+     */
+    public function getTelegramChatIdsAttribute()
+    {
+        return $this->telegrams->pluck('chat_id')->toArray();
+    }
+
+    /**
      * Check device
      *
      * @param Device $device Device
@@ -94,6 +114,17 @@ class User extends Authenticatable
     public function hasDevice(Device $device)
     {
         return in_array($device->id, $this->device_ids);
+    }
+
+    /**
+     * Check Telegram Chat
+     *
+     * @param string $chat_id Telegram chat id
+     * @return bool
+     **/
+    public function hasTelegram($chat_id)
+    {
+        return in_array($chat_id, $this->telegram_chat_ids);
     }
 
     /**
@@ -129,5 +160,24 @@ class User extends Authenticatable
     public function updateDevice(Collection $devices)
     {
         $this->devices()->sync($devices->pluck('id'));
+    }
+
+    /**
+     * Add telegram
+     *
+     * @param string $chat_id Telegram chat id
+     * @param double $lat Latitude
+     * @param double $lon Longitude
+     * @return void
+     **/
+    public function addTelegram($chat_id, $lat, $lon)
+    {
+        if ($this->hasTelegram($chat_id)) return;
+        UserTelegram::create([
+            'chat_id' => $chat_id,
+            'user_id' => $this->id,
+            'latitude' => $lat,
+            'longitude' => $lon
+        ]);
     }
 }
