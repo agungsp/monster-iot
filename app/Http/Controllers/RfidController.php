@@ -46,21 +46,24 @@ class RfidController extends Controller
         return DataTables::of($rfid)
         ->addIndexColumn()
         ->editColumn('expired_at', function($rfid){
-            $diff = abs(strtotime($rfid->expired_at) - strtotime(date('Y-m-d H:i:s')));
-            $days = floor($diff/ (60*60*24)) + 1;
-            if($rfid->expired_at <= date('Y-m-d H:i:s')){
-                return '<span style="color:red;font-weight:600;">'.$rfid->expired_at.'</span>';
-            } elseif($rfid->expired_at > date('Y-m-d H:i:s') && $days <= 7) {
-                return '<span style="color:orange;font-weight:600;">'.$rfid->expired_at.'</span>';
-            } else {
-                return $rfid->expired_at;
-            }
+            // $diff = abs(strtotime($rfid->expired_at) - strtotime(date('Y-m-d H:i:s')));
+            // $days = floor($diff/ (60*60*24)) + 1;
+            // if($rfid->expired_at <= date('Y-m-d H:i:s')){
+            //     return '<span style="color:red;font-weight:600;">'.$rfid->expired_at.'</span>';
+            // } elseif($rfid->expired_at > date('Y-m-d H:i:s') && $days <= 7) {
+            //     return '<span style="color:orange;font-weight:600;">'.$rfid->expired_at.'</span>';
+            // } else {
+            //     return $rfid->expired_at;
+            // }
+
+            $end = Carbon::create($rfid->buy_at)->addDays($rfid->time_limit);
+            return $end;
         })
         ->addColumn('is_broken', function ($rfid) {
             if ($rfid->is_broken == 0) {
-                return '<span class="name badge bg-danger">False</span>';
+                return '<span class="name badge bg-success">Bagus</span>';
             } else {
-                return '<span class="name badge bg-success">True</span>';
+                return '<span class="name badge bg-danger">Rusak</span>';
             }
         })
         ->addColumn('created_at', function ($rfid) {
@@ -79,8 +82,13 @@ class RfidController extends Controller
         // })
         ->setRowAttr([
             'style' => function($rfid){
-                return $rfid->is_broken == 0 ? 'background-color: red;' :
-                        ( $rfid->is_broken == 1 ? 'background-color: yellow;' : 'background-color: green;' );
+                $end = Carbon::create($rfid->buy_at)->addDays($rfid->time_limit)->toDateTimeString();
+                $warning = Carbon::create($end)->subDays(30)->toDateTimeString();
+                if(Carbon::now() >= $end){
+                    return 'background-color: #ff9966;'; 
+                } elseif(Carbon::now() < $end && Carbon::now() >= $warning){
+                    return 'background-color: #ffff99;';
+                }
             }
         ])
         ->rawColumns(['is_broken', 'expired_at', 'action'])
@@ -117,7 +125,7 @@ class RfidController extends Controller
                 'type' => 'required',
                 'sn' => 'required',
                 'buy_at' => 'required',
-                'expired_at' => 'required',
+                'time_limit' => 'required',
                 'kilometer_start' => 'required',
                 'kilometer_end' => 'required',
                 // 'is_broken' => 'required',
@@ -127,7 +135,7 @@ class RfidController extends Controller
                 'type.required' => 'Tipe tidak boleh kosong',
                 'sn.required' => 'Serial tidak boleh kosong',
                 'buy_at.required' => 'Kolom tidak boleh kosong',
-                'expired_at.required' => 'Expired at tidak boleh kosong',
+                'time_limit.required' => 'Expired at tidak boleh kosong',
                 'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
                 'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
                 // 'is_broken.required' => 'is_broken tidak boleh kosong',
@@ -139,7 +147,8 @@ class RfidController extends Controller
                 'type' => $request->type,
                 'sn' => $request->sn,
                 'buy_at' => $request->buy_at,
-                'expired_at' => $request->expired_at,
+                // 'expired_at' => $request->expired_at,
+                'time_limit' => $request->time_limit,
                 'kilometer_start' => str_replace(".", "", $request->kilometer_start),
                 'kilometer_end' => str_replace(".", "", $request->kilometer_end),
                 'is_broken' => 0,
@@ -194,7 +203,7 @@ class RfidController extends Controller
                 'type' => 'required',
                 'sn' => 'required',
                 'buy_at' => 'required',
-                'expired_at' => 'required',
+                'time_limit' => 'required',
                 'kilometer_start' => 'required',
                 'kilometer_end' => 'required',
             ], [
@@ -203,7 +212,7 @@ class RfidController extends Controller
                 'type.required' => 'Tipe tidak boleh kosong',
                 'sn.required' => 'Serial tidak boleh kosong',
                 'buy_at.required' => 'Kolom tidak boleh kosong',
-                'expired_at.required' => 'Expired at tidak boleh kosong',
+                'time_limit.required' => 'Expired at tidak boleh kosong',
                 'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
                 'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
             ]);
@@ -214,7 +223,8 @@ class RfidController extends Controller
                 'type' => $request->type,
                 'sn' => $request->sn,
                 'buy_at' => $request->buy_at,
-                'expired_at' => $request->expired_at,
+                // 'expired_at' => $request->expired_at,
+                'time_limit' => $request->time_limit,
                 'kilometer_start' => str_replace(".", "", $request->kilometer_start),
                 'kilometer_end' => str_replace(".", "", $request->kilometer_end),
                 'is_broken' => $request->is_brokenVal,

@@ -149,7 +149,7 @@
             autoWitdh   : false,
             ajax        : "{{ url('contract/getContract') }}",
             columns     : [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'company', name: 'company'},
                 {data: 'started_at', name: 'started_at'},
                 {data: 'expired_at', name: 'expired_at'},

@@ -17,6 +17,7 @@ class DeviceSeeder extends Seeder
     {
         $device = Device::create([
             'uuid' => '858771fe-15bb-4619-a36e-6a8f8094aaa1',
+            'is_available' => 0,
             'created_by' => 0,
             'updated_by' => 0,
         ]);

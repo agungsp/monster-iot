@@ -38,7 +38,7 @@
                 <th>Expired At</th>
                 <th>KM Start</th>
                 <th>KM End</th>
-                <th>Is Broken</th>
+                <th>Kondisi</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Action</th>
@@ -132,7 +132,7 @@
             serverSide  : true,
             ajax        : "{{ url('rfid/getRfid') }}",
             columns     : [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'uuid', name: 'uuid'},
                 {data: 'brand', name: 'brand'},
                 {data: 'type', name: 'type'},

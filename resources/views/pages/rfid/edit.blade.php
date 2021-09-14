@@ -61,7 +61,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="expired_at" class="form-label">Expired At</label>
-                            <input type="date" name="expired_at" value="{{ Carbon\Carbon::create($rfid->expired_at)->toDateString() }}" class="form-control expired_at @error('expired_at') is-invalid @enderror"/>
+                            {{-- <input type="date" name="expired_at" value="{{ Carbon\Carbon::create($rfid->expired_at)->toDateString() }}" class="form-control expired_at @error('expired_at') is-invalid @enderror"/> --}}
+                            <input type="text" name="time_limit" value="{{ old('time_limit', $rfid->time_limit) }}" class="form-control number0 @error('time_limit') is-invalid @enderror" data-index="1"/>
                             @error('expired_at') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
@@ -76,21 +77,17 @@
                         </div>
                         <div class="mb-4">
                             <div class="form-check form-switch">
-                                @if($rfid->is_broken == 1)
+                                @if($rfid->is_broken == 0)
                                     <input class="form-check-input" type="checkbox" id="is_broken" style="cursor: pointer;" checked>
-                                    <label class="form-check-label" for="is_broken"><span class="badge bg-success" id="stateAktif">True</span></label>
+                                    <label class="form-check-label" for="is_broken"><span class="badge bg-success" id="stateAktif">Bagus</span></label>
                                 @else
                                     <input class="form-check-input" type="checkbox" id="is_broken" style="cursor: pointer;">
-                                    <label class="form-check-label" for="is_broken"><span class="badge bg-danger" id="stateAktif">False</span></label>
+                                    <label class="form-check-label" for="is_broken"><span class="badge bg-danger" id="stateAktif">Rusak</span></label>
                                 @endif
                             </div>
                         </div>
                         <input type="hidden" name="is_brokenVal" id="is_brokenVal" value="{{ old('is_broken', $rfid->is_broken) }}"/>
-                        {{-- <div class="mb-3">
-                            <label for="is_broken" class="form-label">Is Broken</label>
-                            <input type="number" name="is_broken" value="{{ old('is_broken', $rfid->is_broken) }}" class="form-control @error('is_broken') is-invalid @enderror"/>
-                            @error('is_broken') <div class="text-muted">{{ $message }}</div> @enderror
-                        </div> --}}
+                        
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary btn-block" type="submit">
                                 Edit Data
@@ -131,15 +128,15 @@
 
     is_broken.addEventListener('click', function () {
         if (this.checked) {
-            stateAktif.innerHTML = "True";
+            stateAktif.innerHTML = "Bagus";
             stateAktif.classList.remove('bg-danger');
             stateAktif.classList.add('bg-success');
-            is_brokenVal.value = '1';
+            is_brokenVal.value = '0';
         } else {
-            stateAktif.innerHTML = "False";
+            stateAktif.innerHTML = "Rusak";
             stateAktif.classList.remove('bg-success');
             stateAktif.classList.add('bg-danger');
-            is_brokenVal.value = '0';
+            is_brokenVal.value = '1';
         }
     })
 </script>
