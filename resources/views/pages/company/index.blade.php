@@ -23,7 +23,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <a href="{{ url('company/create') }}" class="btn btn-success btn-sm float-end">
+    <a href="{{ url('company/create') }}" class="btn btn-success btn-sm float-end" title="Add">
         <i class="fa fa-plus"></i> Add
     </a>
     <table class="table" id="datatable">
@@ -35,10 +35,12 @@
                 <th>Phone</th>
                 <th>Website</th>
                 <th>Address</th>
+                <th>Created At</th>
+                <th>Updated At</th>
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        {{--  <tbody>
             @if($companies->count() > 0)
                 @foreach ( $companies as $key => $company )
                     <tr>
@@ -46,13 +48,14 @@
                         <td><span class="name">{{ $company->name }}</span></td>
                         <td><span class="name">{{ $company->email }}</span></td>
                         <td><span class="name">{{ $company->phone }}</span></td>
-                        <td><span class="name">{{ $company->website }}</span></td>
+                        <td><span class="name"> <a href="{{ $company->website }}" target="_blank"> {{ $company->website }} </a></span></td>
                         <td><span class="name">{{ $company->address }}</span></td>
+                        <td><span class="name">{{ $company->created_at }}</span></td>
                         <td>
-                            <a href="{{ url('company/edit/'.Crypt::encrypt($company->id)) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('company/edit/'.Crypt::encrypt($company->id)) }}" class="btn btn-primary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $company->id }}">
+                            <button class="btn btn-danger deletebtn btn-sm" value="{{ $company->id }}" title="Delete">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
@@ -63,7 +66,7 @@
                     <td colspan="5" class="text-center">Data Kosong</td>
                 </tr>
             @endif
-        </tbody>
+        </tbody>  --}}
     </table>
 @endsection
 
@@ -99,13 +102,36 @@
 {{-- JS --}}
 @section('js')
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+{{--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>  --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#datatable').DataTable();
+        $('#datatable').DataTable({
+            processing  : true,
+            serverSide  : true,
+            scroolX     : true,
+            autoWitdh   : false,
+            ajax        : "{{ url('company/getCompany') }}",
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'name', name: 'name'},
+                {data: 'email', name: 'email'},
+                {data: 'phone', name: 'phone'},
+                {data: 'website', name: 'website'},
+                {data: 'address', name: 'address'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'updated_at', name: 'updated_at'},
+                {
+                    data: 'action',
+                    name: 'action',
+                    type: 'html',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
+        });
 
         $(document).on('click', '.deletebtn', function() {
             var id = $(this).val();

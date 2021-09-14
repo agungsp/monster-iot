@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\Contract;
+use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class CompanyController extends Controller
 {
@@ -16,10 +19,42 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::orderBy('id', 'DESC')->paginate(Company::count());
-        return view('pages.company.index')->with([
-            'companies' => $companies
-        ]);
+        // $companies = Company::with('contracts')->orderBy('id', 'DESC')->paginate(Company::count());
+        // return view('pages.company.index')->with([
+        //     'companies' => $companies
+        // ]);
+        return view('pages.company.index');
+    }
+
+    public function getCompany()
+    {
+        $company = Company::all();
+        return DataTables::of($company)
+        ->addIndexColumn()
+        ->addColumn('website', function ($company) {
+            return '<span class="name"> <a href="'.$company->website.'" target="_blank"> ' .$company->website. ' </a></span>';
+        })
+        ->addColumn('created_at', function ($company) {
+            return $company->created_at;
+        })
+        ->addColumn('updated_at', function ($company) {
+            return $company->updated_at;
+        })
+        ->addColumn('action', function ($company) {
+            $contract = Contract::all();
+            $user = User::all();
+            $action = '<a href="company/edit/'.Crypt::encrypt($company->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
+            // dd(Contract::where('company_id', '=', Company::get('id'))->exists());
+            if (Contract::where('company_id', $company->id)->exists() || User::where('company_id', $company->id)->exists()) {
+                // dd(true);
+                $action .= '<button class="btn btn-danger btn-sm" disabled><i class="fa fa-trash"></i></button>';
+            } else {
+                // dd(false);
+                $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $company->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+            }
+            return $action;
+        })->rawColumns(['DT_Row_Index', 'website', 'created_at', 'action'])
+        ->make(true);
     }
 
     /**
@@ -44,11 +79,12 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        $regex = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email:rfc,dns',
+            'email' => 'email:rfc,dns',
             'phone' => 'required',
-            'website' => 'required',
+            'website' => 'required|regex:'.$regex,
             'address' => 'required',
         ], [
             'name.required' => 'Name tidak boleh kosong',
@@ -107,7 +143,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'email:rfc,dns',
             'phone' => 'required',
             'website' => 'required',
             'address' => 'required',

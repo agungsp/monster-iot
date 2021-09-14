@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\Contract_Device;
 use App\Models\Rfid;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class ContractsController extends Controller
 {
@@ -22,10 +23,72 @@ class ContractsController extends Controller
     public function index()
     {
         // $devices = Device::all();
-        $savedata = Contract::with('company')->orderBy('id', 'DESC')->paginate(Contract::count());
-        return view('pages.contract.index')->with([
-            'savedata' => $savedata
-        ]);
+        // $savedata = Contract::with('company')->orderBy('id', 'DESC')->paginate(Contract::count());
+        // return view('pages.contract.index')->with([
+        //     'savedata' => $savedata
+        // ]);
+        return view('pages.contract.index');
+    }
+
+    public function getContract()
+    {
+        // if ($request->ajax()) {
+        //     $model = Contract::with('company')->with('devices');
+        //         return DataTables::eloquent($model)
+        //         ->addColumn('company', function(Contract $contract){
+        //             return $contract->company->name;
+        //         })
+        //         ->toJson();
+        // }
+        // $devices = Device::all();
+        $userCompany = Auth::user()->company_id;
+        if(Auth::user()->hasRole('admin')){
+            $getcontract = Contract::all()->where('company_id', $userCompany);
+        } else {
+            $getcontract = Contract::all();
+        }
+        $contract = $getcontract;
+        // $contract = Contract::all();
+        // dd($contract->devices->count());
+        return DataTables::of($contract)
+        ->addIndexColumn()
+        ->addColumn('company', function($contract) {
+            if (empty($contract->company_id)) {
+                return '';
+            } else {
+                return $contract->company->name;
+            }
+        })
+        ->addColumn('jumlahdevice', function($contract) {
+            if (empty($contract->devices->count())) {
+                return 0;
+            } else {
+                return $contract->devices->count();
+            }
+        })
+        ->addColumn('created_at', function ($contract) {
+            return $contract->created_at;
+        })
+        ->addColumn('updated_at', function ($contract) {
+            return $contract->updated_at;
+        })
+        ->addColumn('action', function ($contract) {
+            if ($contract->devices->count() == null) {
+                $action = '<button class="btn btn-success btn-sm me-2" disabled><i class="fas fa-eye"></i></button>';
+            } else {
+                $action = '<a href="contract/assigndevice/'.$contract->id.'" class="btn btn-success btn-sm me-2" title="Assign Device"><i class="fas fa-eye"></i></a>';
+            }
+            if(Auth::user()->hasRole('superadmin')){
+                $action .= '<a href="contract/edit/'.Crypt::encrypt($contract->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
+                if ($contract->devices->count() != null) {
+                    $action .= '<button class="btn btn-danger btn-sm" disabled><i class="fa fa-trash"></i></button>';
+                } else {
+                    $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'. $contract->id. '" title="Delete"><i class="fa fa-trash"></i></button>';
+                }
+            }
+
+            return $action;
+        })->make(true);
     }
 
     /**
@@ -74,6 +137,7 @@ class ContractsController extends Controller
             'company_id' => $request->company_id,
             'started_at' => $request->started_at,
             'expired_at' => $request->expired_at,
+            'note' => $request->keterangan,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
         ]);
@@ -111,6 +175,7 @@ class ContractsController extends Controller
         $id = Crypt::decrypt($id);
         $contract = Contract::where('id', $id)->first();
         $company = Company::all();
+        // dd($contract->devices->count());
         return view('pages.contract.edit', compact('contract', 'company'));
     }
 
@@ -148,21 +213,23 @@ class ContractsController extends Controller
         // Remove device
         foreach ($contract->devices as $device) {
             $device->update(['is_available' => true]);
-            $contract->removeDevice($device);
-            foreach ($users as $user) {
-                $user->removeDevice($device);
-            }
+            // $contract->removeDevice($device);
+            // foreach ($users as $user) {
+            //     $user->removeDevice($device);
+            // }
         }
 
         $contract->update([
             'company_id' => $request->company_id,
+            'note' => $request->keterangan,
             'started_at' => $request->started_at,
             'expired_at' => $request->expired_at,
             'updated_by' => Auth::id(),
         ]);
 
         $devices = Device::where('is_available', true)->limit($request->jumlah)->get();
-        $contract->updateDevice($devices, $company);
+
+        $contract->updateDevice($devices);
         foreach ($company->users as $user) {
             $user->updateDevice($devices);
         }

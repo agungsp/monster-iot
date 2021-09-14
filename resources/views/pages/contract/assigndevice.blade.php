@@ -35,7 +35,7 @@
                     @foreach ( $contract->devices as $device )
                         <tr>
                             <td class="serial">{{ $device->id }}</td>
-                            <td><input type="text" name="uuid[]" value="{{ $device->uuid }}" readonly></td>
+                            <td><input type="text" name="uuid[]" value="{{ $device->uuid }}" style="width: 70%;" readonly></td>
                             <td>
                                 <span class="alias">
                                     <input type="text" name="alias[]" value="{{ old('alias', $device->alias) }}" class="form-control @error('alias') is-invalid @enderror"/>

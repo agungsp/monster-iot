@@ -17,6 +17,11 @@
 @section('title-content', 'RFID')
 
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-md-5">
             <div class="card">
@@ -49,6 +54,16 @@
                             @error('buy_at') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
+                            <label for="expired_at" class="form-label">Expired At</label>
+                            <input type="date" name="expired_at" value="{{ old('expired_at') }}" class="form-control expired_at @error('expired_at') is-invalid @enderror"/>
+                            @error('expired_at') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div>
+                        {{-- <div class="mb-3">
+                            <label for="time_limit" class="form-label">Time Limit</label>
+                            <input type="text" name="time_limit" value="{{ old('time_limit') }}" class="form-control number0 @error('time_limit') is-invalid @enderror" data-index="1"/>
+                            @error('time_limit') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div> --}}
+                        <div class="mb-3">
                             <label for="kilometer_start" class="form-label">KM Start</label>
                             <input type="text" name="kilometer_start" value="{{ old('kilometer_start') }}" class="form-control number1 @error('kilometer_start') is-invalid @enderror" data-index="1"/>
                             @error('kilometer_start') <div class="text-muted">{{ $message }}</div> @enderror
@@ -58,11 +73,11 @@
                             <input type="text" name="kilometer_end" value="{{ old('kilometer_end') }}" class="form-control number2 @error('kilometer_end') is-invalid @enderror" data-index="2"/>
                             @error('kilometer_end') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="is_broken" class="form-label">Is Broken</label>
                             <input type="number" name="is_broken" value="{{ old('is_broken') }}" class="form-control @error('is_broken') is-invalid @enderror"/>
                             @error('is_broken') <div class="text-muted">{{ $message }}</div> @enderror
-                        </div>
+                        </div> --}}
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary btn-block" type="submit">
                                 Tambah Data
@@ -83,14 +98,25 @@
 @section('js')
 <script src="{{ asset('js/cleave.min.js') }}"></script>
 <script>
+    var cleave = new Cleave('.number0', {
+        numeral: true,
+        // numeralThousandsGroupStyle: 'thousand'
+        numeralDecimalMark: ',',
+        delimiter: '.'
+    });
+
     var cleave = new Cleave('.number1', {
         numeral: true,
-        numeralThousandsGroupStyle: 'thousand'
+        // numeralThousandsGroupStyle: 'thousand'
+        numeralDecimalMark: ',',
+        delimiter: '.'
     });
 
     var cleave = new Cleave('.number2', {
         numeral: true,
-        numeralThousandsGroupStyle: 'thousand'
+        // numeralThousandsGroupStyle: 'thousand'
+        numeralDecimalMark: ',',
+        delimiter: '.'
     });
 </script>
 @endsection

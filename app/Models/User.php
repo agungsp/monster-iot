@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'password',
         'avatar',
         'company_id',
+        'is_active',
     ];
 
     /**
@@ -44,6 +46,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the user_device that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     */
+    public function user_device()
+    {
+        return $this->belongsToMany(User_Device::class, 'user_id', 'id');
+    }
 
     /**
      * Get the company that owns the User
