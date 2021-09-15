@@ -6,6 +6,7 @@ use App\Models\Contract_Device;
 use Illuminate\Http\Request;
 use App\Models\Device;
 use App\Models\Contract;
+use App\Models\Rfid;
 
 class Contract_DeviceController extends Controller
 {
@@ -16,10 +17,11 @@ class Contract_DeviceController extends Controller
      */
     public function index($id)
     {
+        $rfid =  Rfid::all();
         $contract = Contract::find($id);
         // dd($contract);
         // $devices = $contract->devices;
-        return view('pages.contract.assigndevice', compact('contract'));
+        return view('pages.contract.assigndevice', compact('contract', 'rfid'));
     }
 
     /**
