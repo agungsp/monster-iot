@@ -261,6 +261,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/sub.js') }}"></script>
     <script>
+        createMap();
         let selectedDevice = "undefined";
         const access = @json(auth()->user()->device_uuids);
         const uuids = "{{ DeviceHelper::getUuids(Crypt::encryptString(auth()->id())) }}";
@@ -301,8 +302,9 @@
                             .then(res => {
                                 tbodyState.innerHTML = res.data;
                                 @if (!$classic)
-                                    MQTTconnect(uuids);
+                                    // MQTTconnect(uuids);
                                 @endif
+                                window.addMarker('uuid 1', [-7.31513, 112.79084]);
                             });
                         }
                     }
