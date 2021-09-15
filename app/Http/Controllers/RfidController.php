@@ -10,6 +10,7 @@ use DateTime;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class RfidController extends Controller
 {
@@ -85,7 +86,7 @@ class RfidController extends Controller
                 $end = Carbon::create($rfid->buy_at)->addDays($rfid->time_limit)->toDateTimeString();
                 $warning = Carbon::create($end)->subDays(30)->toDateTimeString();
                 if(Carbon::now() >= $end){
-                    return 'background-color: #ff9966;'; 
+                    return 'background-color: #ff9966;';
                 } elseif(Carbon::now() < $end && Carbon::now() >= $warning){
                     return 'background-color: #ffff99;';
                 }
@@ -250,5 +251,19 @@ class RfidController extends Controller
         $rfid = Rfid::find($id);
         $rfid->delete();
         return redirect('rfid/')->with('status', 'RFID berhasil dihapus!');
+    }
+
+    public function quickInsert(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'uuid' => ['required']
+        ]);
+        $rfid = Rfid::where('uuid', $request->uuid)->count();
+        if ($validator->fails() || $rfid > 0) return false;
+
+        $rfid = Rfid::create([
+            'uuid' => $request->uuid,
+        ]);
+        return !empty($rfid);
     }
 }

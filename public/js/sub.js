@@ -7,10 +7,22 @@ let lastCoordinate = {
     LAT: "",
     LON: "",
 };
+let lastNotifPerEvent = {
+    SP1: "",
+    SP2: "",
+    MAG: "",
+    PROX: "",
+    PB: "",
+    RS: "",
+    DRI: "",
+    DRO: "",
+    TANK: "",
+};
+let signatures = "";
 
 function onFailure(message) {
-    console.log("Connection Attempt to Host " + host + "Failed");
-    setTimeout(MQTTconnect, reconnectTimeout);
+    console.error("Connection Attempt to Host " + host + " Failed");
+    setTimeout(MQTTconnect(signatures), reconnectTimeout);
 }
 function onMessageArrived(msg) {
     // document.getElementById("changeText").innerHTML = "<h1>"+msg.payloadString+"</h1>";
@@ -38,11 +50,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "terbuka";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Pintu 1 Terbuka",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.SP1 !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.SP1 = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Pintu 1 Terbuka",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("SP1").innerHTML =
@@ -59,11 +79,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "tertutup";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "success",
-                    title: "Pintu 1 Tertutup",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.SP1 !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.SP1 = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Pintu 1 Tertutup",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
 
@@ -82,11 +110,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "terbuka";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Pintu 2 Terbuka",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.SP2 !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.SP2 = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Pintu 2 Terbuka",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("SP2").innerHTML =
@@ -103,11 +139,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "tertutup";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "Success",
-                    title: "Pintu 2 Tertutup",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.SP2 !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.SP2 = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Pintu 2 Tertutup",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
 
@@ -126,11 +170,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "tidak terkunci";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Kunci Pintu Tidak Terkunci",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.MAG !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.MAG = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Kunci Pintu Tidak Terkunci",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("MAG").innerHTML =
@@ -147,11 +199,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "terkunci";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "success",
-                    title: "Kunci Pintu Terkunci",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.MAG !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.MAG = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Kunci Pintu Terkunci",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
     }
@@ -178,11 +238,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "tidak aman";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Proximity Tidak Aman",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.PROX !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.PROX = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Proximity Tidak Aman",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("PROX").innerHTML =
@@ -199,11 +267,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "aman";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "success",
-                    title: "Proximity Aman",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.PROX !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.PROX = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Proximity Aman",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
         document.getElementById("LC").innerHTML = data.LC.value;
@@ -230,11 +306,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "bahaya";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Emergency Button Bahaya",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.PB !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.PB = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Emergency Button Bahaya",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("PB").innerHTML =
@@ -251,11 +335,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "aman";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "success",
-                    title: "Emergency Button Aman",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.PB !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.PB = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Emergency Button Aman",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
         if (data.RS.value == "0") {
@@ -273,11 +365,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "mati";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Mesin Mati",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.RS !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.RS = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Mesin Mati",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("RS").innerHTML =
@@ -294,11 +394,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "nyala";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "success",
-                    title: "Mesin Menyala",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.RS !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.RS = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Mesin Menyala",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
         if (data.DRI.value == "0") {
@@ -316,11 +424,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "stabil";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "success",
-                    title: "Driving Behaviour Stabil",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.DRI !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.DRI = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Driving Behaviour Stabil",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("DRI").innerHTML =
@@ -337,11 +453,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "tidak stabil";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Driving Behaviour Tidak Stabil",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.DRI !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.DRI = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Driving Behaviour Tidak Stabil",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
         if (data.DRO.value == "0") {
@@ -359,11 +483,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "tidak mengantuk";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "success",
-                    title: "Drowness Tidak Mengantuk",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.DRO !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.DRO = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Drowness Tidak Mengantuk",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("DRO").innerHTML =
@@ -380,11 +512,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "mengantuk";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Drowness Mengantuk",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.DRO !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.DRO = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Drowness Mengantuk",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
         if (data.TANK.value == "0") {
@@ -402,11 +542,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "terbuka";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "error",
-                    title: "Tutup Tangki Terbuka",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.TANK !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.TANK = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "error",
+                        title: "Tutup Tangki Terbuka",
+                        footer: data.UUID,
+                    });
+                }
             }
         } else {
             document.getElementById("TANK").innerHTML =
@@ -423,11 +571,19 @@ function onMessageArrived(msg) {
                 cellStatus.innerHTML = "tertutup";
                 cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
-                Toast.fire({
-                    icon: "success",
-                    title: "Tutup Tangki Tertutup",
-                    footer: data.UUID,
-                });
+                if (
+                    lastNotifPerEvent.TANK !==
+                    moment().format("YYYY-MM-DD HH:mm:ss")
+                ) {
+                    lastNotifPerEvent.TANK = moment().format(
+                        "YYYY-MM-DD HH:mm:ss"
+                    );
+                    Toast.fire({
+                        icon: "success",
+                        title: "Tutup Tangki Tertutup",
+                        footer: data.UUID,
+                    });
+                }
             }
         }
         document.getElementById("LAT").innerHTML = data.LAT.value;
@@ -497,8 +653,13 @@ function onConnect() {
     mqtt.subscribe("/event/858771fe-15bb-4619-a36e-6a8f8094aaa1/#");
 }
 
-function MQTTconnect() {
-    console.log("connecting to " + host + " " + port);
+function MQTTconnect(signature) {
+    signatures = signature;
+    if (!window.validateUuidSignatures(signatures)) {
+        console.error("Signature is not valid!");
+        return false;
+    }
+    console.info("connecting to " + host + ":" + port);
     var x = Math.floor(Math.random() * 10000);
     var cname = "orderform-" + x;
     mqtt = new Paho.MQTT.Client(host, port, cname);

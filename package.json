@@ -18,12 +18,14 @@
         "popper.js": "^1.16.1",
         "postcss": "^8.1.14",
         "resolve-url-loader": "^4.0.0",
-        "sass": "^1.32.11",
-        "sass-loader": "^11.0.1"
+        "sass": "^1.40.1",
+        "sass-loader": "^12.1.0"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
         "cleave.js": "^1.6.0",
+        "datatables.net": "^1.11.2",
+        "datatables.net-bs5": "^1.11.2",
         "laravel-echo": "^1.11.1",
         "leaflet": "^1.7.1",
         "moment": "^2.29.1",

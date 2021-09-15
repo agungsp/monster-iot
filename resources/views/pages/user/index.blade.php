@@ -33,9 +33,6 @@
     <a href="{{ route('user.create') }}" class="btn btn-success btn-sm float-end" title="Add">
         <i class="fa fa-plus"></i> Add
     </a>
-    {{--  <a href="{{ route('user.trash') }}" class="btn btn-danger btn-sm float-end" title="Trash">
-        <i class="fa fa-trash"></i> Trash
-    </a>  --}}
     <table class="table" id="datatable">
         <thead>
             <tr>
@@ -51,65 +48,6 @@
                 <th>Action</th>
             </tr>
         </thead>
-        {{-- <tbody>
-            @if($users->count() > 0)
-                @foreach ( $users as $key => $user )
-                    <tr>
-                        <td class="serial">{{ $users->firstItem() + $key }}</td>
-                        <td><span class="name">{{ $user->name }}</span></td>
-                        <td><span class="name">{{ $user->email }}</span></td>
-                        <td><span class="name">{{ empty($user->company_id) ? '' : $user->company->name}}</span></td>
-                        <td>
-                            @if( str_replace(['["','"]'], '', $user->getRoleNames()) == 'superadmin')
-                                <span class="name badge bg-primary">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
-                            @elseif( str_replace(['["','"]'], '', $user->getRoleNames()) == 'admin')
-                                <span class="name badge bg-warning text-dark">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
-                            @elseif( str_replace(['["','"]'], '', $user->getRoleNames()) == 'user')
-                                <span class="name badge bg-danger">{{ str_replace(['["','"]'], '', $user->getRoleNames()); }}</span>
-                            @endif
-                        </td>
-                        <td>
-                            <img src="{{ empty($user->avatar) ? 'https://ui-avatars.com/api/?name='.$user->name : asset('storage/'.$user->avatar) }}" class="img-thumbnail rounded-circle">
-                        </td>
-                        <td>
-                            @if ($user->is_active == 1)
-                                <span class="name badge bg-success">Aktif</span>
-                            @else
-                                <span class="name badge bg-danger">Tidak Aktif</span>
-                            @endif
-                        </td>
-                        <td>
-                            @hasrole('superadmin')
-                                <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}" title="Delete">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            @endhasrole
-                            @hasrole('admin')
-                                @if(str_replace(['["','"]'], '', $user->getRoleNames()) != 'admin' && Auth::user()->id != $user->id)
-                                    <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button class="btn btn-danger deletebtn btn-sm" value="{{ $user->id }}" title="Delete">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                @elseif(str_replace(['["','"]'], '', $user->getRoleNames()) == 'admin' && Auth::user()->id == $user->id)
-                                    <a href="{{ url('user/edit/'.Crypt::encrypt($user->id)) }}" class="btn btn-primary btn-sm" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endif
-                            @endhasrole
-                        </td>
-                    </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td colspan="5" class="text-center">Data Kosong</td>
-                </tr>
-            @endif
-        </tbody> --}}
     </table>
 @endsection
 
@@ -144,51 +82,46 @@
 
 {{-- JS --}}
 @section('js')
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#datatable').DataTable({
-            processing: true,
-            serverSide: true,
-            scrollX   : true,
-            autoWidth : false,
-            ajax: "{{ url('user/getUser') }}",
-            columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
-                {data: 'name', name: 'users.name'},
-                {data: 'email', name: 'email'},
-                {data: 'company', name: 'companies.name'},
-                {data: 'role', name: 'roles.name', type: 'html'},
-                {data: 'avatar', name: 'avatar', type: 'html', orderable: false, searchable: false},
-                {data: 'is_active', name: 'is_active'},
-                {data: 'created_at', name: 'created_at'},
-                {data: 'updated_at', name: 'updated_at'},
-                {
-                    data: 'action',
-                    name: 'action',
-                    type: 'html',
-                    orderable: false,
-                    searchable: false
-                }
-            ]
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                scrollX   : true,
+                autoWidth : false,
+                ajax: "{{ url('user/getUser') }}",
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                    {data: 'name', name: 'users.name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'company', name: 'companies.name'},
+                    {data: 'role', name: 'roles.name', type: 'html'},
+                    {data: 'avatar', name: 'avatar', type: 'html', orderable: false, searchable: false},
+                    {data: 'is_active', name: 'is_active'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'updated_at', name: 'updated_at'},
+                    {
+                        data: 'action',
+                        name: 'action',
+                        type: 'html',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+
+            $(document).on('click', '.deletebtn', function() {
+                var id = $(this).val();
+                // alert(id);
+                $('#deletemodal').modal('show');
+                $('#deleting_id').val(id);
+            });
         });
 
-        $(document).on('click', '.deletebtn', function() {
-            var id = $(this).val();
-            // alert(id);
-            $('#deletemodal').modal('show');
-            $('#deleting_id').val(id);
-        });
-    });
-
-    $(function() {
-        $('.toggle-one').bootstrapToggle();
-    })
-</script>
+        $(function() {
+            $('.toggle-one').bootstrapToggle();
+        })
+    </script>
 @endsection
 

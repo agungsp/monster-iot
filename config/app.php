@@ -177,6 +177,9 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
 
+        App\Providers\DeviceHelperServiceProvider::class,
+        App\Providers\FunctionHelperServiceProvider::class,
+
     ],
 
     /*
@@ -232,6 +235,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
+        'DeviceHelper' => App\Helpers\DeviceHelper::class,
+        'FunctionHelper' => App\Helpers\FunctionHelper::class,
     ],
 
 ];
