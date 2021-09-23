@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Company;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Rfid;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use DateTime;
@@ -47,17 +50,11 @@ class RfidController extends Controller
         return DataTables::of($rfid)
         ->addIndexColumn()
         ->editColumn('expired_at', function($rfid){
-            // $diff = abs(strtotime($rfid->expired_at) - strtotime(date('Y-m-d H:i:s')));
-            // $days = floor($diff/ (60*60*24)) + 1;
-            // if($rfid->expired_at <= date('Y-m-d H:i:s')){
-            //     return '<span style="color:red;font-weight:600;">'.$rfid->expired_at.'</span>';
-            // } elseif($rfid->expired_at > date('Y-m-d H:i:s') && $days <= 7) {
-            //     return '<span style="color:orange;font-weight:600;">'.$rfid->expired_at.'</span>';
-            // } else {
-            //     return $rfid->expired_at;
-            // }
-
-            $end = Carbon::create($rfid->buy_at)->addDays($rfid->time_limit);
+            if ($rfid->time_limit != 0) {
+                $end = Carbon::create($rfid->buy_at)->addDays($rfid->time_limit);
+            } else {
+                $end = '';
+            }
             return $end;
         })
         ->addColumn('is_broken', function ($rfid) {
@@ -104,8 +101,12 @@ class RfidController extends Controller
     public function create()
     {
         $savedata = Rfid::all();
+        $userCompany = Auth::user()->company_id;
+        $companies = Company::all();
         return view('pages.rfid.create')->with([
-            'savedata' => $savedata
+            'savedata' => $savedata,
+            'userCompany' => $userCompany,
+            'companies' => $companies
         ]);
     }
 
@@ -122,36 +123,15 @@ class RfidController extends Controller
         } else {
             $request->validate([
                 'uuid' => 'required:3',
-                'brand' => 'required',
-                'type' => 'required',
-                'sn' => 'required',
-                'buy_at' => 'required',
-                'time_limit' => 'required',
-                'kilometer_start' => 'required',
-                'kilometer_end' => 'required',
-                // 'is_broken' => 'required',
+                'company_id' => 'required|integer|exists:companies,id',
             ], [
                 'uuid.required' => 'uuid tidak boleh kosong',
-                'brand.required' => 'Brand tidak boleh kosong',
-                'type.required' => 'Tipe tidak boleh kosong',
-                'sn.required' => 'Serial tidak boleh kosong',
-                'buy_at.required' => 'Kolom tidak boleh kosong',
-                'time_limit.required' => 'Expired at tidak boleh kosong',
-                'kilometer_start.required' => 'kilometer_start tidak boleh kosong',
-                'kilometer_end.required' => 'kilometer_end tidak boleh kosong',
-                // 'is_broken.required' => 'is_broken tidak boleh kosong',
+                'company_id.required' => 'Company tidak boleh kosong',
             ]);
 
             Rfid::create([
                 'uuid' => $request->uuid,
-                'brand' => $request->brand,
-                'type' => $request->type,
-                'sn' => $request->sn,
-                'buy_at' => $request->buy_at,
-                // 'expired_at' => $request->expired_at,
-                'time_limit' => $request->time_limit,
-                'kilometer_start' => str_replace(".", "", $request->kilometer_start),
-                'kilometer_end' => str_replace(".", "", $request->kilometer_end),
+                'company_id' => $request->company_id,
                 'is_broken' => 0,
                 'created_by' => Auth::id(),
                 'updated_by' => Auth::id(),
@@ -182,8 +162,12 @@ class RfidController extends Controller
     {
         $id = Crypt::decrypt($id);
         $rfid = Rfid::where('id', $id)->first();
+        $userCompany = Auth::user()->company_id;
+        $companies = Company::all();
         return view('pages.rfid.edit')->with([
-            'rfid' => $rfid
+            'rfid' => $rfid,
+            'userCompany' => $userCompany,
+            'companies' => $companies,
         ]);
     }
 
