@@ -51,7 +51,7 @@
                                     <button type="button" class="btn btn-success" onclick="tambahRfid('{{ $device->id }}', '{{ $device->uuid }}'); return false;">Tambah RFID</button>
                                 </div>
                             </div>
-                            <input id="idf{{ $device->id }}" name="rfid_limit[{{ $device->uuid }}]" value="5" type="hidden" />
+                            <input id="idf{{ $device->id }}" name="rfid_limit[{{ $device->uuid }}]" value="1" type="hidden" />
                             <div class="col-12" id="divRfidDevice{{ $device->id }}">
     
                                 @for ($i = 1; $i <= 4; $i++)
@@ -148,6 +148,7 @@
 
 <script language="javascript">
     var rfids = @json($rfids);
+
     function tambahRfid(id, uuid) {
       var idf = document.getElementById("idf"+id).value;
       let input_rfid_uuid = "";
@@ -177,7 +178,7 @@
 
 <script>
     function select2(){
-        $('.js-example-basic-single').select2({
+        $('select').select2({
             placeholder: "Pilih RFID",
             allowClear: true
         });
@@ -186,7 +187,9 @@
     function select2_onSelect(){
         $(".js-example-basic-single").on('select2:select', function (e) {
             var id = $(this).attr('id');
-            var val = $(this).val();
+            // var val = $(this).val();
+            var val = e.params.data.id;
+
             console.log(id);
             console.log(val);
             for (let i = 1; i <= 7; i++) {

@@ -18,7 +18,7 @@ class Contract_DeviceController extends Controller
      */
     public function index($id)
     {
-        $rfids =  Rfid::all()->pluck('uuid');
+        $rfids =  Rfid::pluck('uuid');
         $contract = Contract::find($id);
         // dd($contract);
         // $devices = $contract->devices;
@@ -44,24 +44,6 @@ class Contract_DeviceController extends Controller
             $k=0;
             // dd($arr_limit);
             for ($j=0; $j < $rfid_limit; $j++) { 
-                // if (!is_null($request->rfid_uuid[$request->uuid[$i]][$j])) {
-                //     Rfid::where('uuid', $request->rfid_uuid[$request->uuid[$i]][$j])->update([
-                //         'brand' => $request->rfid_brand[$request->uuid[$i]][$j],
-                //         'type' => $request->rfid_tipe[$request->uuid[$i]][$j],
-                //         'sn' => $request->rfid_sn[$request->uuid[$i]][$j],
-                //         'buy_at' => $request->rfid_buyat[$request->uuid[$i]][$j],
-                //         'time_limit' => $request->rfid_timelimit[$request->uuid[$i]][$j],
-                //         'kilometer_start' => $request->rfid_kmstart[$request->uuid[$i]][$j],
-                //         'kilometer_end' => $request->rfid_kmend[$request->uuid[$i]][$j],
-                //         'device_id' => $request->device_id[$i],
-                //         'is_connect' => true,
-                //         'updated_by' => Auth::id(),
-                //     ]);
-                // } else {
-                //     continue;
-                // }
-                // dd(is_null($request->rfid_uuid[$request->uuid[$i]][$j]));
-                
                 if (is_null($request->rfid_uuid[$request->uuid[$i]][$j])) {
                     continue;
                 } else {
