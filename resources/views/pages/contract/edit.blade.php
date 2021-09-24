@@ -59,6 +59,59 @@
                             @error('jumlah') <div class="text-muted">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Pilihan Node</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        @if ($contract->use_base)
+                                            <input class="form-check-input" type="checkbox" id="node_base" name="node_base" checked>   
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="node_base" name="node_base">   
+                                        @endif
+                                        <input type="hidden" id="node_base_val" name="node_base_val" value="{{ old('use_base', $contract->use_base) }}" class="form-control" readonly/>
+                                        <label class="form-check-label" for="node_base">
+                                          Base
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        @if ($contract->use_load)
+                                            <input class="form-check-input" type="checkbox" id="node_load" name="node_load" checked>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="node_load" name="node_load">   
+                                        @endif
+                                        <input type="hidden" id="node_load_val" name="node_load_val" value="{{ old('use_load', $contract->use_load) }}" class="form-control" readonly/>
+                                        <label class="form-check-label" for="node_load">
+                                            Beban
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        @if ($contract->use_door)
+                                            <input class="form-check-input" type="checkbox" id="node_door" name="node_door" checked>    
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="node_door" name="node_door">   
+                                        @endif
+                                        <input type="hidden" id="node_door_val" name="node_door_val" value="{{ old('use_door', $contract->use_door) }}" class="form-control" readonly/>
+                                        <label class="form-check-label" for="node_door">
+                                          Pintu
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        @if ($contract->use_rfid)
+                                            <input class="form-check-input" type="checkbox" id="node_rfid" name="node_rfid" checked>    
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="node_rfid" name="node_rfid">
+                                        @endif
+                                        <input type="hidden" id="node_rfid_val" name="node_rfid_val" value="{{ old('use_rfid', $contract->use_rfid) }}" class="form-control" readonly/>
+                                        <label class="form-check-label" for="node_rfid">
+                                            RFID
+                                        </label>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="mb-3">
                             <label for="keterangan" class="form-label">Keterangan</label>
                             <textarea class="form-control" name="keterangan" rows="5">{{ old('keterangan') }}</textarea>
                         </div>
@@ -75,7 +128,46 @@
 @endsection
 {{-- MODAL --}}
 @section('modal')
+    <script>
+        const is_base = document.querySelector('#node_base');
+        const is_door = document.querySelector('#node_door');
+        const is_load = document.querySelector('#node_load');
+        const is_rfid = document.querySelector('#node_rfid');
 
+        const is_base_val = document.querySelector('#node_base_val');
+        const is_door_val = document.querySelector('#node_door_val');
+        const is_load_val = document.querySelector('#node_load_val');
+        const is_rfid_val = document.querySelector('#node_rfid_val');
+
+        is_base.addEventListener('click', function () {
+            if (this.checked) {
+                is_base_val.value = '1';
+            } else {
+                is_base_val.value = '0';
+            }
+        });
+        is_door.addEventListener('click', function () {
+            if (this.checked) {
+                is_door_val.value = '1';
+            } else {
+                is_door_val.value = '0';
+            }
+        });
+        is_load.addEventListener('click', function () {
+            if (this.checked) {
+                is_load_val.value = '1';
+            } else {
+                is_load_val.value = '0';
+            }
+        });
+        is_rfid.addEventListener('click', function () {
+            if (this.checked) {
+                is_rfid_val.value = '1';
+            } else {
+                is_rfid_val.value = '0';
+            }
+        });
+    </script>
 @endsection
 
 {{-- JS --}}

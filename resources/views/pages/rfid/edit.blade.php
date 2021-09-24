@@ -87,6 +87,27 @@
                             </div>
                         </div>
                         <input type="hidden" name="is_brokenVal" id="is_brokenVal" value="{{ old('is_broken', $rfid->is_broken) }}"/>
+                        <div class="mb-3">
+                            <label for="companies" class="form-label">Company</label>
+                            @hasrole('superadmin')
+                            <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
+                            @endhasrole
+                            @hasrole('admin')
+                            <select class="form-control @error('company_id') is-invalid @enderror" disabled>
+                            @endhasrole
+                                <option value="">- PILIH -</option>
+                                @foreach ($companies as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('company_id', $rfid->company_id) == $item->id ? 'selected' : null }}>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @hasrole('admin')
+                            <input type="hidden" id="company_id" name="company_id" value="{{ $user->company_id }}" class="form-control" readonly/>
+                            @endhasrole
+                            @error('company_id') <div class="text-muted">{{ $message }}</div> @enderror
+                        </div>
                         
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary btn-block" type="submit">
