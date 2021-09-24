@@ -2,7 +2,11 @@
     <tr>
         <td>Pintu 1</td>
         <td id="SP1">
-            <span class="badge rounded-pill bg-success">Tertutup</span>
+            @if ($device->door1_state ?? 'Closed' == 'Opened')
+                <span class="badge rounded-pill bg-danger">Terbuka</span>
+            @else
+                <span class="badge rounded-pill bg-success">Tertutup</span>
+            @endif
         </td>
     </tr>
 @endif
@@ -10,7 +14,11 @@
     <tr>
         <td>Pintu 2</td>
         <td id="SP2">
-            <span class="badge rounded-pill bg-success">Tertutup</span>
+            @if ($device->door2_state ?? 'Closed' == 'Opened')
+                <span class="badge rounded-pill bg-danger">Terbuka</span>
+            @else
+                <span class="badge rounded-pill bg-success">Tertutup</span>
+            @endif
         </td>
     </tr>
 @endif
@@ -18,7 +26,11 @@
     <tr>
         <td>Kunci Pintu</td>
         <td id="MAG">
-            <span class="badge rounded-pill bg-success">Terkunci</span>
+            @if ($device->door_lock_state ?? 'Closed' == 'Opened')
+                <span class="badge rounded-pill bg-danger">Tidak Terkunci</span>
+            @else
+                <span class="badge rounded-pill bg-success">Terkunci</span>
+            @endif
         </td>
     </tr>
 @endif
@@ -34,7 +46,11 @@
     <tr>
         <td>Proximity</td>
         <td id="PROX">
-            <span class="badge rounded-pill bg-success">Aman</span>
+            @if ($device->proximity_state ?? 'Unsafe' == 'Safe')
+                <span class="badge rounded-pill bg-danger">Tidak Aman</span>
+            @else
+                <span class="badge rounded-pill bg-success">Aman</span>
+            @endif
         </td>
     </tr>
 @endif
@@ -42,7 +58,11 @@
     <tr>
         <td>Emergency Button</td>
         <td id="PB">
-            <span class="badge rounded-pill bg-success">Aman</span>
+            @if ($device->emergency_button_state ?? 'Unsafe' == 'Safe')
+                <span class="badge rounded-pill bg-danger">Tidak Aman</span>
+            @else
+                <span class="badge rounded-pill bg-success">Aman</span>
+            @endif
         </td>
     </tr>
 @endif
@@ -50,7 +70,11 @@
     <tr>
         <td>Mesin</td>
         <td id="RS">
-            <span class="badge rounded-pill bg-success">Menyala</span>
+            @if ($device->machine_state ?? 'On' == 'Off')
+                <span class="badge rounded-pill bg-danger">Mati</span>
+            @else
+                <span class="badge rounded-pill bg-success">Menyala</span>
+            @endif
         </td>
     </tr>
 @endif
@@ -58,7 +82,11 @@
     <tr>
         <td>Driving Behaviour</td>
         <td id="DRI">
-            <span class="badge rounded-pill bg-success">Stabil</span>
+            @if ($device->driving_behavior_state ?? 'Stable' == 'Unstable')
+                <span class="badge rounded-pill bg-danger">Tidak Stabil</span>
+            @else
+                <span class="badge rounded-pill bg-success">Stabil</span>
+            @endif
         </td>
     </tr>
 @endif
@@ -66,7 +94,11 @@
     <tr>
         <td>Drowness</td>
         <td id="DRO">
-            <span class="badge rounded-pill bg-success">Tidak Mengantuk</span>
+            @if ($device->drowsiness_state ?? 'Sleepy' == 'Not Sleepy')
+                <span class="badge rounded-pill bg-danger">Mengantuk</span>
+            @else
+                <span class="badge rounded-pill bg-success">Tidak Mengantuk</span>
+            @endif
         </td>
     </tr>
 @endif
@@ -74,7 +106,11 @@
     <tr>
         <td>Tutup Tangki</td>
         <td id="TANK">
-            <span class="badge rounded-pill bg-success">Tertutup</span>
+            @if ($device->fuel_tank_state ?? 'Closed' == 'Opened')
+                <span class="badge rounded-pill bg-danger">Terbuka</span>
+            @else
+                <span class="badge rounded-pill bg-success">Tertutup</span>
+            @endif
         </td>
     </tr>
 @endif

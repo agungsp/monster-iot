@@ -1,10 +1,12 @@
 @forelse ($devices as $device)
     <tr class="itemDevice" data-uuid="{{ $device->uuid }}" id="device.{{ $device->id }}">
-        <td class="text-truncate">{{ $device->alias ?? $device->uuid }}</td>
-        <td style="width: 4rem;">
-            <span class="badge rounded-pill bg-success">Online</span>
+        <td style="width: 1rem;">
+            <input type="checkbox" name="form-checkbox" id="">
         </td>
-        <td style="width: 8rem;">0 min ago</td>
+        <td style="width: 8rem;" class="text-truncate">{{ $device->alias ?? $device->uuid }}</td>
+        <td style="width: 4rem;">
+            <i class="fas fa-check-circle text-success"></i>
+        </td>
     </tr>
 @empty
     <tr>

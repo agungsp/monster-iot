@@ -1,9 +1,60 @@
 window.map = null;
 window.mapIcon = null;
 window.mapMarkers = [];
+window.latlon = [];
+window.contextmenuLatLng = [];
+window.geofenceInput = `<div class="m-3">
+                            <label class="form-label" for="geofenceValue">Geofence radius (m)</label>
+                            <input type="text" style="min-width:10rem;" value="50" class="form-control" id="geofenceValue">
+                        </div>`;
+window.markerNameInput = `<div class="m-3">
+                              <label class="form-label" for="markerName">Marker Name (optional)</label>
+                              <input type="text" style="min-width:10rem;" placeholder="(optional)" class="form-control" id="markerName">
+                          </div>`;
 
-window.createMap = (centerPoint = null) => {
-    window.map = L.map("map").setView(centerPoint ?? [-7.31513, 112.79084], 10);
+window.createMap = (zoom = 10, centerPoint = null, geofances = []) => {
+    window.map = L.map("map", {
+        center: centerPoint ?? [-7.31513, 112.79084],
+        zoom: zoom,
+        contextmenu: true,
+        contextmenuWidth: 140,
+        contextmenuItems: [
+            {
+                text: 'Add Geofence',
+                callback: () => {
+                    let geofencePopup = L.popup()
+                                         .setLatLng(window.contextmenuLatLng)
+                                         .setContent(window.geofenceInput)
+                                         .openOn(window.map);
+                    document.getElementById('geofenceValue')
+                            .addEventListener('keypress', (e) => {
+                                if (e.key == 'Enter') {
+                                    window.addCircle(window.contextmenuLatLng, document.getElementById('geofenceValue').value ?? 200)
+                                    window.map.closePopup(geofencePopup);
+                                }
+                            });
+                }
+            },
+            {
+                text: 'Add Marker',
+                callback: () => {
+                    let markerNamePopup = L.popup()
+                                           .setLatLng(window.contextmenuLatLng)
+                                           .setContent(window.markerNameInput)
+                                           .openOn(window.map);
+                    document.getElementById('markerName')
+                            .addEventListener('keypress', (e) => {
+                                if (e.key == 'Enter') {
+                                    let name = document.getElementById('markerName').value.length == 0 ? window.contextmenuLatLng.join(', ') : document.getElementById('markerName').value;
+                                    window.addMarker(name, window.contextmenuLatLng);
+                                    window.addTooltipToMarker(name, name);
+                                    window.map.closePopup(markerNamePopup);
+                                }
+                            });
+                }
+            }
+        ]
+    });
     window.mapIcon = L.icon({
         iconUrl: "../images/marker-icon.png",
         iconSize: [29, 45],
@@ -17,11 +68,23 @@ window.createMap = (centerPoint = null) => {
         attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(window.map);
+
+    window.map.on('click', (e) => {
+
+    });
+    window.map.on('contextmenu', function(e){
+        window.contextmenuLatLng = [e.latlng.lat, e.latlng.lng];
+    });
+    geofances.forEach(el =>  {
+        window.addMarker(el.name, el.latlng);
+        window.addTooltipToMarker(el.name, el.name);
+        window.addCircleToMarker(el.name, el.radius);
+    });
 };
 
 window.addMarker = (name, latlon) => {
-    let marker = {};
-    marker[name] = {
+    let marker = {
+        name: name,
         latlon: latlon,
         marker: L.marker(latlon, {
             icon: window.mapIcon,
@@ -31,6 +94,53 @@ window.addMarker = (name, latlon) => {
 };
 
 window.showMarker = (name) => {
-    let keys = Object.keys(window.mapMarkers);
-    return keys.indexOf(name) < 0 ? null : window.mapMarkers[name];
+    let result = undefined;
+    window.mapMarkers.forEach(marker => {
+        if (marker.name === name) {
+            result =  marker;
+        }
+    });
+    return result;
 };
+
+window.geofenceProcess = (e) => {
+    console.log(e);
+}
+
+window.addCircle = (latlon = [], radius = 200, color = '#3388ff') => {
+    L.circle(latlon, {
+        radius: radius,
+        color: color
+    }).addTo(window.map);
+}
+
+window.addCircleToMarker = (name, radius = 200, color = '#3388ff') => {
+    let marker = window.showMarker(name);
+    window.addCircle(marker.latlon, radius, color);
+}
+
+window.addTooltipToMarker = (name, text = "This is tooltip", alwaysShow = false) => {
+    let marker = window.showMarker(name);
+    marker.marker.bindTooltip(text, {
+        permanent: alwaysShow
+    });
+}
+
+window.drawRoute = (latlonList, color = '#ff0000', withEndMarker = false, autoFitMap = false) => {
+    let polyline = L.polyline(latlonList, {color: color}).addTo(window.map);
+    if (withEndMarker) {
+        L.marker(latlonList[latlonList.length-1], {
+            icon: window.mapIcon,
+        }).addTo(window.map);
+    }
+    if (autoFitMap) {
+        window.map.fitBounds(polyline.getBounds());
+    }
+}
+
+window.clearMarkers = () => {
+    window.mapMarkers.forEach(item => {
+        item.marker.remove();
+    });
+    window.mapMarkers = [];
+}

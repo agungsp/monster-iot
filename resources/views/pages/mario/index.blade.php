@@ -11,6 +11,9 @@
     <title>Dashboard | {{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
+        body {
+            overflow-x: hidden;
+        }
         tbody {
             display:block;
             overflow:auto;
@@ -50,6 +53,68 @@
         /* Handle on hover */
         ::-webkit-scrollbar-thumb:hover {
             background: var(--bs-gray-dark);
+        }
+
+        .overlay-wrapper {
+            position: absolute;
+            z-index: 1030;
+            background-color: #fff;
+            padding: .25rem;
+        }
+
+        .right-panel {
+            width: 20rem;
+            height: 32rem;
+            right: 0;
+            transition: width .5s;
+        }
+
+        .bottom-panel {
+            width: 68rem;
+            height: 12rem;
+            bottom: 0;
+            left: .5rem;
+            transition: height .5s;
+        }
+
+        .right-panel.hide {
+            width: 0;
+        }
+
+        .right-panel.hide table {
+            display: none;
+        }
+
+        .bottom-panel.hide {
+            height: 0;
+        }
+
+        .bottom-panel.hide table {
+            display: none;
+        }
+
+        .right-panel .control {
+            position: absolute;
+            background: rgb(237,237,237);
+            background: linear-gradient(270deg, rgba(237,237,237,1) 0%, rgba(217,217,217,1) 100%);
+            border: 1px solid rgb(217,217,217);
+            padding: 3rem .25rem 3rem .25rem;
+            border-radius: 3rem 0 0 3rem;
+            top: 12rem;
+            left: -.7rem;
+            cursor: pointer;
+        }
+
+        .bottom-panel .control {
+            position: absolute;
+            background: rgb(237,237,237);
+            background: linear-gradient(270deg, rgba(237,237,237,1) 0%, rgba(217,217,217,1) 100%);
+            border: 1px solid rgb(217,217,217);
+            padding: 0 3rem 0 3rem;
+            border-radius: 3rem 3rem 0 0;
+            cursor: pointer;
+            top: -1.3rem;
+            left: 45%;
         }
     </style>
 </head>
@@ -126,121 +191,57 @@
             </nav>
         </div>
         <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    <div class="row mt-3 @if ($classic) d-none @endif">
-                        <div class="col-md-8">
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div id="map" style="height: 50vh;"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <table class="table table-hover table-sm border">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Datetime</th>
-                                                <th>Event</th>
-                                                <th>Status</th>
-                                                <th>Coordinate</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodyEvents" style="height: 20vh;"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <table class="table table-hover border table-sm">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Name</th>
-                                                <th style="width: 4rem;">Status</th>
-                                                <th style="width: 8rem;">Last Update</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodyDevices" style="height: 32vh;"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <table class="table table-hover border table-sm">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Attribute</th>
-                                                <th>Value</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodyState" style="height: 31vh;"></tbody>
-                                    </table>
-                                </div>
+            <div class="container-fluid position-relative">
+                <div class="overlay-wrapper right-panel hide shadow">
+                    <div class="control">
+                        <i class="fas fa-caret-left"></i>
+                    </div>
+                    <table class="mb-3 table table-hover border table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 1rem;">#</th>
+                                <th style="width: 8rem;">Name</th>
+                                <th style="width: 4rem;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyDevices" style="height: 32vh;"></tbody>
+                    </table>
+                    <table class="mb-3 table table-hover border table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyState" style="height: 31vh;"></tbody>
+                    </table>
+                </div>
+                <div class="overlay-wrapper bottom-panel hide shadow">
+                    <div class="control">
+                        <i class="fas fa-caret-up"></i>
+                    </div>
+                    <table class="table table-hover table-sm border">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Datetime</th>
+                                <th>Event</th>
+                                <th>Status</th>
+                                <th>Coordinate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyEvents" style="height: 20vh;"></tbody>
+                    </table>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div id="map" style="height: 75vh"></div>
                             </div>
                         </div>
                     </div>
-                    @if ($classic)
-                        <table>
-                            <tr>
-                                <th>
-                                    <h2>Pintu 1</h2>
-                                    <p id="SP1"> terbuka
-                                </th>
-                                <th>
-                                    <h2>Pintu 2</h2>
-                                    <p id="SP2"> terbuka
-                                </th>
-                                <th>
-                                    <h2>Kunci Pintu</h2>
-                                    <p id="MAG"> terkunci
-                                </th>
-                                <th>
-                                    <h2>Berat Kontainer</h2>
-                                    <p id="LC"> 10
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <h2>Proximity</h2>
-                                    <p id="PROX"> aman
-                                </th>
-                                <th>
-                                    <h2>Emergency Button</h2>
-                                    <p id="PB"> aman
-                                </th>
-                                <th>
-                                    <h2>Kondisi Mesin</h2>
-                                    <p id="RS"> Nyala
-                                </th>
-                                <th>
-                                    <h2>Driving Behavior</h2>
-                                    <p id="DRI"> Stabil
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <h2>Latitude</h2>
-                                    <p id="LAT"> -7.315080
-                                </th>
-                                <th>
-                                    <h2>Longitude</h2>
-                                    <p id="LON"> 112.790820
-                                </th>
-                                <th>
-                                    <h2>Drowsiness</h2>
-                                    <p id="DRO"> tidak mengantuk
-                                </th>
-                                <th>
-                                    <h2>Tutup Tangki</h2>
-                                    <p id="TANK"> tidak Tertutup
-                                </th>
-                            </tr>
-                        </table>
-                    @endif
                 </div>
-            </main>
+            </div>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
@@ -261,21 +262,29 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/sub.js') }}"></script>
     <script>
-        createMap();
-        let selectedDevice = "undefined";
+        let rightSide = document.querySelector('.right-panel');
+        let rightSideControl = document.querySelector('.right-panel .control');
+        let bottomSide = document.querySelector('.bottom-panel');
+        let bottomSideControl = document.querySelector('.bottom-panel .control');
+        rightSideControl.addEventListener('click', () => {
+            rightSide.classList.toggle('hide');
+        });
+        bottomSideControl.addEventListener('click', () => {
+            bottomSide.classList.toggle('hide');
+        });
+
+        createMap(17, null, [
+            {
+                name: "Kantor",
+                latlng: [-7.31513, 112.79084],
+                radius: 100
+            }
+        ]);
         const access = @json(auth()->user()->device_uuids);
-        const uuids = "{{ DeviceHelper::getUuids(Crypt::encryptString(auth()->id())) }}";
+        // const uuids = "{{ DeviceHelper::getUuids(Crypt::encryptString(auth()->id())) }}";
         let tbodyDevices = document.querySelector('#tbodyDevices');
         let tbodyState = document.querySelector('#tbodyState');
-        // let tbodyEvents = document.querySelector('#tbodyEvents');
-        // let lastCoordinate = {
-        //     LAT : 0,
-        //     LON : 0
-        // }
         window.onload = () => {
-            @if ($classic)
-                MQTTconnect(uuids);
-            @endif
             axios.get("{{ route('dashboard.getDevices') }}")
             .then(res => {
                 tbodyDevices.innerHTML = res.data;
@@ -301,10 +310,17 @@
                             })
                             .then(res => {
                                 tbodyState.innerHTML = res.data;
-                                @if (!$classic)
-                                    // MQTTconnect(uuids);
-                                @endif
-                                window.addMarker('uuid 1', [-7.31513, 112.79084]);
+                                MQTTconnect();
+                                // clearMarkers();
+                                // addMarker(rowSelected.dataset.uuid, [-7.31513, 112.79084]);
+                                // drawRoute([
+                                //     [-7.31513, 112.79084],
+                                //     [-7.31574, 112.79085],
+                                //     [-7.31584, 112.79032],
+                                //     [-7.31633, 112.79041],
+                                //     [-7.31635, 112.79028],
+                                //     [-7.31257, 112.78955]
+                                // ], '#0000ff', true, true);
                             });
                         }
                     }

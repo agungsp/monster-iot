@@ -22,11 +22,9 @@ let signatures = "";
 
 function onFailure(message) {
     console.error("Connection Attempt to Host " + host + " Failed");
-    setTimeout(MQTTconnect(signatures), reconnectTimeout);
+    setTimeout(MQTTconnect(), reconnectTimeout);
 }
 function onMessageArrived(msg) {
-    // document.getElementById("changeText").innerHTML = "<h1>"+msg.payloadString+"</h1>";
-
     out_msg = "Message received " + msg.payloadString + "<br>";
     if (
         msg.destinationName ==
@@ -653,12 +651,12 @@ function onConnect() {
     mqtt.subscribe("/event/858771fe-15bb-4619-a36e-6a8f8094aaa1/#");
 }
 
-function MQTTconnect(signature) {
-    signatures = signature;
-    if (!window.validateUuidSignatures(signatures)) {
-        console.error("Signature is not valid!");
-        return false;
-    }
+function MQTTconnect(signature = '') {
+    // signatures = signature;
+    // if (!window.validateUuidSignatures(signatures)) {
+    //     console.error("Signature is not valid!");
+    //     return false;
+    // }
     console.info("connecting to " + host + ":" + port);
     var x = Math.floor(Math.random() * 10000);
     var cname = "orderform-" + x;
