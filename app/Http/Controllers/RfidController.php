@@ -44,11 +44,24 @@ class RfidController extends Controller
     {
         $rfid = Rfid::all();
         return DataTables::of($rfid)
+        ->editColumn('expired_at', function($rfid){
+            $diff = abs(strtotime($rfid->expired_at) - strtotime(date('Y-m-d H:i:s')));
+            $days = floor($diff/ (60*60*24)) + 1;
+            if($rfid->expired_at <= date('Y-m-d H:i:s')){
+                return '<span style="color:red;border: 3px solid red;padding: 2px 10px;border-radius: 50px;">'.$rfid->expired_at.'</span>';
+            } elseif($rfid->expired_at > date('Y-m-d H:i:s') && $days <= 7) {
+                return '<span style="color:orange;border: 3px solid orange;padding: 2px 10px;border-radius: 50px;">'.$rfid->expired_at.'</span>';
+            } else {
+                return $rfid->expired_at;
+            }
+        })
         ->addColumn('action', function($rfid) {
             $action = '<a href="rfid/edit/'.Crypt::encrypt($rfid->id).'" class="btn btn-primary btn-sm me-2" title="Edit"><i class="fas fa-edit"></i></a>';
             $action .= '<button class="btn btn-danger deletebtn btn-sm" value="'.$rfid->id.'" title="Delete"><i class="fa fa-trash"></i></button>';
             return $action;
-        })->make(true);
+        })
+        ->rawColumns(['expired_at', 'action'])
+        ->make(true);
     }
 
     /**

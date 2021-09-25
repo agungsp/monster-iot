@@ -23,11 +23,9 @@
             {{ session('status') }}
         </div>
     @endif
-    @can('createRFID')
-        <a href="{{ url('rfid/create') }}" class="btn btn-success btn-sm float-end" title="Add">
-            <i class="fa fa-plus"></i> Add
-        </a>
-    @endcan
+    <a href="{{ url('rfid/create') }}" class="btn btn-success btn-sm float-end" title="Add">
+        <i class="fa fa-plus"></i> Add
+    </a>
     <table class="table" id="datatable">
         <thead>
             <tr>
@@ -138,7 +136,7 @@
                 {data: 'type', name: 'type'},
                 {data: 'sn', name: 'sn'},
                 {data: 'buy_at', name: 'buy_at'},
-                {data: 'expired_at', name: 'expired_at'},
+                {data: 'expired_at', name: 'expired_at', type: 'html'},
                 {data: 'kilometer_start', name: 'kilometer_start'},
                 {data: 'kilometer_end', name: 'kilometer_end'},
                 {data: 'is_broken', name: 'is_broken'},
