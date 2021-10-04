@@ -1,7 +1,7 @@
 @forelse ($devices as $device)
     <tr class="itemDevice" data-uuid="{{ $device->uuid }}" id="device.{{ $device->id }}">
         <td style="width: 1rem;">
-            <input type="checkbox" name="form-checkbox" id="">
+            <input type="checkbox" name="form-checkbox" id="cb.{{ $device->uuid }}" data-uuid="{{ $device->uuid }}">
         </td>
         <td style="width: 8rem;" class="text-truncate">{{ $device->alias ?? $device->uuid }}</td>
         <td style="width: 4rem;">

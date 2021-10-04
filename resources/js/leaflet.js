@@ -1,5 +1,5 @@
 window.map = null;
-window.mapIcon = null;
+window.mapIcon = {};
 window.mapMarkers = [];
 window.latlon = [];
 window.contextmenuLatLng = [];
@@ -55,7 +55,7 @@ window.createMap = (zoom = 10, centerPoint = null, geofances = []) => {
             }
         ]
     });
-    window.mapIcon = L.icon({
+    window.mapIcon['default'] = L.icon({
         iconUrl: "../images/marker-icon.png",
         iconSize: [29, 45],
         iconAnchor: [15, 47],
@@ -64,6 +64,26 @@ window.createMap = (zoom = 10, centerPoint = null, geofances = []) => {
         shadowSize: [37, 40],
         shadowAnchor: [12, 42],
     });
+    window.mapIcon['building'] = L.icon({
+        iconUrl: "../images/building-marker.png",
+        iconSize: [60, 60],
+        iconAnchor: [31, 57],
+        popupAnchor: [0, 0],
+        shadowUrl: "../images/marker-shadow.png",
+        shadowSize: [37, 40],
+        shadowAnchor: [12, 42],
+    });
+    window.mapIcon['truck'] = L.icon({
+        iconUrl: "../images/truck-marker.png",
+        iconSize: [60, 60],
+        iconAnchor: [31, 57],
+        popupAnchor: [0, 0],
+        shadowUrl: "../images/marker-shadow.png",
+        shadowSize: [37, 40],
+        shadowAnchor: [12, 42],
+    });
+
+
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -76,18 +96,18 @@ window.createMap = (zoom = 10, centerPoint = null, geofances = []) => {
         window.contextmenuLatLng = [e.latlng.lat, e.latlng.lng];
     });
     geofances.forEach(el =>  {
-        window.addMarker(el.name, el.latlng);
+        window.addMarker(el.name, el.latlng, 'building');
         window.addTooltipToMarker(el.name, el.name);
         window.addCircleToMarker(el.name, el.radius);
     });
 };
 
-window.addMarker = (name, latlon) => {
+window.addMarker = (name, latlon, type = 'default') => {
     let marker = {
         name: name,
         latlon: latlon,
         marker: L.marker(latlon, {
-            icon: window.mapIcon,
+            icon: window.mapIcon[type],
         }).addTo(window.map),
     };
     window.mapMarkers.push(marker);
@@ -130,7 +150,7 @@ window.drawRoute = (latlonList, color = '#ff0000', withEndMarker = false, autoFi
     let polyline = L.polyline(latlonList, {color: color}).addTo(window.map);
     if (withEndMarker) {
         L.marker(latlonList[latlonList.length-1], {
-            icon: window.mapIcon,
+            icon: window.mapIcon['default'],
         }).addTo(window.map);
     }
     if (autoFitMap) {
@@ -143,4 +163,9 @@ window.clearMarkers = () => {
         item.marker.remove();
     });
     window.mapMarkers = [];
+}
+
+window.updatePosition = (name, latlng) => {
+    let marker = window.showMarker(name);
+    marker.marker.setLatLng(latlng);
 }

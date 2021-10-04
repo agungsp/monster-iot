@@ -37,46 +37,35 @@ function onMessageArrived(msg) {
             document.getElementById("SP1").innerHTML =
                 '<span class="badge rounded-pill bg-danger">terbuka</span>';
             if (data.SP1.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "pintu:SP1";
-                cellStatus.innerHTML = "terbuka";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
 
                 if (
                     lastNotifPerEvent.SP1 !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
-                ) {
-                    lastNotifPerEvent.SP1 = moment().format(
-                        "YYYY-MM-DD HH:mm:ss"
-                    );
-                    Toast.fire({
-                        icon: "error",
-                        title: "Pintu 1 Terbuka",
-                        footer: data.UUID,
-                    });
+                    ) {
+                        lastNotifPerEvent.SP1 = moment().format(
+                            "YYYY-MM-DD HH:mm:ss"
+                            );
+                        Toast.fire({
+                            icon: "error",
+                            title: "Pintu 1 Terbuka",
+                            footer: data.UUID,
+                        });
+                        let row = tbodyEvents.insertRow(0);
+                        let cellDateTime = row.insertCell(0);
+                        let cellEvent = row.insertCell(1);
+                        let cellStatus = row.insertCell(2);
+                        let cellCoordinate = row.insertCell(3);
+                        row.classList.add("text-danger");
+                        cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                        cellEvent.innerHTML = "pintu:SP1";
+                        cellStatus.innerHTML = "terbuka";
+                        cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("SP1").innerHTML =
                 '<span class="badge rounded-pill bg-success">tertutup</span>';
             if (data.SP1.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "pintu:SP1";
-                cellStatus.innerHTML = "tertutup";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.SP1 !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -89,6 +78,16 @@ function onMessageArrived(msg) {
                         title: "Pintu 1 Tertutup",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "pintu:SP1";
+                    cellStatus.innerHTML = "tertutup";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -97,17 +96,6 @@ function onMessageArrived(msg) {
             document.getElementById("SP2").innerHTML =
                 '<span class="badge rounded-pill bg-danger">terbuka</span>';
             if (data.SP2.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "pintu:SP2";
-                cellStatus.innerHTML = "terbuka";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.SP2 !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -120,23 +108,22 @@ function onMessageArrived(msg) {
                         title: "Pintu 2 Terbuka",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-danger");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "pintu:SP2";
+                    cellStatus.innerHTML = "terbuka";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("SP2").innerHTML =
                 '<span class="badge rounded-pill bg-success">tertutup</span>';
             if (data.SP2.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "pintu:SP2";
-                cellStatus.innerHTML = "tertutup";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.SP2 !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -149,6 +136,16 @@ function onMessageArrived(msg) {
                         title: "Pintu 2 Tertutup",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "pintu:SP2";
+                    cellStatus.innerHTML = "tertutup";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -157,17 +154,6 @@ function onMessageArrived(msg) {
             document.getElementById("MAG").innerHTML =
                 '<span class="badge rounded-pill bg-danger">tidak terkunci</span>';
             if (data.MAG.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "pintu:MAG";
-                cellStatus.innerHTML = "tidak terkunci";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.MAG !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -180,23 +166,22 @@ function onMessageArrived(msg) {
                         title: "Kunci Pintu Tidak Terkunci",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-danger");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "pintu:MAG";
+                    cellStatus.innerHTML = "tidak terkunci";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("MAG").innerHTML =
                 '<span class="badge rounded-pill bg-success">terkunci</span>';
             if (data.MAG.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "pintu:MAG";
-                cellStatus.innerHTML = "terkunci";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.MAG !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -209,6 +194,16 @@ function onMessageArrived(msg) {
                         title: "Kunci Pintu Terkunci",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "pintu:MAG";
+                    cellStatus.innerHTML = "terkunci";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -225,17 +220,6 @@ function onMessageArrived(msg) {
             document.getElementById("PROX").innerHTML =
                 '<span class="badge rounded-pill bg-danger">tidak aman</span>';
             if (data.PROX.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "beban:PROX";
-                cellStatus.innerHTML = "tidak aman";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.PROX !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -248,23 +232,22 @@ function onMessageArrived(msg) {
                         title: "Proximity Tidak Aman",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-danger");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "beban:PROX";
+                    cellStatus.innerHTML = "tidak aman";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("PROX").innerHTML =
                 '<span class="badge rounded-pill bg-success">aman</span>';
             if (data.PROX.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "beban:PROX";
-                cellStatus.innerHTML = "aman";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.PROX !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -277,6 +260,16 @@ function onMessageArrived(msg) {
                         title: "Proximity Aman",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "beban:PROX";
+                    cellStatus.innerHTML = "aman";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -293,17 +286,6 @@ function onMessageArrived(msg) {
             document.getElementById("PB").innerHTML =
                 '<span class="badge rounded-pill bg-danger">bahaya</span>';
             if (data.PB.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:PB";
-                cellStatus.innerHTML = "bahaya";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.PB !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -316,23 +298,22 @@ function onMessageArrived(msg) {
                         title: "Emergency Button Bahaya",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-danger");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:PB";
+                    cellStatus.innerHTML = "bahaya";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("PB").innerHTML =
                 '<span class="badge rounded-pill bg-success">aman</span>';
             if (data.PB.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:PB";
-                cellStatus.innerHTML = "aman";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.PB !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -345,6 +326,16 @@ function onMessageArrived(msg) {
                         title: "Emergency Button Aman",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:PB";
+                    cellStatus.innerHTML = "aman";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -352,17 +343,6 @@ function onMessageArrived(msg) {
             document.getElementById("RS").innerHTML =
                 '<span class="badge rounded-pill bg-danger">mati</span>';
             if (data.RS.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:RS";
-                cellStatus.innerHTML = "mati";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.RS !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -375,23 +355,22 @@ function onMessageArrived(msg) {
                         title: "Mesin Mati",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-danger");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:RS";
+                    cellStatus.innerHTML = "mati";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("RS").innerHTML =
                 '<span class="badge rounded-pill bg-success">nyala</span>';
             if (data.RS.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:RS";
-                cellStatus.innerHTML = "nyala";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.RS !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -404,6 +383,16 @@ function onMessageArrived(msg) {
                         title: "Mesin Menyala",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:RS";
+                    cellStatus.innerHTML = "nyala";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -411,17 +400,6 @@ function onMessageArrived(msg) {
             document.getElementById("DRI").innerHTML =
                 '<span class="badge rounded-pill bg-success">stabil</span>';
             if (data.DRI.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:DRI";
-                cellStatus.innerHTML = "stabil";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.DRI !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -434,23 +412,22 @@ function onMessageArrived(msg) {
                         title: "Driving Behaviour Stabil",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:DRI";
+                    cellStatus.innerHTML = "stabil";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("DRI").innerHTML =
                 '<span class="badge rounded-pill bg-danger">tidak stabil</span>';
             if (data.DRI.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:DRI";
-                cellStatus.innerHTML = "tidak stabil";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.DRI !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -463,6 +440,16 @@ function onMessageArrived(msg) {
                         title: "Driving Behaviour Tidak Stabil",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-danger");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:DRI";
+                    cellStatus.innerHTML = "tidak stabil";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -470,17 +457,6 @@ function onMessageArrived(msg) {
             document.getElementById("DRO").innerHTML =
                 '<span class="badge rounded-pill bg-success">tidak mengantuk</span>';
             if (data.DRO.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:DRO";
-                cellStatus.innerHTML = "tidak mengantuk";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.DRO !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -493,23 +469,22 @@ function onMessageArrived(msg) {
                         title: "Drowness Tidak Mengantuk",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:DRO";
+                    cellStatus.innerHTML = "tidak mengantuk";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("DRO").innerHTML =
                 '<span class="badge rounded-pill bg-danger">mengantuk</span>';
             if (data.DRO.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:DRO";
-                cellStatus.innerHTML = "mengantuk";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.DRO !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -522,6 +497,16 @@ function onMessageArrived(msg) {
                         title: "Drowness Mengantuk",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-danger");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:DRO";
+                    cellStatus.innerHTML = "mengantuk";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -529,17 +514,6 @@ function onMessageArrived(msg) {
             document.getElementById("TANK").innerHTML =
                 '<span class="badge rounded-pill bg-danger">terbuka</span>';
             if (data.TANK.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-danger");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:TANK";
-                cellStatus.innerHTML = "terbuka";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.TANK !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -552,23 +526,22 @@ function onMessageArrived(msg) {
                         title: "Tutup Tangki Terbuka",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-danger");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:TANK";
+                    cellStatus.innerHTML = "terbuka";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         } else {
             document.getElementById("TANK").innerHTML =
                 '<span class="badge rounded-pill bg-success">tertutup</span>';
             if (data.TANK.isChange) {
-                let row = tbodyEvents.insertRow(0);
-                let cellDateTime = row.insertCell(0);
-                let cellEvent = row.insertCell(1);
-                let cellStatus = row.insertCell(2);
-                let cellCoordinate = row.insertCell(3);
-                row.classList.add("text-success");
-                cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
-                cellEvent.innerHTML = "base:TANK";
-                cellStatus.innerHTML = "tertutup";
-                cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
-
                 if (
                     lastNotifPerEvent.TANK !==
                     moment().format("YYYY-MM-DD HH:mm:ss")
@@ -581,6 +554,16 @@ function onMessageArrived(msg) {
                         title: "Tutup Tangki Tertutup",
                         footer: data.UUID,
                     });
+                    let row = tbodyEvents.insertRow(0);
+                    let cellDateTime = row.insertCell(0);
+                    let cellEvent = row.insertCell(1);
+                    let cellStatus = row.insertCell(2);
+                    let cellCoordinate = row.insertCell(3);
+                    row.classList.add("text-success");
+                    cellDateTime.innerHTML = moment().format("YYYY-MM-DD HH:mm:ss");
+                    cellEvent.innerHTML = "base:TANK";
+                    cellStatus.innerHTML = "tertutup";
+                    cellCoordinate.innerHTML = `<a href="javascript:void(0)">${lastCoordinate.LAT}, ${lastCoordinate.LON}</a>`;
                 }
             }
         }
@@ -588,9 +571,7 @@ function onMessageArrived(msg) {
         document.getElementById("LON").innerHTML = data.LON.value;
         lastCoordinate.LAT = data.LAT.value;
         lastCoordinate.LON = data.LON.value;
-        // L.marker([lastCoordinate.LAT, lastCoordinate.LON], {
-        //     icon: myIcon,
-        // }).addTo(map);
+        updatePosition('858771fe-15bb-4619-a36e-6a8f8094aaa1', [data.LAT.value, data.LON.value]);
     }
 
     //  TAMBAHAN MULAI DISINI

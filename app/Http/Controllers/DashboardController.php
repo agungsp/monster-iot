@@ -15,7 +15,18 @@ class DashboardController extends Controller
     public function getDevices()
     {
         $devices = auth()->user()->devices;
-        return view('includes.dashboard-tbody-devices', compact('devices'))->render();
+        $jsonData = collect();
+        foreach ($devices as $device) {
+            $jsonData->push([
+                'uuid' => $device->uuid,
+                'latlng' => [$device->latitude, $device->longitude],
+                'selected' => false
+            ]);
+        }
+        return response()->json([
+            'html' => view('includes.dashboard-tbody-devices', compact('devices'))->render(),
+            'json' => $jsonData,
+        ]);
     }
 
     public function getDevice(Request $request)

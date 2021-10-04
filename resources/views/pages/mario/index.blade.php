@@ -1,6 +1,3 @@
-@php
-    $classic = false;
-@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -273,6 +270,7 @@
             bottomSide.classList.toggle('hide');
         });
 
+        let devices = [];
         createMap(17, null, [
             {
                 name: "Kantor",
@@ -280,6 +278,7 @@
                 radius: 100
             }
         ]);
+
         const access = @json(auth()->user()->device_uuids);
         // const uuids = "{{ DeviceHelper::getUuids(Crypt::encryptString(auth()->id())) }}";
         let tbodyDevices = document.querySelector('#tbodyDevices');
@@ -287,42 +286,42 @@
         window.onload = () => {
             axios.get("{{ route('dashboard.getDevices') }}")
             .then(res => {
-                tbodyDevices.innerHTML = res.data;
+                tbodyDevices.innerHTML = res.data.html;
+                devices = res.data.json;
+                devices.forEach(device => {
+                    addMarker(device.uuid, device.latlng, 'truck');
+                    addTooltipToMarker(device.uuid, device.uuid);
+                });
             })
             .then(() => {
-                let cells = document.querySelectorAll('#tbodyDevices tr.itemDevice td');
+                let cells = document.querySelectorAll('#tbodyDevices tr.itemDevice td input[type=checkbox]');
                 cells.forEach(cell => {
                     cell.onclick = function () {
                         tbodyState.innerHTML = '';
-                        let rowId = this.parentNode.rowIndex;
                         let rowsNotSelected = document.querySelectorAll('#tbodyDevices tr.itemDevice');
                         rowsNotSelected.forEach(row => {
                             row.classList.remove('table-active');
                         });
+
+                        let rowId = this.parentNode.parentNode.rowIndex;
                         let rowSelected = document.querySelectorAll('#tbodyDevices tr.itemDevice')[rowId-1];
-                        rowSelected.classList.add('table-active');
-                        if (rowSelected.dataset.uuid == '858771fe-15bb-4619-a36e-6a8f8094aaa1') {
-                            selectedDevice = rowSelected.dataset.uuid;
-                            axios.get("{{ route('dashboard.getDevice') }}", {
-                                params: {
-                                    id: rowSelected.id.split('.')[1],
+                        devices.forEach(device => {
+                            if (device.uuid == this.getAttribute('data-uuid')) {
+                                device.selected = this.checked;
+                                rowSelected.classList.add('table-active');
+                                if (device.uuid == '858771fe-15bb-4619-a36e-6a8f8094aaa1') {
+                                    axios.get("{{ route('dashboard.getDevice') }}", {
+                                        params: {
+                                            id: rowSelected.id.split('.')[1],
+                                        }
+                                    })
+                                    .then(res => {
+                                        tbodyState.innerHTML = res.data;
+                                        MQTTconnect();
+                                    });
                                 }
-                            })
-                            .then(res => {
-                                tbodyState.innerHTML = res.data;
-                                MQTTconnect();
-                                // clearMarkers();
-                                // addMarker(rowSelected.dataset.uuid, [-7.31513, 112.79084]);
-                                // drawRoute([
-                                //     [-7.31513, 112.79084],
-                                //     [-7.31574, 112.79085],
-                                //     [-7.31584, 112.79032],
-                                //     [-7.31633, 112.79041],
-                                //     [-7.31635, 112.79028],
-                                //     [-7.31257, 112.78955]
-                                // ], '#0000ff', true, true);
-                            });
-                        }
+                            }
+                        });
                     }
                 });
             });
