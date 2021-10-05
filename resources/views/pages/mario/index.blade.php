@@ -61,13 +61,13 @@
 
         .right-panel {
             width: 20rem;
-            height: 32rem;
+            min-height: 32rem;
             right: 0;
             transition: width .5s;
         }
 
         .bottom-panel {
-            width: 68rem;
+            min-width: 68rem;
             height: 12rem;
             bottom: 0;
             left: .5rem;
@@ -278,6 +278,7 @@
                 radius: 100
             }
         ]);
+        MQTTconnect();
 
         const access = @json(auth()->user()->device_uuids);
         // const uuids = "{{ DeviceHelper::getUuids(Crypt::encryptString(auth()->id())) }}";
@@ -309,19 +310,24 @@
                             if (device.uuid == this.getAttribute('data-uuid')) {
                                 device.selected = this.checked;
                                 rowSelected.classList.add('table-active');
-                                if (device.uuid == '858771fe-15bb-4619-a36e-6a8f8094aaa1') {
-                                    axios.get("{{ route('dashboard.getDevice') }}", {
-                                        params: {
-                                            id: rowSelected.id.split('.')[1],
-                                        }
-                                    })
-                                    .then(res => {
-                                        tbodyState.innerHTML = res.data;
-                                        MQTTconnect();
-                                    });
-                                }
                             }
                         });
+
+                        if (this.checked) {
+                            axios.get("{{ route('dashboard.getDevice') }}", {
+                                params: {
+                                    id: rowSelected.id.split('.')[1],
+                                }
+                            })
+                            .then(res => {
+                                tbodyState.innerHTML = res.data;
+                                setSubscribe(this.getAttribute('data-uuid'));
+                            });
+                        }
+                        else {
+                            tbodyState.innerHTML = '';
+                            unsubscribe(this.getAttribute('data-uuid'));
+                        }
                     }
                 });
             });

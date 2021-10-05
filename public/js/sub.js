@@ -629,7 +629,15 @@ function onConnect() {
     // Once a connection has been made, make a subscription and send a message.
 
     console.log("Connected ");
-    mqtt.subscribe("/event/858771fe-15bb-4619-a36e-6a8f8094aaa1/#");
+    // mqtt.subscribe("/event/858771fe-15bb-4619-a36e-6a8f8094aaa1/#");
+}
+
+function setSubscribe(uuid) {
+    mqtt.subscribe(`/event/${uuid}/#`);
+}
+
+function unsubscribe(uuid) {
+    mqtt.unsubscribe(`/event/${uuid}/#`);
 }
 
 function MQTTconnect(signature = '') {
