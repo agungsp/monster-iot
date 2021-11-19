@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'asia/jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -171,9 +171,14 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
+
+        App\Providers\DeviceHelperServiceProvider::class,
+        App\Providers\FunctionHelperServiceProvider::class,
 
     ],
 
@@ -228,7 +233,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
+        'DeviceHelper' => App\Helpers\DeviceHelper::class,
+        'FunctionHelper' => App\Helpers\FunctionHelper::class,
     ],
 
 ];

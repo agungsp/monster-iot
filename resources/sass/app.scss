@@ -1,0 +1,23 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+// // Variables
+// @import 'variables';
+
+// // Bootstrap
+// @import '~bootstrap/scss/bootstrap';
+
+// Bootstrap 5 - SB Admin
+@import "../css/styles.css";
+
+// Font-Awesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
+// Leaflet
+@import "~leaflet/dist/leaflet.css";
+@import "../css/leaflet.contextmenu.css";
+
+@import "~datatables.net-bs5/css/dataTables.bootstrap5.css";

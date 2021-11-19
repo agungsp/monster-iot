@@ -1,6 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Events\ManualEvent;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ContractsController;
+use App\Http\Controllers\RfidController;
+use App\Http\Controllers\DevicesController;
+use App\Models\Contract;
+use App\Models\Device;
+use App\Http\Controllers\Contract_DeviceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +22,99 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard.index');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        // Route::get('/', 'DashboardController@index')->name('index');
+        Route::view('/', 'pages.mario.index')->name('index');
+        Route::get('get-devices', 'DashboardController@getDevices')->name('getDevices');
+        Route::get('get-device', 'DashboardController@getDevice')->name('getDevice');
+    });
+
+    Route::prefix('truck-monitoring')->name('truck-monitoring.')->group(function () {
+       Route::get('/','TruckMonitoringController@index')->name('index');
+    });
+
+    Route::view('contact', 'pages.contact')->name('contact');
+
+    Route::view('test', 'pages.test');
+
+    Route::get('send', function () {
+        broadcast(new ManualEvent(auth()->user()));
+        return response('Send');
+    });
+
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
+        Route::prefix('devices')->name('devices.')->group(function () {
+            Route::get('/', [DevicesController::class,'index'])->name('index');
+            Route::get('/getDevices', [DevicesController::class,'getDevices'])->name('getDevices');
+            Route::get('/create', [DevicesController::class,'create'])->name('create');
+            Route::post('/store', [DevicesController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [DevicesController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [DevicesController::class,'update'])->name('update');
+            Route::delete('/destroy', [DevicesController::class,'destroy'])->name('destroy');
+            // Route::resource('user', UserController::class);
+        });
+    });
+
+
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('/', [UserController::class,'index'])->name('index');
+            Route::get('/getUser', [UserController::class,'getDataUser'])->name('getUser');
+            Route::get('/create', [UserController::class,'create'])->name('create');
+            Route::post('/store', [UserController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [UserController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [UserController::class,'update'])->name('update');
+            Route::delete('/destroy', [UserController::class,'destroy'])->name('destroy');
+            Route::get('/trash', [UserController::class,'trash'])->name('trash');
+            Route::get('/restore', [UserController::class,'restore'])->name('restore');
+        });
+    });
+
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::prefix('company')->name('company.')->group(function () {
+            Route::get('/', [CompanyController::class,'index'])->name('index');
+            Route::get('/getCompany', [CompanyController::class,'getCompany'])->name('getCompany');
+            Route::get('/create', [CompanyController::class,'create'])->name('create');
+            Route::post('/store', [CompanyController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [CompanyController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [CompanyController::class,'update'])->name('update');
+            Route::delete('/destroy', [CompanyController::class,'destroy'])->name('destroy');
+        });
+    });
+
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
+        Route::prefix('contract')->name('contract.')->group(function () {
+            Route::get('/', [ContractsController::class,'index'])->name('index');
+            Route::get('/getContract', [ContractsController::class,'getContract'])->name('getContract');
+            Route::get('/create', [ContractsController::class,'create'])->name('create');
+            Route::post('/store', [ContractsController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [ContractsController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [ContractsController::class,'update'])->name('update');
+            Route::delete('/destroy', [ContractsController::class,'destroy'])->name('destroy');
+            Route::get('/assigndevice/{id}', [Contract_DeviceController::class,'index'])->name('assigndevice');
+            Route::patch('/updatedevice/{id}', [Contract_DeviceController::class,'updatedevice'])->name('updatedevice');
+        });
+    });
+
+    Route::group(['middleware' => ['role:superadmin|admin']], function () {
+        Route::prefix('rfid')->name('rfid.')->group(function () {
+            Route::get('/', [RfidController::class,'index'])->name('index');
+            Route::get('/getRfid', [RfidController::class,'getRfid'])->name('getRfid');
+            Route::get('/create', [RfidController::class,'create'])->name('create');
+            Route::post('/store', [RfidController::class,'store'])->name('store');
+            Route::get('/edit/{id}', [RfidController::class,'edit'])->name('edit');
+            Route::patch('/update/{id}', [RfidController::class,'update'])->name('update');
+            Route::delete('/destroy', [RfidController::class,'destroy'])->name('destroy');
+        });
+    });
+
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
